@@ -1,5 +1,5 @@
 import React from "react";
-import Book from "./Book";
+import List from "./List/List";
 
 class Home extends React.Component {
 	componentDidMount() {
@@ -10,9 +10,9 @@ class Home extends React.Component {
 
 	render() {
 		return (
-			<div className="home">
-				<Book />
-			</div>
+			<pre className="home">
+				<List />
+			</pre>
 		);
 	}
 }
