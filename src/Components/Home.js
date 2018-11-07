@@ -1,4 +1,5 @@
 import React from "react";
+import Book from "./Book";
 
 class Home extends React.Component {
 	componentDidMount() {
@@ -10,7 +11,7 @@ class Home extends React.Component {
 	render() {
 		return (
 			<div className="home">
-				<p>Hi</p>
+				<Book />
 			</div>
 		);
 	}
