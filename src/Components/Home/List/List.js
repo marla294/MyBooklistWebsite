@@ -12,7 +12,7 @@ function renderBooks(props) {
 				<Book
 					key={book.Id}
 					title={book.Book.Name}
-					author="anthony doerr"
+					author={book.Book.Author}
 					url={book.Book.URL}
 					image={"image link goes here"}
 				/>
