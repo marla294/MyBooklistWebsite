@@ -8,7 +8,15 @@ function renderBooks(props) {
 		return "Loading...";
 	} else {
 		return bookList.map(book => {
-			return <Book key={book.Id} book={book} />;
+			return (
+				<Book
+					key={book.Id}
+					title={book.Book.Name}
+					author="anthony doerr"
+					url={book.Book.URL}
+					image={"image link goes here"}
+				/>
+			);
 		});
 	}
 }
