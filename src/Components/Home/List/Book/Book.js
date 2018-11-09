@@ -1,6 +1,11 @@
 import React from "react";
 import { capitalizeFirstLetterEachWord } from "../../../../HelperFunctions";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const StyledDiv = styled.div`
+	color: red;
+`;
 
 function renderBook(props) {
 	let { title = "", author = "", url = "", image = "" } = props;
@@ -9,12 +14,12 @@ function renderBook(props) {
 
 	return (
 		<div className="book">
-			<div className="title">{title}</div>
+			<StyledDiv>{title}</StyledDiv>
 			<div className="author">{author}</div>
 			<a href={url} className="url">
 				Amazon Link
 			</a>
-			<img src={image} />
+			<img src={image} alt={author} />
 		</div>
 	);
 }
