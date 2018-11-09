@@ -11,7 +11,7 @@ function renderBooks(props) {
 			return (
 				<Book
 					key={book.Id}
-					title={book.Book.Name}
+					title={book.Book.Title}
 					author={book.Book.Author}
 					url={book.Book.URL}
 					image={"image link goes here"}

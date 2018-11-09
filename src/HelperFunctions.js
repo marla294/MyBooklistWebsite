@@ -3,6 +3,12 @@ export function capitalizeFirstLetter(S) {
 }
 
 export function capitalizeFirstLetterEachWord(S) {
-	let subStrArray = S.split(" ");
-	return subStrArray.map(word => word[0].toUpperCase() + word.slice(1) + " ");
+	if (S) {
+		let subStrArray = S.toLowerCase().split(" ");
+		return subStrArray.map(
+			word => word[0].toUpperCase() + word.slice(1) + " "
+		);
+	} else {
+		return "";
+	}
 }
