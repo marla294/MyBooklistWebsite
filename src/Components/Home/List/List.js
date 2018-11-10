@@ -14,7 +14,9 @@ function renderBooks(props) {
 					title={book.Book.Title}
 					author={book.Book.Author}
 					url={book.Book.URL}
-					image={"image link goes here"}
+					image={
+						"https://images-na.ssl-images-amazon.com/images/I/81v5wp2zeQL.jpg"
+					}
 				/>
 			);
 		});

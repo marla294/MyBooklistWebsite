@@ -3,8 +3,27 @@ import { capitalizeFirstLetterEachWord } from "../../../../HelperFunctions";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const StyledDiv = styled.div`
-	color: red;
+const BookWrapper = styled.div`
+	background: papayawhip;
+	display: grid;
+	grid-template-columns: 1fr 500px;
+	width: 500px;
+	grid-gap: 5px;
+	border-radius: 2em;
+	padding: 10px;
+	margin: 10px;
+`;
+
+const Title = styled.h1`
+	font-size: 1.5em;
+`;
+
+const Author = styled.h3`
+	font-size: 1em;
+`;
+
+const BookCoverImage = styled.img`
+	width: 100px;
 `;
 
 function renderBook(props) {
@@ -13,14 +32,13 @@ function renderBook(props) {
 	author = capitalizeFirstLetterEachWord(author);
 
 	return (
-		<div className="book">
-			<StyledDiv>{title}</StyledDiv>
-			<div className="author">{author}</div>
-			<a href={url} className="url">
-				Amazon Link
-			</a>
-			<img src={image} alt={author} />
-		</div>
+		<BookWrapper>
+			<BookCoverImage src={image} />
+			<div>
+				<Title>{title}</Title>
+				<Author>{author}</Author>
+			</div>
+		</BookWrapper>
 	);
 }
 

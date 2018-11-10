@@ -5,9 +5,9 @@ export function capitalizeFirstLetter(S) {
 export function capitalizeFirstLetterEachWord(S) {
 	if (S) {
 		let subStrArray = S.toLowerCase().split(" ");
-		return subStrArray.map(
-			word => word[0].toUpperCase() + word.slice(1) + " "
-		);
+		return subStrArray
+			.map(word => word[0].toUpperCase() + word.slice(1) + " ")
+			.join("");
 	} else {
 		return "";
 	}
