@@ -8,10 +8,12 @@ const BookWrapper = styled.a`
 	display: grid;
 	grid-template-columns: 1fr 300px;
 	width: 400px;
-	grid-gap: 20px;
+	grid-gap: 10px;
 	padding: 20px;
 	margin: 10px;
 	color: black;
+	font-family: "Montserrat", sans-serif;
+	text-decoration: none;
 
 	:hover {
 		color: black;
