@@ -8,17 +8,28 @@ const ListWrapper = styled.div`
 	font-size: 15px;
 	display: grid;
 	grid-gap: 1em;
+	border: 1px solid black;
+	width: 30em;
+	padding: 1em;
 `;
 
 const Title = styled.h1`
-	font-size: 1.5em;
+	display: grid;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 100%;
+	font-size: 2em;
+`;
+
+const BooksWrapper = styled.div`
+	display: grid;
 `;
 
 function renderList(props) {
 	return (
 		<ListWrapper>
 			<Title>List Title</Title>
-			<div>{renderBooks(props)}</div>
+			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
 		</ListWrapper>
 	);
 }

@@ -7,7 +7,8 @@ const BookWrapper = styled.a`
 	background: papayawhip;
 	display: grid;
 	grid-template-columns: 4em auto;
-	width: 25em;
+	box-sizing: border-box;
+	width: 100%;
 	grid-gap: 1em;
 	padding: 1em;
 	color: black;
@@ -57,7 +58,7 @@ function renderBook(props) {
 }
 
 function Book(props) {
-	return <pre>{renderBook(props)}</pre>;
+	return renderBook(props);
 }
 
 Book.propTypes = {
