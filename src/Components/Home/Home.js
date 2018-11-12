@@ -13,7 +13,7 @@ function Home() {
 
 	return (
 		<pre className="home">
-			<List bookList={bookList} />
+			<List bookList={bookList} listTitle={"Want To Read"} />
 		</pre>
 	);
 }

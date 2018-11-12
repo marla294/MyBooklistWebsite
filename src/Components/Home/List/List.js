@@ -8,17 +8,16 @@ const ListWrapper = styled.div`
 	font-size: 15px;
 	display: grid;
 	grid-gap: 1em;
-	border: 1px solid black;
 	width: 30em;
 	padding: 1em;
 `;
 
-const Title = styled.h1`
-	display: grid;
-	justify-content: center;
+const Title = styled.input`
 	box-sizing: border-box;
 	width: 100%;
 	font-size: 2em;
+	text-align: center;
+	border: none;
 `;
 
 const BooksWrapper = styled.div`
@@ -28,7 +27,7 @@ const BooksWrapper = styled.div`
 function renderList(props) {
 	return (
 		<ListWrapper>
-			<Title>List Title</Title>
+			<Title value={props.listTitle} />
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
 		</ListWrapper>
 	);
@@ -60,7 +59,8 @@ function List(props) {
 }
 
 List.propTypes = {
-	bookList: PropTypes.array.isRequired
+	bookList: PropTypes.array.isRequired,
+	listTitle: PropTypes.string.isRequired
 };
 
 export default List;
