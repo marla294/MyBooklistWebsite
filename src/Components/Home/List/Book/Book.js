@@ -6,11 +6,11 @@ import styled from "styled-components";
 const BookWrapper = styled.a`
 	background: papayawhip;
 	display: grid;
-	grid-template-columns: 1fr 300px;
-	width: 400px;
-	grid-gap: 10px;
-	padding: 20px;
-	margin: 10px;
+	grid-template-columns: 4em auto;
+	width: 25em;
+	grid-gap: 1em;
+	padding: 1em;
+	margin: 1em;
 	color: black;
 	font-family: "Montserrat", sans-serif;
 	text-decoration: none;
@@ -23,12 +23,11 @@ const BookWrapper = styled.a`
 `;
 
 const BookCoverImage = styled.img`
-	width: 60px;
+	justify-self: center;
+	width: 4em;
 `;
 
-const TitleAuthorWrapper = styled.div`
-	align-self: center;
-`;
+const TitleAuthorWrapper = styled.div``;
 
 const Title = styled.h1`
 	font-size: 1.3em;
