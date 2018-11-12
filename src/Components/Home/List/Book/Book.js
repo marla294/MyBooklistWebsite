@@ -10,7 +10,6 @@ const BookWrapper = styled.a`
 	width: 25em;
 	grid-gap: 1em;
 	padding: 1em;
-	margin: 1em;
 	color: black;
 	font-family: "Montserrat", sans-serif;
 	text-decoration: none;
@@ -27,7 +26,11 @@ const BookCoverImage = styled.img`
 	width: 4em;
 `;
 
-const TitleAuthorWrapper = styled.div``;
+const TitleAuthorWrapper = styled.div`
+	align-self: center;
+	display: grid;
+	grid-gap: 0.5em;
+`;
 
 const Title = styled.h1`
 	font-size: 1.3em;

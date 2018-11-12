@@ -1,11 +1,32 @@
 import React from "react";
 import Book from "./Book/Book";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const ListWrapper = styled.div`
+	font-family: "Montserrat", sans-serif;
+	font-size: 15px;
+	display: grid;
+	grid-gap: 1em;
+`;
+
+const Title = styled.h1`
+	font-size: 1.5em;
+`;
+
+function renderList(props) {
+	return (
+		<ListWrapper>
+			<Title>List Title</Title>
+			<div>{renderBooks(props)}</div>
+		</ListWrapper>
+	);
+}
 
 function renderBooks(props) {
 	let bookList = props.bookList;
 	if (bookList.length === 0) {
-		return "Loading...";
+		return "Add a book to your list to get started!";
 	} else {
 		return bookList.map(book => {
 			return (
@@ -24,7 +45,7 @@ function renderBooks(props) {
 }
 
 function List(props) {
-	return <pre className="list">{renderBooks(props)}</pre>;
+	return <pre>{renderList(props)}</pre>;
 }
 
 List.propTypes = {
