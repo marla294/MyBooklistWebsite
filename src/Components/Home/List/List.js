@@ -27,7 +27,7 @@ const BooksWrapper = styled.div`
 function renderList(props) {
 	return (
 		<ListWrapper>
-			<Title value={props.listTitle} />
+			<Title type="text" defaultValue={props.listTitle} />
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
 		</ListWrapper>
 	);
