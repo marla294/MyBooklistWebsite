@@ -35,6 +35,9 @@ function renderList(props) {
 
 function renderBooks(props) {
 	let bookList = props.bookList;
+	if (!bookList) {
+		return "List not found";
+	}
 	if (bookList.length === 0) {
 		return "Add a book to your list to get started!";
 	} else {
