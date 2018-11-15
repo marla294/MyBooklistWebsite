@@ -3,26 +3,14 @@ import Book from "./Book/Book";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const ListWrapper = styled.div`
-	font-family: "Montserrat", sans-serif;
-	font-size: 15px;
-	display: grid;
-	grid-gap: 1em;
-	width: 30em;
-	padding: 1em;
-`;
+List.propTypes = {
+	bookList: PropTypes.array.isRequired,
+	listTitle: PropTypes.string.isRequired
+};
 
-const Title = styled.input`
-	box-sizing: border-box;
-	width: 100%;
-	font-size: 2em;
-	text-align: center;
-	border: none;
-`;
-
-const BooksWrapper = styled.div`
-	display: grid;
-`;
+export default function List(props) {
+	return <pre>{renderList(props)}</pre>;
+}
 
 function renderList(props) {
 	return (
@@ -59,13 +47,23 @@ function renderBooks(props) {
 	});
 }
 
-function List(props) {
-	return <pre>{renderList(props)}</pre>;
-}
+const ListWrapper = styled.div`
+	font-family: "Montserrat", sans-serif;
+	font-size: 15px;
+	display: grid;
+	grid-gap: 1em;
+	width: 30em;
+	padding: 1em;
+`;
 
-List.propTypes = {
-	bookList: PropTypes.array.isRequired,
-	listTitle: PropTypes.string.isRequired
-};
+const Title = styled.input`
+	box-sizing: border-box;
+	width: 100%;
+	font-size: 2em;
+	text-align: center;
+	border: none;
+`;
 
-export default List;
+const BooksWrapper = styled.div`
+	display: grid;
+`;

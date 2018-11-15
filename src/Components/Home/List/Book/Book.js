@@ -3,6 +3,33 @@ import { capitalizeFirstLetterEachWord } from "../../../../HelperFunctions";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+Book.propTypes = {
+	title: PropTypes.string.isRequired,
+	author: PropTypes.string.isRequired,
+	url: PropTypes.string.isRequired,
+	image: PropTypes.string.isRequired
+};
+
+export default function Book(props) {
+	return renderBook(props);
+}
+
+function renderBook(props) {
+	let { title = "", author = "", url = "", image = "" } = props;
+	title = capitalizeFirstLetterEachWord(title);
+	author = capitalizeFirstLetterEachWord(author);
+
+	return (
+		<BookWrapper href={url}>
+			<BookCoverImage src={image} />
+			<TitleAuthorWrapper>
+				<Title>{title}</Title>
+				<Author>{author}</Author>
+			</TitleAuthorWrapper>
+		</BookWrapper>
+	);
+}
+
 const BookWrapper = styled.a`
 	background: papayawhip;
 	display: grid;
@@ -40,32 +67,3 @@ const Title = styled.h1`
 const Author = styled.h3`
 	font-size: 1em;
 `;
-
-function renderBook(props) {
-	let { title = "", author = "", url = "", image = "" } = props;
-	title = capitalizeFirstLetterEachWord(title);
-	author = capitalizeFirstLetterEachWord(author);
-
-	return (
-		<BookWrapper href={url}>
-			<BookCoverImage src={image} />
-			<TitleAuthorWrapper>
-				<Title>{title}</Title>
-				<Author>{author}</Author>
-			</TitleAuthorWrapper>
-		</BookWrapper>
-	);
-}
-
-function Book(props) {
-	return renderBook(props);
-}
-
-Book.propTypes = {
-	title: PropTypes.string.isRequired,
-	author: PropTypes.string.isRequired,
-	url: PropTypes.string.isRequired,
-	image: PropTypes.string.isRequired
-};
-
-export default Book;
