@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import List from "./List/List";
 
 function renderLists(bookList, lists) {
+	setListMap(bookList, lists);
+
 	if (lists && bookList) {
 		return <List bookList={bookList} listTitle={lists[0].Name} />;
 	} else {
@@ -10,16 +12,18 @@ function renderLists(bookList, lists) {
 	}
 }
 
-function setListMap(bookList, lists) {
+function setListMap(bookList) {
 	const listMap = new Map();
 
-	if (bookList && lists) {
+	if (bookList) {
 		bookList.forEach(book => {
-			let bookArray = listMap.get(book.List.Id) || [];
+			let bookArray = listMap.get(book.ListId) || [];
+
 			if (bookArray) {
 				bookArray.push(book.Book);
 			}
-			listMap.set(book.List.Id, bookArray);
+
+			listMap.set(book.ListId, bookArray);
 		});
 	}
 
@@ -28,7 +32,6 @@ function setListMap(bookList, lists) {
 
 function Home() {
 	const url = "http://127.0.0.1:8080/api/";
-	// let listMap = new Map();
 	const [bookList, setBookList] = useState(null);
 	const [lists, setLists] = useState(null);
 

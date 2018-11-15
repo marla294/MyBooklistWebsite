@@ -35,26 +35,28 @@ function renderList(props) {
 
 function renderBooks(props) {
 	let bookList = props.bookList;
+
 	if (!bookList) {
 		return "List not found";
 	}
+
 	if (bookList.length === 0) {
 		return "Add a book to your list to get started!";
-	} else {
-		return bookList.map(book => {
-			return (
-				<Book
-					key={book.Id}
-					title={book.Book.Title}
-					author={book.Book.Author}
-					url={book.Book.URL}
-					image={
-						"https://images-na.ssl-images-amazon.com/images/I/81v5wp2zeQL.jpg"
-					}
-				/>
-			);
-		});
 	}
+
+	return bookList.map(book => {
+		return (
+			<Book
+				key={book.Id}
+				title={book.Book.Title}
+				author={book.Book.Author}
+				url={book.Book.URL}
+				image={
+					"https://images-na.ssl-images-amazon.com/images/I/81v5wp2zeQL.jpg"
+				}
+			/>
+		);
+	});
 }
 
 function List(props) {
