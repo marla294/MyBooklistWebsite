@@ -25,7 +25,12 @@ export default function Home() {
 		setLists(r);
 	};
 
-	return <pre className="home">{loadLists(bookList, lists)}</pre>;
+	return (
+		<HomeWrapper>
+			<Header>Marla's Books!</Header>
+			<Lists>{loadLists(bookList, lists)}</Lists>
+		</HomeWrapper>
+	);
 }
 
 function loadLists(bookList, lists) {
@@ -76,3 +81,22 @@ function renderLists(listMap, lists) {
 function getListNameById(lists, id) {
 	return lists.find(list => list.Id === id).Name;
 }
+
+const HomeWrapper = styled.div`
+	font-family: "Montserrat", sans-serif;
+	font-size: 15px;
+	display: grid;
+	grid-template-rows: 100px 1fr;
+`;
+
+const Header = styled.h1`
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	font-size: 2.5em;
+`;
+
+const Lists = styled.div`
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+`;
