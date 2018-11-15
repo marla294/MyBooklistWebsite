@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import List from "./List/List";
+import styled from "styled-components";
 
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
@@ -24,26 +25,20 @@ export default function Home() {
 		setLists(r);
 	};
 
-	return <pre className="home">{renderLists(bookList, lists)}</pre>;
+	return <pre className="home">{loadLists(bookList, lists)}</pre>;
 }
 
-function renderLists(bookList, lists) {
+function loadLists(bookList, lists) {
+	if (!lists || !bookList) {
+		return "Loading...";
+	}
+
 	const listMap = createListMap(bookList);
 
-	if (listMap.size > 0 && lists) {
-		let arr = [];
-		listMap.forEach((value, key) => {
-			let title;
-			lists.forEach(list => {
-				if (list.Id == key) {
-					title = list.Name;
-				}
-			});
-			arr.push(<List key={key} bookList={value} listTitle={title} />);
-		});
-		return arr;
+	if (listMap && listMap.size > 0) {
+		return renderLists(listMap, lists);
 	} else {
-		return "Loading...";
+		return "Create a new list to get started!";
 	}
 }
 
@@ -52,7 +47,7 @@ function createListMap(bookList) {
 
 	if (bookList) {
 		bookList.forEach(book => {
-			let bookArray = listMap.get(book.ListId) || [];
+			const bookArray = listMap.get(book.ListId) || [];
 
 			if (bookArray) {
 				bookArray.push(book.Book);
@@ -63,4 +58,21 @@ function createListMap(bookList) {
 	}
 
 	return listMap;
+}
+
+function renderLists(listMap, lists) {
+	const renderArray = [];
+
+	listMap.forEach((value, key) => {
+		const listName = getListNameById(lists, key);
+		renderArray.push(
+			<List key={key} bookList={value} listTitle={listName || ""} />
+		);
+	});
+
+	return renderArray;
+}
+
+function getListNameById(lists, id) {
+	return lists.find(list => list.Id === id).Name;
 }
