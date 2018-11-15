@@ -28,16 +28,26 @@ export default function Home() {
 }
 
 function renderLists(bookList, lists) {
-	setListMap(bookList);
+	const listMap = createListMap(bookList);
 
-	if (lists && bookList) {
-		return <List bookList={bookList} listTitle={lists[0].Name} />;
+	if (listMap.size > 0 && lists) {
+		let arr = [];
+		listMap.forEach((value, key) => {
+			let title;
+			lists.forEach(list => {
+				if (list.Id == key) {
+					title = list.Name;
+				}
+			});
+			arr.push(<List key={key} bookList={value} listTitle={title} />);
+		});
+		return arr;
 	} else {
 		return "Loading...";
 	}
 }
 
-function setListMap(bookList) {
+function createListMap(bookList) {
 	const listMap = new Map();
 
 	if (bookList) {

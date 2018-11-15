@@ -36,9 +36,9 @@ function renderBooks(props) {
 		return (
 			<Book
 				key={book.Id}
-				title={book.Book.Title}
-				author={book.Book.Author}
-				url={book.Book.URL}
+				title={book.Title}
+				author={book.Author}
+				url={book.URL}
 				image={
 					"https://images-na.ssl-images-amazon.com/images/I/81v5wp2zeQL.jpg"
 				}
