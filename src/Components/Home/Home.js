@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import styled, { createGlobalStyle } from "styled-components";
 import List from "./List/List";
-import styled from "styled-components";
 
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
@@ -29,6 +29,7 @@ export default function Home() {
 		<HomeWrapper>
 			<Header>Marla's Books!</Header>
 			<Lists>{loadLists(bookList, lists)}</Lists>
+			<GlobalStyle />
 		</HomeWrapper>
 	);
 }
@@ -82,9 +83,31 @@ function getListNameById(lists, id) {
 	return lists.find(list => list.Id === id).Name;
 }
 
+const GlobalStyle = createGlobalStyle`
+	html {
+		box-sizing: border-box;
+		font-family: "Montserrat", sans-serif;
+		font-size: 10px;
+	}
+	*, *:before, *:after {
+		box-sizing: inherit;
+		font-family: inherit;
+	}
+	body {
+		padding: 0;
+		margin: 0;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+	}
+	a:hover {
+		color: black;
+		text-decoration: none;
+	}
+`;
+
 const HomeWrapper = styled.div`
-	font-family: "Montserrat", sans-serif;
-	font-size: 15px;
 	display: grid;
 	grid-template-rows: 100px 1fr;
 `;

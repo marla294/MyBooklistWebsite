@@ -1,7 +1,7 @@
 import React from "react";
-import Book from "./Book/Book";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Book from "./Book/Book";
 
 List.propTypes = {
 	bookList: PropTypes.array.isRequired,
@@ -48,8 +48,6 @@ function renderBooks(props) {
 }
 
 const ListWrapper = styled.div`
-	font-family: "Montserrat", sans-serif;
-	font-size: 15px;
 	display: grid;
 	grid-gap: 1em;
 	width: 30em;
@@ -57,9 +55,8 @@ const ListWrapper = styled.div`
 `;
 
 const Title = styled.input`
-	box-sizing: border-box;
 	width: 100%;
-	font-size: 2em;
+	font-size: 1.5em;
 	text-align: center;
 	border: none;
 `;

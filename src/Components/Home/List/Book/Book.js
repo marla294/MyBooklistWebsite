@@ -1,7 +1,7 @@
 import React from "react";
-import { capitalizeFirstLetterEachWord } from "../../../../HelperFunctions";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { capitalizeFirstLetterEachWord } from "../../../../HelperFunctions";
 
 Book.propTypes = {
 	title: PropTypes.string.isRequired,
@@ -34,17 +34,11 @@ const BookWrapper = styled.a`
 	background: papayawhip;
 	display: grid;
 	grid-template-columns: 4em auto;
-	box-sizing: border-box;
 	width: 100%;
 	grid-gap: 1em;
 	padding: 1em;
-	color: black;
-	font-family: "Montserrat", sans-serif;
-	text-decoration: none;
 
 	:hover {
-		color: black;
-		text-decoration: none;
 		box-shadow: 0.1em 0.1em 0.1em grey;
 	}
 `;
