@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import List from "./List/List";
 
 export default function Home() {
@@ -26,11 +26,13 @@ export default function Home() {
 	};
 
 	return (
-		<HomeWrapper>
-			<Header>Marla's Books!</Header>
-			<Lists>{loadLists(bookList, lists)}</Lists>
-			<GlobalStyle />
-		</HomeWrapper>
+		<ThemeProvider theme={theme}>
+			<HomeWrapper>
+				<Header>Marla's Books!</Header>
+				<Lists>{loadLists(bookList, lists)}</Lists>
+				<GlobalStyle />
+			</HomeWrapper>
+		</ThemeProvider>
 	);
 }
 
@@ -83,40 +85,52 @@ function getListNameById(lists, id) {
 	return lists.find(list => list.Id === id).Name;
 }
 
+const theme = {
+	black: "#393939",
+	red: "#FF0000",
+	bs: "0 12px 24px 0 rgba(0, 0, 0, 0.09)"
+};
+
 const GlobalStyle = createGlobalStyle`
 	html {
 		box-sizing: border-box;
 		font-family: "Montserrat", sans-serif;
 		font-size: 10px;
+		color: ${props => props.theme.black};
+		padding: 0;
+		margin: 0;
 	}
 	*, *:before, *:after {
 		box-sizing: inherit;
 		font-family: inherit;
 	}
-	body {
+	h1, h2, h3, h4, h5, h6, p {
 		padding: 0;
 		margin: 0;
 	}
 	a {
 		text-decoration: none;
-		color: black;
+		color: ${props => props.theme.black};
 	}
 	a:hover {
 		color: black;
 		text-decoration: none;
 	}
+	input {
+		color: ${props => props.theme.black};
+	}
 `;
 
 const HomeWrapper = styled.div`
 	display: grid;
-	grid-template-rows: 100px 1fr;
+	grid-template-rows: 10em 1fr;
 `;
 
 const Header = styled.h1`
 	display: grid;
+	font-size: 3.5em;
 	align-items: center;
-	justify-content: center;
-	font-size: 2.5em;
+	justify-items: center;
 `;
 
 const Lists = styled.div`

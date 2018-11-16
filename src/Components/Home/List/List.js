@@ -50,13 +50,13 @@ function renderBooks(props) {
 const ListWrapper = styled.div`
 	display: grid;
 	grid-gap: 1em;
-	width: 30em;
-	padding: 1em;
+	width: 45em;
+	padding: 1.5em;
 `;
 
 const Title = styled.input`
 	width: 100%;
-	font-size: 1.5em;
+	font-size: 2.5em;
 	text-align: center;
 	border: none;
 `;

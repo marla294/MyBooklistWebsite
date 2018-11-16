@@ -33,19 +33,19 @@ function renderBook(props) {
 const BookWrapper = styled.a`
 	background: papayawhip;
 	display: grid;
-	grid-template-columns: 4em auto;
+	grid-template-columns: 6em auto;
 	width: 100%;
 	grid-gap: 1em;
-	padding: 1em;
+	padding: 1.5em;
 
 	:hover {
-		box-shadow: 0.1em 0.1em 0.1em grey;
+		box-shadow: ${props => props.theme.bs};
 	}
 `;
 
 const BookCoverImage = styled.img`
 	justify-self: center;
-	width: 4em;
+	width: 5em;
 `;
 
 const TitleAuthorWrapper = styled.div`
@@ -55,9 +55,9 @@ const TitleAuthorWrapper = styled.div`
 `;
 
 const Title = styled.h1`
-	font-size: 1.3em;
+	font-size: 1.5em;
 `;
 
 const Author = styled.h3`
-	font-size: 1em;
+	font-size: 1.2em;
 `;
