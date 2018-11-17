@@ -103,15 +103,19 @@ const theme = {
 const GlobalStyle = createGlobalStyle`
 	html {
 		box-sizing: border-box;
-		font-family: "Montserrat", sans-serif;
+		font-family: 'greycliff';
 		font-size: 10px;
 		color: ${props => props.theme.black};
 		padding: 0;
 		margin: 0;
 	}
+	body {
+		font-family: 'greycliff';
+		font-size: 1em;
+	}
 	*, *:before, *:after {
 		box-sizing: inherit;
-		font-family: inherit;
+		font-family: 'greycliff';
 	}
 	h1, h2, h3, h4, h5, h6, p {
 		padding: 0;

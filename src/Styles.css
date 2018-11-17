@@ -1,0 +1,47 @@
+@font-face {
+	font-family: 'greycliff';
+	src: url('./static/GreycliffCF-ExtraBold.woff2') format('woff2'),
+	url('./static/GreycliffCF-ExtraBold.woff') format('woff');
+	font-weight: bolder;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'greycliff';
+	src: url('./static/GreycliffCF-ExtraBoldOblique.woff2') format('woff2'),
+	url('./static/GreycliffCF-ExtraBoldOblique.woff') format('woff');
+	font-weight: bolder;
+	font-style: oblique;
+}
+
+@font-face {
+	font-family: 'greycliff';
+	src: url('./static/GreycliffCF-Bold.woff2') format('woff2'),
+	url('./static/GreycliffCF-Bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'greycliff';
+	src: url('./static/GreycliffCF-BoldOblique.woff2') format('woff2'),
+	url('./static/GreycliffCF-BoldOblique.woff') format('woff');
+	font-weight: bold;
+	font-style: oblique;
+}
+
+@font-face {
+	font-family: 'greycliff';
+	src: url('./static/GreycliffCF-Medium.woff2') format('woff2'),
+	url('./static/GreycliffCF-Medium.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'greycliff';
+	src: url('./static/GreycliffCF-MediumOblique.woff2') format('woff2'),
+	url('./static/GreycliffCF-MediumOblique.woff') format('woff');
+	font-weight: normal;
+	font-style: oblique;
+}

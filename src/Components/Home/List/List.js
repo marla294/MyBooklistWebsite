@@ -9,7 +9,7 @@ List.propTypes = {
 };
 
 export default function List(props) {
-	return <pre>{renderList(props)}</pre>;
+	return <React.Fragment>{renderList(props)}</React.Fragment>;
 }
 
 function renderList(props) {
