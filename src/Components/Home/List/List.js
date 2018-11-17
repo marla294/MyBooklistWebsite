@@ -56,7 +56,7 @@ const ListWrapper = styled.div`
 
 const Title = styled.input`
 	width: 100%;
-	font-size: 2.5em;
+	font-size: 2em;
 	text-align: center;
 	border: none;
 `;

@@ -11,6 +11,7 @@ export default function Home() {
 	useEffect(() => {
 		getBookList();
 		getLists();
+		updateList();
 	}, []);
 
 	const getBookList = async () => {
@@ -23,6 +24,14 @@ export default function Home() {
 		let result = await fetch(url + "Lists");
 		let r = await result.json();
 		setLists(r);
+	};
+
+	const updateList = async () => {
+		fetch(url + "Lists/1", {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ name: "from application" })
+		});
 	};
 
 	return (
