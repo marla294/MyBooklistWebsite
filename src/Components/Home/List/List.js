@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { useState } from "react";
 import Book from "./Book/Book";
 
 List.propTypes = {
@@ -9,13 +10,22 @@ List.propTypes = {
 };
 
 export default function List(props) {
-	return <React.Fragment>{renderList(props)}</React.Fragment>;
+	const [val, setValue] = useState(props.listTitle);
+
+	return <React.Fragment>{renderList(props, val, setValue)}</React.Fragment>;
 }
 
-function renderList(props) {
+function renderList(props, val, setValue) {
 	return (
 		<ListWrapper>
-			<Title type="text" defaultValue={props.listTitle} />
+			<Title
+				type="text"
+				value={val}
+				onChange={event => setValue(event.target.value)}
+				onBlur={() => {
+					props.updateTitle(val);
+				}}
+			/>
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
 		</ListWrapper>
 	);

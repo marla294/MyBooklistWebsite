@@ -11,7 +11,6 @@ export default function Home() {
 	useEffect(() => {
 		getBookList();
 		getLists();
-		updateList();
 	}, []);
 
 	const getBookList = async () => {
@@ -26,11 +25,11 @@ export default function Home() {
 		setLists(r);
 	};
 
-	const updateList = async () => {
+	const updateListTitle = async name => {
 		fetch(url + "Lists/1", {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ name: "from application" })
+			body: JSON.stringify({ name })
 		});
 	};
 
@@ -38,14 +37,14 @@ export default function Home() {
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
-				<Lists>{loadLists(bookList, lists)}</Lists>
+				<Lists>{loadLists(bookList, lists, updateListTitle)}</Lists>
 				<GlobalStyle />
 			</HomeWrapper>
 		</ThemeProvider>
 	);
 }
 
-function loadLists(bookList, lists) {
+function loadLists(bookList, lists, updateListTitle) {
 	if (!lists || !bookList) {
 		return "Loading...";
 	}
@@ -53,7 +52,7 @@ function loadLists(bookList, lists) {
 	const listMap = createListMap(bookList);
 
 	if (listMap && listMap.size > 0) {
-		return renderLists(listMap, lists);
+		return renderLists(listMap, lists, updateListTitle);
 	} else {
 		return "Create a new list to get started!";
 	}
@@ -77,13 +76,18 @@ function createListMap(bookList) {
 	return listMap;
 }
 
-function renderLists(listMap, lists) {
+function renderLists(listMap, lists, updateListTitle) {
 	const renderArray = [];
 
 	listMap.forEach((value, key) => {
 		const listName = getListNameById(lists, key);
 		renderArray.push(
-			<List key={key} bookList={value} listTitle={listName || ""} />
+			<List
+				key={key}
+				bookList={value}
+				listTitle={listName || ""}
+				updateTitle={updateListTitle}
+			/>
 		);
 	});
 
