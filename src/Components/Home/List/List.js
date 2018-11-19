@@ -6,24 +6,31 @@ import Book from "./Book/Book";
 
 List.propTypes = {
 	bookList: PropTypes.array.isRequired,
-	listTitle: PropTypes.string.isRequired
+	listTitle: PropTypes.string.isRequired,
+	updateListTitle: PropTypes.func.isRequired
 };
 
 export default function List(props) {
-	const [val, setValue] = useState(props.listTitle);
+	const [listTitle, setListTitle] = useState(props.listTitle);
 
-	return <React.Fragment>{renderList(props, val, setValue)}</React.Fragment>;
+	return (
+		<React.Fragment>
+			{renderList(props, listTitle, setListTitle)}
+		</React.Fragment>
+	);
 }
 
-function renderList(props, val, setValue) {
+function renderList(props, listTitle, setListTitle) {
 	return (
 		<ListWrapper>
 			<Title
 				type="text"
-				value={val}
-				onChange={event => setValue(event.target.value)}
+				value={listTitle}
+				onChange={event => {
+					setListTitle(event.target.value);
+				}}
 				onBlur={() => {
-					props.updateTitle(val);
+					props.updateListTitle(listTitle);
 				}}
 			/>
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
