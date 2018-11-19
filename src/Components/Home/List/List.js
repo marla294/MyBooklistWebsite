@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { useState } from "react";
 import Book from "./Book/Book";
+import { ListWrapper, Title, BooksWrapper } from "./ListStyles";
 
 List.propTypes = {
 	bookList: PropTypes.array.isRequired,
@@ -63,21 +63,3 @@ function renderBooks(props) {
 		);
 	});
 }
-
-const ListWrapper = styled.div`
-	display: grid;
-	grid-gap: 1em;
-	width: 45em;
-	padding: 1.5em;
-`;
-
-const Title = styled.input`
-	width: 100%;
-	font-size: 2em;
-	text-align: center;
-	border: none;
-`;
-
-const BooksWrapper = styled.div`
-	display: grid;
-`;

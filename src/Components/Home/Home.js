@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 import List from "./List/List";
+import { HomeWrapper, Header, Lists } from "./HomeStyles";
 
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
@@ -136,21 +137,4 @@ const GlobalStyle = createGlobalStyle`
 	input {
 		color: ${props => props.theme.black};
 	}
-`;
-
-const HomeWrapper = styled.div`
-	display: grid;
-	grid-template-rows: 10em 1fr;
-`;
-
-const Header = styled.h1`
-	display: grid;
-	font-size: 3.5em;
-	align-items: center;
-	justify-items: center;
-`;
-
-const Lists = styled.div`
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
 `;
