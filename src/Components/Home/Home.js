@@ -48,7 +48,7 @@ export default function Home() {
 
 function loadLists(bookList, lists, updateListTitle) {
 	if (!lists || !bookList) {
-		return "Loading...";
+		return "";
 	}
 
 	const listMap = createListMap(bookList);
