@@ -5,6 +5,7 @@ import Book from "./Book/Book";
 import { ListWrapper, Title, BooksWrapper } from "./ListStyles";
 
 List.propTypes = {
+	id: PropTypes.number.isRequired,
 	bookList: PropTypes.array.isRequired,
 	listTitle: PropTypes.string.isRequired,
 	updateListTitle: PropTypes.func.isRequired
@@ -29,7 +30,7 @@ function renderListTitle(props, listTitle, setListTitle) {
 				setListTitle(event.target.value);
 			}}
 			onBlur={() => {
-				props.updateListTitle(listTitle);
+				props.updateListTitle(props.id, listTitle);
 			}}
 		/>
 	);

@@ -27,8 +27,8 @@ export default function Home() {
 		setLists(r);
 	};
 
-	const updateListTitle = async name => {
-		fetch(url + "Lists/1", {
+	const updateListTitle = async (id, name) => {
+		fetch(url + `Lists/${id}`, {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name })
@@ -66,11 +66,7 @@ function createListMap(bookList) {
 	if (bookList) {
 		bookList.forEach(book => {
 			const bookArray = listMap.get(book.ListId) || [];
-
-			if (bookArray) {
-				bookArray.push(book.Book);
-			}
-
+			bookArray.push(book.Book);
 			listMap.set(book.ListId, bookArray);
 		});
 	}
@@ -79,13 +75,14 @@ function createListMap(bookList) {
 }
 
 function renderLists(listMap, lists, updateListTitle) {
-	const renderArray = [];
+	const listArray = [];
 
 	listMap.forEach((value, key) => {
 		const listName = getListNameById(lists, key);
-		renderArray.push(
+		listArray.push(
 			<List
 				key={key}
+				id={key}
 				bookList={value}
 				listTitle={listName || ""}
 				updateListTitle={updateListTitle}
@@ -93,7 +90,7 @@ function renderLists(listMap, lists, updateListTitle) {
 		);
 	});
 
-	return renderArray;
+	return listArray;
 }
 
 function getListNameById(lists, id) {
