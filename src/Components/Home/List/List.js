@@ -14,27 +14,24 @@ export default function List(props) {
 	const [listTitle, setListTitle] = useState(props.listTitle);
 
 	return (
-		<React.Fragment>
-			{renderList(props, listTitle, setListTitle)}
-		</React.Fragment>
+		<ListWrapper>
+			{renderListTitle(props, listTitle, setListTitle)}
+			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
+		</ListWrapper>
 	);
 }
 
-function renderList(props, listTitle, setListTitle) {
+function renderListTitle(props, listTitle, setListTitle) {
 	return (
-		<ListWrapper>
-			<Title
-				type="text"
-				value={listTitle}
-				onChange={event => {
-					setListTitle(event.target.value);
-				}}
-				onBlur={() => {
-					props.updateListTitle(listTitle);
-				}}
-			/>
-			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
-		</ListWrapper>
+		<Title
+			value={listTitle}
+			onChange={event => {
+				setListTitle(event.target.value);
+			}}
+			onBlur={() => {
+				props.updateListTitle(listTitle);
+			}}
+		/>
 	);
 }
 
