@@ -16,3 +16,10 @@ export const Lists = styled.div`
 	display: grid;
 	grid-gap: 1em;
 `;
+
+export const AddNewList = styled.button`
+	font-size: 50px;
+	width: 1em;
+	height: 1em;
+	border-radius: 0.5em;
+`;

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import List from "./List/List";
-import { HomeWrapper, Header, Lists } from "./HomeStyles";
+import { HomeWrapper, Header, Lists, AddNewList } from "./HomeStyles";
 import { theme, GlobalStyle } from "./GlobalStyles";
 
 export default function Home() {
@@ -40,6 +40,7 @@ export default function Home() {
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
 				<Lists>{loadLists(bookList, lists, updateListTitle)}</Lists>
+				<AddNewList>+</AddNewList>
 				<GlobalStyle />
 			</HomeWrapper>
 		</ThemeProvider>
