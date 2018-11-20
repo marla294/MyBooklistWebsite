@@ -36,6 +36,13 @@ export default function Home() {
 		});
 	};
 
+	const addNewList = async () => {
+		fetch(url + "Lists", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" }
+		});
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
@@ -43,7 +50,7 @@ export default function Home() {
 				<Lists>
 					{loadLists(bookList, lists, updateListTitle)}
 					<AddNewList>
-						<button>+</button>New List
+						<button onClick={addNewList}>+</button>New List
 					</AddNewList>
 				</Lists>
 				<GlobalStyle />
