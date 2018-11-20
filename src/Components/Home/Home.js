@@ -43,6 +43,12 @@ export default function Home() {
 		});
 	};
 
+	const displayNewList = async () => {
+		await addNewList();
+		await getLists();
+		await getBookList();
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
@@ -50,7 +56,7 @@ export default function Home() {
 				<Lists>
 					{loadLists(bookList, lists, updateListTitle)}
 					<AddNewList>
-						<button onClick={addNewList}>+</button>New List
+						<button onClick={displayNewList}>+</button>New List
 					</AddNewList>
 				</Lists>
 				<GlobalStyle />
@@ -107,5 +113,10 @@ function renderLists(listMap, lists, updateListTitle) {
 }
 
 function getListNameById(lists, id) {
-	return lists.find(list => list.Id === id).Name;
+	let list = lists.find(list => list.Id === id);
+	if (list) {
+		return list.Name;
+	} else {
+		return;
+	}
 }
