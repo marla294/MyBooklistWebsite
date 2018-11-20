@@ -15,11 +15,26 @@ export const Header = styled.h1`
 export const Lists = styled.div`
 	display: grid;
 	grid-gap: 1em;
+	width: 45em;
 `;
 
-export const AddNewList = styled.button`
-	font-size: 50px;
-	width: 1em;
-	height: 1em;
-	border-radius: 0.5em;
+export const AddNewList = styled.label`
+	font-size: 1.7em;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-gap: 0.5em;
+	justify-self: center;
+	align-items: center;
+	padding: 0.88em;
+	button {
+		font-size: 50px;
+		width: 0.75em;
+		height: 0.75em;
+		border-radius: 0.5em;
+		line-height: 0;
+		padding-bottom: 0.25em;
+		outline: none;
+		border-color: ${props => props.theme.black};
+		color: ${props => props.theme.black};
+	}
 `;

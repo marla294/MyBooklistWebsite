@@ -40,8 +40,12 @@ export default function Home() {
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
-				<Lists>{loadLists(bookList, lists, updateListTitle)}</Lists>
-				<AddNewList>+</AddNewList>
+				<Lists>
+					{loadLists(bookList, lists, updateListTitle)}
+					<AddNewList>
+						<button>+</button>New List
+					</AddNewList>
+				</Lists>
 				<GlobalStyle />
 			</HomeWrapper>
 		</ThemeProvider>
