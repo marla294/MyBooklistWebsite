@@ -8,7 +8,8 @@ List.propTypes = {
 	id: PropTypes.number.isRequired,
 	bookList: PropTypes.array.isRequired,
 	listTitle: PropTypes.string.isRequired,
-	updateListTitle: PropTypes.func.isRequired
+	updateListTitle: PropTypes.func.isRequired,
+	deleteList: PropTypes.func.isRequired
 };
 
 export default function List(props) {
@@ -24,15 +25,18 @@ export default function List(props) {
 
 function renderListTitle(props, listTitle, setListTitle) {
 	return (
-		<Title
-			value={listTitle}
-			onChange={event => {
-				setListTitle(event.target.value);
-			}}
-			onBlur={() => {
-				props.updateListTitle(props.id, listTitle);
-			}}
-		/>
+		<React.Fragment>
+			<Title
+				value={listTitle}
+				onChange={event => {
+					setListTitle(event.target.value);
+				}}
+				onBlur={() => {
+					props.updateListTitle(props.id, listTitle);
+				}}
+			/>
+			<button onClick={() => props.deleteList(props.id)}>X</button>
+		</React.Fragment>
 	);
 }
 

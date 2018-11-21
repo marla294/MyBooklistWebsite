@@ -43,8 +43,21 @@ export default function Home() {
 		});
 	};
 
+	const deleteList = async id => {
+		fetch(url + `Lists/${id}`, {
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" }
+		});
+	};
+
 	const displayNewList = async () => {
 		await addNewList();
+		await getLists();
+		await getBookList();
+	};
+
+	const displayDeletedList = async id => {
+		await deleteList(id);
 		await getLists();
 		await getBookList();
 	};
@@ -54,7 +67,12 @@ export default function Home() {
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
 				<Lists>
-					{loadLists(bookList, lists, updateListTitle)}
+					{loadLists(
+						bookList,
+						lists,
+						updateListTitle,
+						displayDeletedList
+					)}
 					<AddNewList>
 						<button onClick={displayNewList}>+</button>New List
 					</AddNewList>
@@ -65,7 +83,7 @@ export default function Home() {
 	);
 }
 
-function loadLists(bookList, lists, updateListTitle) {
+function loadLists(bookList, lists, updateListTitle, displayDeletedList) {
 	if (!lists || !bookList) {
 		return "";
 	}
@@ -73,7 +91,7 @@ function loadLists(bookList, lists, updateListTitle) {
 	const listMap = createListMap(bookList);
 
 	if (listMap && listMap.size > 0) {
-		return renderLists(listMap, lists, updateListTitle);
+		return renderLists(listMap, lists, updateListTitle, displayDeletedList);
 	} else {
 		return "Create a new list to get started!";
 	}
@@ -93,7 +111,7 @@ function createListMap(bookList) {
 	return listMap;
 }
 
-function renderLists(listMap, lists, updateListTitle) {
+function renderLists(listMap, lists, updateListTitle, displayDeletedList) {
 	const listArray = [];
 
 	listMap.forEach((value, key) => {
@@ -105,6 +123,7 @@ function renderLists(listMap, lists, updateListTitle) {
 				bookList={value}
 				listTitle={listName || "New List"}
 				updateListTitle={updateListTitle}
+				deleteList={displayDeletedList}
 			/>
 		);
 	});
