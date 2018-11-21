@@ -11,7 +11,6 @@ import {
 } from "./HomeStyles";
 import { theme, GlobalStyle } from "./GlobalStyles";
 
-//test commit
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
 	const [bookList, setBookList] = useState(null);
@@ -58,15 +57,11 @@ export default function Home() {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" }
 		});
+		await refreshBooklist();
 	};
 
 	const displayNewList = async () => {
 		await addNewList();
-		await refreshBooklist();
-	};
-
-	const displayDeletedList = async id => {
-		await deleteList(id);
 		await refreshBooklist();
 	};
 
@@ -75,12 +70,7 @@ export default function Home() {
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
 				<Lists>
-					{loadLists(
-						bookList,
-						lists,
-						updateListTitle,
-						displayDeletedList
-					)}
+					{loadLists(bookList, lists, updateListTitle, deleteList)}
 					<AddNewList>
 						<button onClick={displayNewList}>+</button>New List
 					</AddNewList>
@@ -91,7 +81,7 @@ export default function Home() {
 	);
 }
 
-function loadLists(bookList, lists, updateListTitle, displayDeletedList) {
+function loadLists(bookList, lists, updateListTitle, deleteList) {
 	if (!lists || !bookList) {
 		return "";
 	}
@@ -99,7 +89,7 @@ function loadLists(bookList, lists, updateListTitle, displayDeletedList) {
 	const listMap = createListMap(bookList);
 
 	if (listMap && listMap.size > 0) {
-		return renderLists(listMap, lists, updateListTitle, displayDeletedList);
+		return renderLists(listMap, lists, updateListTitle, deleteList);
 	} else {
 		return (
 			<ListWrapper>
@@ -123,11 +113,11 @@ function createListMap(bookList) {
 	return listMap;
 }
 
-function renderLists(listMap, lists, updateListTitle, displayDeletedList) {
+function renderLists(listMap, lists, updateListTitle, deleteList) {
 	const listArray = [];
 
 	listMap.forEach((value, key) => {
-		const listName = getListNameById(lists, key);
+		const listName = getListNameById(key);
 		listArray.push(
 			<List
 				key={key}
@@ -135,19 +125,15 @@ function renderLists(listMap, lists, updateListTitle, displayDeletedList) {
 				bookList={value}
 				listTitle={listName || "New List"}
 				updateListTitle={updateListTitle}
-				deleteList={displayDeletedList}
+				deleteList={deleteList}
 			/>
 		);
 	});
 
-	return listArray;
-}
-
-function getListNameById(lists, id) {
-	let list = lists.find(list => list.Id === id);
-	if (list) {
-		return list.Name;
-	} else {
-		return;
+	function getListNameById(id) {
+		const list = lists.find(list => list.Id === id);
+		return list ? list.Name : null;
 	}
+
+	return listArray;
 }
