@@ -12,9 +12,13 @@ export default function Home() {
 	const [lists, setLists] = useState(null);
 
 	useEffect(() => {
-		getBookList();
-		getLists();
+		refreshBooklist();
 	}, []);
+
+	const refreshBooklist = async () => {
+		await getLists();
+		await getBookList();
+	};
 
 	const getBookList = async () => {
 		let result = await fetch(url + "BookList");
@@ -52,14 +56,12 @@ export default function Home() {
 
 	const displayNewList = async () => {
 		await addNewList();
-		await getLists();
-		await getBookList();
+		await refreshBooklist();
 	};
 
 	const displayDeletedList = async id => {
 		await deleteList(id);
-		await getLists();
-		await getBookList();
+		await refreshBooklist();
 	};
 
 	return (
