@@ -103,7 +103,7 @@ function renderLists(listMap, lists, updateListTitle) {
 				key={key}
 				id={key}
 				bookList={value}
-				listTitle={listName || ""}
+				listTitle={listName || "New List"}
 				updateListTitle={updateListTitle}
 			/>
 		);
