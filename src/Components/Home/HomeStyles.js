@@ -38,3 +38,11 @@ export const AddNewList = styled.label`
 		color: ${props => props.theme.black};
 	}
 `;
+
+export const ListWrapper = styled.div`
+	display: grid;
+	grid-gap: 1em;
+	width: 45em;
+	padding: 1.5em;
+	justify-items: center;
+`;

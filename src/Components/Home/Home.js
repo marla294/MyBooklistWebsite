@@ -2,7 +2,13 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import List from "./List/List";
-import { HomeWrapper, Header, Lists, AddNewList } from "./HomeStyles";
+import {
+	HomeWrapper,
+	Header,
+	Lists,
+	AddNewList,
+	ListWrapper
+} from "./HomeStyles";
 import { theme, GlobalStyle } from "./GlobalStyles";
 
 //test commit
@@ -95,7 +101,11 @@ function loadLists(bookList, lists, updateListTitle, displayDeletedList) {
 	if (listMap && listMap.size > 0) {
 		return renderLists(listMap, lists, updateListTitle, displayDeletedList);
 	} else {
-		return "Create a new list to get started!";
+		return (
+			<ListWrapper>
+				<h1>Create a new list to get started!</h1>
+			</ListWrapper>
+		);
 	}
 }
 
