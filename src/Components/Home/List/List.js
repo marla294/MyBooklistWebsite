@@ -2,7 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import Book from "./Book/Book";
-import { ListWrapper, Title, BooksWrapper } from "./ListStyles";
+import {
+	ListWrapper,
+	Title,
+	BooksWrapper,
+	DeleteButton,
+	TitleWrapper
+} from "./ListStyles";
 
 List.propTypes = {
 	id: PropTypes.number.isRequired,
@@ -25,7 +31,7 @@ export default function List(props) {
 
 function renderListTitle(props, listTitle, setListTitle) {
 	return (
-		<React.Fragment>
+		<TitleWrapper>
 			<Title
 				value={listTitle}
 				onChange={event => {
@@ -35,8 +41,10 @@ function renderListTitle(props, listTitle, setListTitle) {
 					props.updateListTitle(props.id, listTitle);
 				}}
 			/>
-			<button onClick={() => props.deleteList(props.id)}>X</button>
-		</React.Fragment>
+			<DeleteButton onClick={() => props.deleteList(props.id)}>
+				&times;
+			</DeleteButton>
+		</TitleWrapper>
 	);
 }
 
