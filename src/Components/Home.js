@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
-import List from "./List/List";
+import List from "./List";
 import {
 	HomeWrapper,
 	Header,

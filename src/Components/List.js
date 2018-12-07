@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import Book from "./Book/Book";
+import Book from "./Book";
 import {
 	ListWrapper,
 	Title,

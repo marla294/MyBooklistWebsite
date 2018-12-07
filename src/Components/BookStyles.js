@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const BookWrapper = styled.a`
-	background: papayawhip;
+	background: ${props => props.theme.yellow};
 	display: grid;
 	grid-template-columns: 6em auto;
 	width: 100%;

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { capitalizeFirstLetterEachWord } from "../../../../HelperFunctions";
+import { capitalizeFirstLetterEachWord } from "../HelperFunctions";
 import {
 	BookWrapper,
 	BookCoverImage,
