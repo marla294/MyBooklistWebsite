@@ -1,20 +1,15 @@
 import styled from "styled-components";
 
-export const TabsWrapper = styled.div`
-	display: grid;
-	height: 3em;
-`;
-
-export const Tab = styled.div`
+export const TabStyles = styled.div`
 	width: 15em;
 	height: 0em;
 	display: grid;
 	justify-items: center;
-	border-bottom: 3em solid ${props => props.theme.yellow};
+	border-bottom: 3em solid ${props => props.theme.blue};
 	border-right: 1em solid ${props => props.theme.white};
 	border-left: 1em solid ${props => props.theme.white};
 	input {
-		background: ${props => props.theme.yellow};
+		background: ${props => props.theme.blue};
 		font-size: 15px;
 		width: 90%;
 		text-align: center;

@@ -2,14 +2,15 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import List from "./List";
-import Tabs from "./Tabs";
+import Tab from "./Tab";
 import { theme, GlobalStyle } from "./GlobalStyles";
 import {
 	HomeWrapper,
 	Header,
 	Lists,
 	AddNewList,
-	ListWrapper
+	ListWrapper,
+	TabsWrapper
 } from "./HomeStyles";
 
 export default function Home() {
@@ -70,7 +71,9 @@ export default function Home() {
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
-				<Tabs />
+				<TabsWrapper>
+					<Tab />
+				</TabsWrapper>
 				<Lists>
 					{loadLists(bookList, lists, updateListTitle, deleteList)}
 					<AddNewList>

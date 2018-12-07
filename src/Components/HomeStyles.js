@@ -46,3 +46,12 @@ export const ListWrapper = styled.div`
 	padding: 1.5em;
 	justify-items: center;
 `;
+
+export const TabsWrapper = styled.div`
+	display: grid;
+	grid-gap: 1em;
+	width: 100%;
+	height: 3em;
+	padding: 1.5em;
+	justify-items: start;
+`;
