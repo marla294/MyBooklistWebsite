@@ -72,7 +72,7 @@ export default function Home() {
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
 				<TabsWrapper>
-					<Tab />
+					<Tab listTitle={"A Title"} />
 				</TabsWrapper>
 				<Lists>
 					{loadLists(bookList, lists, updateListTitle, deleteList)}

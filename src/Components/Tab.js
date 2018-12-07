@@ -1,14 +1,18 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { useState } from "react";
 import { TabStyles } from "./TabStyles";
 
-class Tab extends React.Component {
-	render() {
-		return (
-			<TabStyles>
-				<input />
-			</TabStyles>
-		);
-	}
-}
+Tab.propTypes = {
+	listTitle: PropTypes.string.isRequired
+};
 
-export default Tab;
+export default function Tab(props) {
+	const [listTitle, setListTitle] = useState(props.listTitle);
+
+	return (
+		<TabStyles>
+			<input value={listTitle} />
+		</TabStyles>
+	);
+}
