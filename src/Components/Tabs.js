@@ -1,9 +1,15 @@
 import React from "react";
-import { TabsWrapper } from "./TabsStyles";
+import { TabsWrapper, TabWrapper, Tab } from "./TabsStyles";
 
 class Tabs extends React.Component {
 	render() {
-		return <TabsWrapper />;
+		return (
+			<TabsWrapper>
+				<TabWrapper>
+					<Tab />
+				</TabWrapper>
+			</TabsWrapper>
+		);
 	}
 }
 
