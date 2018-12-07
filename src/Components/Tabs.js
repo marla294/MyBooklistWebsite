@@ -1,13 +1,13 @@
 import React from "react";
-import { TabsWrapper, TabWrapper, Tab } from "./TabsStyles";
+import { TabsWrapper, Tab } from "./TabsStyles";
 
 class Tabs extends React.Component {
 	render() {
 		return (
 			<TabsWrapper>
-				<TabWrapper>
-					<Tab />
-				</TabWrapper>
+				<Tab>
+					<input />
+				</Tab>
 			</TabsWrapper>
 		);
 	}

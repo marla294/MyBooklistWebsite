@@ -2,22 +2,24 @@ import styled from "styled-components";
 
 export const TabsWrapper = styled.div`
 	display: grid;
+	height: 3em;
 `;
 
-export const TabWrapper = styled.div`
-	background: ${props => props.theme.yellow};
-	width: 150px;
+export const Tab = styled.div`
+	width: 15em;
+	height: 0em;
 	display: grid;
-	align-content: center;
 	justify-items: center;
-	padding: 1em 1em;
-`;
-
-export const Tab = styled.input`
-	background: ${props => props.theme.yellow};
-	font-size: 1.5em;
-	width: 90%;
-	text-align: center;
-	border: none;
-	outline: none;
+	border-bottom: 3em solid ${props => props.theme.yellow};
+	border-right: 1em solid ${props => props.theme.white};
+	border-left: 1em solid ${props => props.theme.white};
+	input {
+		background: ${props => props.theme.yellow};
+		font-size: 15px;
+		width: 90%;
+		text-align: center;
+		border: none;
+		outline: none;
+		transform: translate(0em, 0.35em);
+	}
 `;
