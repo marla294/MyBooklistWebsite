@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import List from "./List";
+import Tabs from "./Tabs";
+import { theme, GlobalStyle } from "./GlobalStyles";
 import {
 	HomeWrapper,
 	Header,
@@ -9,7 +11,6 @@ import {
 	AddNewList,
 	ListWrapper
 } from "./HomeStyles";
-import { theme, GlobalStyle } from "./GlobalStyles";
 
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
@@ -69,6 +70,7 @@ export default function Home() {
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
+				<Tabs />
 				<Lists>
 					{loadLists(bookList, lists, updateListTitle, deleteList)}
 					<AddNewList>
