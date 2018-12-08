@@ -21,6 +21,11 @@ export default function Tab(props) {
 				onBlur={async () =>
 					await props.updateListTitle(props.id, listTitle)
 				}
+				onKeyPress={async event => {
+					if (event.key === "Enter") {
+						await props.updateListTitle(props.id, listTitle);
+					}
+				}}
 			/>
 			<button onClick={async () => await props.deleteList(props.id)}>
 				&times;

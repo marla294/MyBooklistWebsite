@@ -5,7 +5,7 @@ import { TabStyles } from "./TabStyles";
 
 NewList.propTypes = {
 	listTitle: PropTypes.string.isRequired,
-	displayNewList: PropTypes.func.isRequired
+	addNewList: PropTypes.func.isRequired
 };
 
 export default function NewList(props) {
@@ -17,9 +17,14 @@ export default function NewList(props) {
 				value={listTitle}
 				onChange={event => setListTitle(event.target.value)}
 				onBlur={async () => {
-					setListTitle("New List");
-					await props.displayNewList(listTitle);
-					await props.refreshBooklist();
+					setListTitle("Add New List");
+					await props.addNewList(listTitle);
+				}}
+				onKeyPress={async event => {
+					if (event.key === "Enter") {
+						setListTitle("Add New List");
+						await props.addNewList(listTitle);
+					}
 				}}
 			/>
 		</TabStyles>

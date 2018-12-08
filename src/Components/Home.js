@@ -65,22 +65,12 @@ export default function Home() {
 		await refreshBooklist();
 	};
 
-	const displayNewList = async name => {
-		await addNewList(name);
-	};
-
 	return (
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
 				<TabsWrapper>
-					{loadTabs(
-						lists,
-						updateListTitle,
-						deleteList,
-						displayNewList,
-						refreshBooklist
-					)}
+					{loadTabs(lists, updateListTitle, deleteList, addNewList)}
 				</TabsWrapper>
 				<Lists>{loadLists(bookList, lists)}</Lists>
 				<GlobalStyle />
@@ -89,13 +79,7 @@ export default function Home() {
 	);
 }
 
-function loadTabs(
-	lists,
-	updateListTitle,
-	deleteList,
-	displayNewList,
-	refreshBooklist
-) {
+function loadTabs(lists, updateListTitle, deleteList, addNewList) {
 	const tabArray = [];
 
 	if (lists) {
@@ -113,12 +97,7 @@ function loadTabs(
 	}
 
 	tabArray.push(
-		<NewListTab
-			key={0}
-			listTitle={"New List"}
-			displayNewList={displayNewList}
-			refreshBooklist={refreshBooklist}
-		/>
+		<NewListTab key={0} listTitle={"New List"} addNewList={addNewList} />
 	);
 
 	return tabArray;
