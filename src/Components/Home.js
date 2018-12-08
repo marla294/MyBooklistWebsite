@@ -88,7 +88,7 @@ function loadTabs(lists, updateListTitle, deleteList, addNewList) {
 				<Tab
 					key={list.Id}
 					id={list.Id}
-					listTitle={list.Name || "New List"}
+					listTitle={list.Name}
 					updateListTitle={updateListTitle}
 					deleteList={deleteList}
 				/>
@@ -97,7 +97,11 @@ function loadTabs(lists, updateListTitle, deleteList, addNewList) {
 	}
 
 	tabArray.push(
-		<NewListTab key={0} listTitle={"New List"} addNewList={addNewList} />
+		<NewListTab
+			key={0}
+			listTitle={"Add New List"}
+			addNewList={addNewList}
+		/>
 	);
 
 	return tabArray;

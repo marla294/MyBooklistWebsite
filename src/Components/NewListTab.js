@@ -17,8 +17,8 @@ export default function NewList(props) {
 				value={listTitle}
 				onChange={event => setListTitle(event.target.value)}
 				onBlur={async () => {
-					setListTitle("Add New List");
 					await props.addNewList(listTitle);
+					setListTitle("Add New List");
 				}}
 				onKeyPress={async event => {
 					if (event.key === "Enter") {
