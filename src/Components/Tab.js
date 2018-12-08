@@ -20,6 +20,7 @@ export default function Tab(props) {
 				onChange={event => setListTitle(event.target.value)}
 				onBlur={() => props.updateListTitle(props.id, listTitle)}
 			/>
+			<button onClick={() => props.deleteList(props.id)}>&times;</button>
 		</TabStyles>
 	);
 }

@@ -98,7 +98,7 @@ function loadTabs(lists, updateListTitle, deleteList) {
 			<Tab
 				key={list.Id}
 				id={list.Id}
-				listTitle={list.Name}
+				listTitle={list.Name || "New List"}
 				updateListTitle={updateListTitle}
 				deleteList={deleteList}
 			/>
@@ -108,7 +108,7 @@ function loadTabs(lists, updateListTitle, deleteList) {
 	return tabArray;
 }
 
-function loadLists(bookList, lists, updateListTitle, deleteList) {
+function loadLists(bookList, lists) {
 	if (!lists || !bookList) {
 		return "";
 	}
@@ -116,7 +116,7 @@ function loadLists(bookList, lists, updateListTitle, deleteList) {
 	const listMap = createListMap(bookList);
 
 	if (listMap && listMap.size > 0) {
-		return renderLists(listMap, lists, updateListTitle, deleteList);
+		return renderLists(listMap);
 	} else {
 		return (
 			<ListWrapper>
@@ -140,27 +140,12 @@ function createListMap(bookList) {
 	return listMap;
 }
 
-function renderLists(listMap, lists, updateListTitle, deleteList) {
+function renderLists(listMap) {
 	const listArray = [];
 
 	listMap.forEach((value, key) => {
-		const listName = getListNameById(key);
-		listArray.push(
-			<List
-				key={key}
-				id={key}
-				bookList={value}
-				listTitle={listName || "New List"}
-				updateListTitle={updateListTitle}
-				deleteList={deleteList}
-			/>
-		);
+		listArray.push(<List key={key} id={key} bookList={value} />);
 	});
-
-	function getListNameById(id) {
-		const list = lists.find(list => list.Id === id);
-		return list ? list.Name : null;
-	}
 
 	return listArray;
 }

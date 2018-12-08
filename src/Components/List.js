@@ -1,50 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useState } from "react";
 import Book from "./Book";
-import {
-	ListWrapper,
-	Title,
-	BooksWrapper,
-	DeleteButton,
-	TitleWrapper
-} from "./ListStyles";
+import { ListWrapper, BooksWrapper } from "./ListStyles";
 
 List.propTypes = {
 	id: PropTypes.number.isRequired,
-	bookList: PropTypes.array.isRequired,
-	listTitle: PropTypes.string.isRequired,
-	updateListTitle: PropTypes.func.isRequired,
-	deleteList: PropTypes.func.isRequired
+	bookList: PropTypes.array.isRequired
 };
 
 export default function List(props) {
-	const [listTitle, setListTitle] = useState(props.listTitle);
-
 	return (
 		<ListWrapper>
-			{renderListTitle(props, listTitle, setListTitle)}
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
 		</ListWrapper>
-	);
-}
-
-function renderListTitle(props, listTitle, setListTitle) {
-	return (
-		<TitleWrapper>
-			<Title
-				value={listTitle}
-				onChange={event => {
-					setListTitle(event.target.value);
-				}}
-				onBlur={() => {
-					props.updateListTitle(props.id, listTitle);
-				}}
-			/>
-			<DeleteButton onClick={() => props.deleteList(props.id)}>
-				&times;
-			</DeleteButton>
-		</TitleWrapper>
 	);
 }
 
