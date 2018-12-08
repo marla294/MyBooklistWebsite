@@ -40,7 +40,7 @@ export default function Home() {
 	};
 
 	const updateListTitle = async (id, name) => {
-		fetch(url + `Lists/${id}`, {
+		await fetch(url + `Lists/${id}`, {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name })
@@ -49,7 +49,7 @@ export default function Home() {
 	};
 
 	const addNewList = async name => {
-		fetch(url + "Lists", {
+		await fetch(url + "Lists", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name })
@@ -58,7 +58,7 @@ export default function Home() {
 	};
 
 	const deleteList = async id => {
-		fetch(url + `Lists/${id}`, {
+		await fetch(url + `Lists/${id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" }
 		});
