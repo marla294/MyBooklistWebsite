@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import List from "./List";
 import Tab from "./Tab";
+import NewListTab from "./NewListTab";
 import { theme, GlobalStyle } from "./GlobalStyles";
 import {
 	HomeWrapper,
 	Header,
 	Lists,
-	AddNewList,
 	ListWrapper,
 	TabsWrapper
 } from "./HomeStyles";
@@ -47,10 +47,11 @@ export default function Home() {
 		});
 	};
 
-	const addNewList = async () => {
+	const addNewList = async name => {
 		fetch(url + "Lists", {
 			method: "POST",
-			headers: { "Content-Type": "application/json" }
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ name })
 		});
 	};
 
@@ -62,8 +63,8 @@ export default function Home() {
 		await refreshBooklist();
 	};
 
-	const displayNewList = async () => {
-		await addNewList();
+	const displayNewList = async name => {
+		await addNewList(name);
 		await refreshBooklist();
 	};
 
@@ -72,13 +73,15 @@ export default function Home() {
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
 				<TabsWrapper>
-					{loadTabs(lists, updateListTitle, deleteList)}
+					{loadTabs(
+						lists,
+						updateListTitle,
+						deleteList,
+						displayNewList
+					)}
 				</TabsWrapper>
 				<Lists>
 					{loadLists(bookList, lists, updateListTitle, deleteList)}
-					<AddNewList>
-						<button onClick={displayNewList}>+</button>New List
-					</AddNewList>
 				</Lists>
 				<GlobalStyle />
 			</HomeWrapper>
@@ -86,11 +89,21 @@ export default function Home() {
 	);
 }
 
-function loadTabs(lists, updateListTitle, deleteList) {
+function loadTabs(lists, updateListTitle, deleteList, displayNewList) {
 	const tabArray = [];
 
+	tabArray.push(
+		<NewListTab
+			key={0}
+			id={0}
+			listTitle={"New List"}
+			updateListTitle={updateListTitle}
+			displayNewList={displayNewList}
+		/>
+	);
+
 	if (!lists) {
-		return;
+		return tabArray;
 	}
 
 	lists.forEach(list => {
@@ -120,7 +133,7 @@ function loadLists(bookList, lists) {
 	} else {
 		return (
 			<ListWrapper>
-				<h1>Create a new list to get started!</h1>
+				<h1>Add a book to get started!</h1>
 			</ListWrapper>
 		);
 	}
