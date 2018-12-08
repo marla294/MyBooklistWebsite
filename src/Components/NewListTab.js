@@ -5,7 +5,6 @@ import { TabStyles } from "./TabStyles";
 
 NewList.propTypes = {
 	listTitle: PropTypes.string.isRequired,
-	updateListTitle: PropTypes.func.isRequired,
 	displayNewList: PropTypes.func.isRequired
 };
 
@@ -17,8 +16,10 @@ export default function NewList(props) {
 			<input
 				value={listTitle}
 				onChange={event => setListTitle(event.target.value)}
-				onBlur={() => {
-					props.displayNewList(listTitle);
+				onBlur={async () => {
+					setListTitle("New List");
+					await props.displayNewList(listTitle);
+					await props.refreshBooklist();
 				}}
 			/>
 		</TabStyles>

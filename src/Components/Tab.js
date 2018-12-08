@@ -17,10 +17,14 @@ export default function Tab(props) {
 		<TabStyles>
 			<input
 				value={listTitle}
-				onChange={event => setListTitle(event.target.value)}
-				onBlur={() => props.updateListTitle(props.id, listTitle)}
+				onChange={async event => await setListTitle(event.target.value)}
+				onBlur={async () =>
+					await props.updateListTitle(props.id, listTitle)
+				}
 			/>
-			<button onClick={() => props.deleteList(props.id)}>&times;</button>
+			<button onClick={async () => await props.deleteList(props.id)}>
+				&times;
+			</button>
 		</TabStyles>
 	);
 }

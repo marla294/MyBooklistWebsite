@@ -45,6 +45,7 @@ export default function Home() {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name })
 		});
+		await refreshBooklist();
 	};
 
 	const addNewList = async name => {
@@ -53,6 +54,7 @@ export default function Home() {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name })
 		});
+		await refreshBooklist();
 	};
 
 	const deleteList = async id => {
@@ -65,7 +67,6 @@ export default function Home() {
 
 	const displayNewList = async name => {
 		await addNewList(name);
-		await refreshBooklist();
 	};
 
 	return (
@@ -77,46 +78,48 @@ export default function Home() {
 						lists,
 						updateListTitle,
 						deleteList,
-						displayNewList
+						displayNewList,
+						refreshBooklist
 					)}
 				</TabsWrapper>
-				<Lists>
-					{loadLists(bookList, lists, updateListTitle, deleteList)}
-				</Lists>
+				<Lists>{loadLists(bookList, lists)}</Lists>
 				<GlobalStyle />
 			</HomeWrapper>
 		</ThemeProvider>
 	);
 }
 
-function loadTabs(lists, updateListTitle, deleteList, displayNewList) {
+function loadTabs(
+	lists,
+	updateListTitle,
+	deleteList,
+	displayNewList,
+	refreshBooklist
+) {
 	const tabArray = [];
+
+	if (lists) {
+		lists.forEach(list => {
+			tabArray.push(
+				<Tab
+					key={list.Id}
+					id={list.Id}
+					listTitle={list.Name || "New List"}
+					updateListTitle={updateListTitle}
+					deleteList={deleteList}
+				/>
+			);
+		});
+	}
 
 	tabArray.push(
 		<NewListTab
 			key={0}
-			id={0}
 			listTitle={"New List"}
-			updateListTitle={updateListTitle}
 			displayNewList={displayNewList}
+			refreshBooklist={refreshBooklist}
 		/>
 	);
-
-	if (!lists) {
-		return tabArray;
-	}
-
-	lists.forEach(list => {
-		tabArray.push(
-			<Tab
-				key={list.Id}
-				id={list.Id}
-				listTitle={list.Name || "New List"}
-				updateListTitle={updateListTitle}
-				deleteList={deleteList}
-			/>
-		);
-	});
 
 	return tabArray;
 }
