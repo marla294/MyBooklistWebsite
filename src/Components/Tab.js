@@ -4,7 +4,10 @@ import { useState } from "react";
 import { TabStyles } from "./TabStyles";
 
 Tab.propTypes = {
-	listTitle: PropTypes.string.isRequired
+	id: PropTypes.number.isRequired,
+	listTitle: PropTypes.string.isRequired,
+	updateListTitle: PropTypes.func.isRequired,
+	deleteList: PropTypes.func.isRequired
 };
 
 export default function Tab(props) {
@@ -12,7 +15,11 @@ export default function Tab(props) {
 
 	return (
 		<TabStyles>
-			<input value={listTitle} />
+			<input
+				value={listTitle}
+				onChange={event => setListTitle(event.target.value)}
+				onBlur={() => props.updateListTitle(props.id, listTitle)}
+			/>
 		</TabStyles>
 	);
 }

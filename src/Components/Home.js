@@ -72,7 +72,7 @@ export default function Home() {
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
 				<TabsWrapper>
-					<Tab listTitle={"A Title"} />
+					{loadTabs(lists, updateListTitle, deleteList)}
 				</TabsWrapper>
 				<Lists>
 					{loadLists(bookList, lists, updateListTitle, deleteList)}
@@ -84,6 +84,28 @@ export default function Home() {
 			</HomeWrapper>
 		</ThemeProvider>
 	);
+}
+
+function loadTabs(lists, updateListTitle, deleteList) {
+	const tabArray = [];
+
+	if (!lists) {
+		return;
+	}
+
+	lists.forEach(list => {
+		tabArray.push(
+			<Tab
+				key={list.Id}
+				id={list.Id}
+				listTitle={list.Name}
+				updateListTitle={updateListTitle}
+				deleteList={deleteList}
+			/>
+		);
+	});
+
+	return tabArray;
 }
 
 function loadLists(bookList, lists, updateListTitle, deleteList) {
