@@ -15,6 +15,9 @@ export default function Tab(props) {
 
 	return (
 		<TabStyles>
+			<button onClick={async () => await props.deleteList(props.id)}>
+				&times;
+			</button>
 			<input
 				value={listTitle}
 				onChange={async event => await setListTitle(event.target.value)}
@@ -27,9 +30,6 @@ export default function Tab(props) {
 					}
 				}}
 			/>
-			<button onClick={async () => await props.deleteList(props.id)}>
-				&times;
-			</button>
 		</TabStyles>
 	);
 }

@@ -12,14 +12,10 @@ export default function NewList(props) {
 	const [listTitle, setListTitle] = useState(props.listTitle);
 
 	return (
-		<TabStyles>
+		<TabStyles type={"NewList"}>
 			<input
 				value={listTitle}
 				onChange={event => setListTitle(event.target.value)}
-				onBlur={async () => {
-					await props.addNewList(listTitle);
-					setListTitle("Add New List");
-				}}
 				onKeyPress={async event => {
 					if (event.key === "Enter") {
 						setListTitle("Add New List");

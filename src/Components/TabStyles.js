@@ -4,7 +4,8 @@ export const TabStyles = styled.div`
 	width: 15em;
 	height: 0em;
 	display: grid;
-	grid-template-columns: 15fr 1fr;
+	grid-template-columns: ${props =>
+		props.type === "NewList" ? "1fr" : "1fr 15fr"}
 	justify-items: center;
 	border-bottom: 3em solid ${props => props.theme.blue};
 	border-right: 1em solid ${props => props.theme.white};
@@ -12,8 +13,8 @@ export const TabStyles = styled.div`
 	input {
 		background: ${props => props.theme.blue};
 		font-size: 15px;
-		width: 90%;
-		text-align: center;
+		width: 95%;
+		text-align: left;
 		border: none;
 		outline: none;
 		transform: translate(0em, 0.35em);
