@@ -49,8 +49,7 @@ export const ListWrapper = styled.div`
 
 export const TabsWrapper = styled.div`
 	display: grid;
-	grid-template-columns: repeat(10, 75px);
-	grid-gap: 1em;
+	grid-template-columns: repeat(auto-fit, 14.5em);
 	width: 100%;
 	height: 3em;
 	padding: 1.5em;

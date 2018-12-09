@@ -101,14 +101,14 @@ export default function Home() {
 			});
 		}
 
-		// tabArray.push(
-		// 	<NewListTab
-		// 		key={0}
-		// 		count={count}
-		// 		listTitle={"Add New List"}
-		// 		addNewList={addNewList}
-		// 	/>
-		// );
+		tabArray.push(
+			<NewListTab
+				key={0}
+				count={count}
+				listTitle={"Add New List"}
+				addNewList={addNewList}
+			/>
+		);
 
 		return tabArray;
 	}

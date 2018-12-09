@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const TabStyles = styled.div`
-	grid-column: ${props => props.count} / ${props => props.count + 2}
+	grid-column: ${props => props.count};
 	width: 15em;
 	height: 0em;
 	display: grid;
@@ -14,7 +14,6 @@ export const TabStyles = styled.div`
 	z-index: ${props => (props.selected ? 10 : 2)};
 	border-right: 1em solid rgba(255, 0, 0, 0);
 	border-left: 1em solid rgba(255, 0, 0, 0);
-
 	input {
 		color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
 		background: ${props => {
