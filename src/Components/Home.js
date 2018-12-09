@@ -81,6 +81,7 @@ export default function Home() {
 
 	function loadTabs(lists, updateListTitle, deleteList, addNewList) {
 		const tabArray = [];
+		var count = 1;
 
 		if (lists) {
 			lists.forEach(list => {
@@ -88,6 +89,7 @@ export default function Home() {
 					<Tab
 						key={list.Id}
 						id={list.Id}
+						count={count}
 						listTitle={list.Name}
 						updateListTitle={updateListTitle}
 						deleteList={deleteList}
@@ -95,16 +97,18 @@ export default function Home() {
 						setSelected={setSelected}
 					/>
 				);
+				count++;
 			});
 		}
 
-		tabArray.push(
-			<NewListTab
-				key={0}
-				listTitle={"Add New List"}
-				addNewList={addNewList}
-			/>
-		);
+		// tabArray.push(
+		// 	<NewListTab
+		// 		key={0}
+		// 		count={count}
+		// 		listTitle={"Add New List"}
+		// 		addNewList={addNewList}
+		// 	/>
+		// );
 
 		return tabArray;
 	}

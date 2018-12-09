@@ -15,6 +15,8 @@ Tab.propTypes = {
 export default function Tab(props) {
 	const [listTitle, setListTitle] = useState(props.listTitle);
 	const [edit, setEdit] = useState(false);
+	const colors = ["red", "yellow", "darkblue", "black"];
+	const color = colors[props.count % 4];
 
 	return (
 		<TabStyles
@@ -22,8 +24,13 @@ export default function Tab(props) {
 			onDoubleClick={() => setEdit(props.selected)}
 			onBlur={() => setEdit(false)}
 			selected={props.selected}
+			color={color}
 		>
-			<button onClick={async () => await props.deleteList(props.id)}>
+			<button
+				onClick={async () => {
+					await props.deleteList(props.id);
+				}}
+			>
 				&times;
 			</button>
 			{renderTitle()}
