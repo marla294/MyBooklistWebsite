@@ -17,6 +17,7 @@ export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
 	const [bookList, setBookList] = useState(null);
 	const [lists, setLists] = useState(null);
+	const [selectedList, setSelected] = useState(null);
 
 	useEffect(() => {
 		refreshBooklist();
@@ -77,34 +78,36 @@ export default function Home() {
 			</HomeWrapper>
 		</ThemeProvider>
 	);
-}
 
-function loadTabs(lists, updateListTitle, deleteList, addNewList) {
-	const tabArray = [];
+	function loadTabs(lists, updateListTitle, deleteList, addNewList) {
+		const tabArray = [];
 
-	if (lists) {
-		lists.forEach(list => {
-			tabArray.push(
-				<Tab
-					key={list.Id}
-					id={list.Id}
-					listTitle={list.Name}
-					updateListTitle={updateListTitle}
-					deleteList={deleteList}
-				/>
-			);
-		});
+		if (lists) {
+			lists.forEach(list => {
+				tabArray.push(
+					<Tab
+						key={list.Id}
+						id={list.Id}
+						listTitle={list.Name}
+						updateListTitle={updateListTitle}
+						deleteList={deleteList}
+						selected={selectedList === list.Id}
+						setSelected={setSelected}
+					/>
+				);
+			});
+		}
+
+		tabArray.push(
+			<NewListTab
+				key={0}
+				listTitle={"Add New List"}
+				addNewList={addNewList}
+			/>
+		);
+
+		return tabArray;
 	}
-
-	tabArray.push(
-		<NewListTab
-			key={0}
-			listTitle={"Add New List"}
-			addNewList={addNewList}
-		/>
-	);
-
-	return tabArray;
 }
 
 function loadLists(bookList, lists) {

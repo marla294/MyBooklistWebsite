@@ -9,18 +9,32 @@ export const TabStyles = styled.div`
 		props.type === "NewList" ? "1fr" : "1fr 15fr"}
 	justify-items: center;
 	border-bottom: 3em solid ${props =>
-		props.selected ? props.theme.blue : props.theme.black};
+		props.selected ? props.theme.blue : props.theme.darkblue};
 	border-right: 1em solid ${props => props.theme.white};
 	border-left: 1em solid ${props => props.theme.white};
 	input {
 		color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
-		background: ${props => (props.selected ? props.theme.blue : props.theme.black)};
+		background: ${props =>
+			props.selected ? props.theme.blue : props.theme.darkblue};
 		font-size: 15px;
 		width: 95%;
 		text-align: left;
 		border: none;
 		outline: none;
 		transform: translate(0em, 0.35em);
+	}
+	div {
+		cursor: pointer;
+		color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
+		background: ${props =>
+			props.selected ? props.theme.blue : props.theme.darkblue};
+		font-size: 15px;
+		width: 95%;
+		text-align: left;
+		border: none;
+		outline: none;
+		transform: translate(0em, 0.35em);
+		justify-items: center;
 	}
 	button {
 		color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
@@ -34,6 +48,7 @@ export const TabStyles = styled.div`
 		line-height: 0;
 		outline: none;
 		border: none;
-		background: ${props => (props.selected ? props.theme.blue : props.theme.black)};
+		background: ${props =>
+			props.selected ? props.theme.blue : props.theme.darkblue};
 	}
 `;
