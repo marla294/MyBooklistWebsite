@@ -4,14 +4,8 @@ import { ThemeProvider } from "styled-components";
 import List from "./List";
 import Tab from "./Tab";
 import { theme, GlobalStyle } from "./GlobalStyles";
-import {
-	HomeWrapper,
-	Header,
-	Lists,
-	ListWrapper,
-	TabsWrapper,
-	AddNewList
-} from "./HomeStyles";
+import { HomeWrapper, Header, TabsWrapper, AddNewList } from "./HomeStyles";
+import { ListWrapper } from "./ListStyles";
 
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
@@ -97,10 +91,8 @@ export default function Home() {
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
-				<TabsWrapper>
-					{loadTabs(lists, updateListTitle, deleteList, addNewList)}
-				</TabsWrapper>
-				<Lists>{loadLists()}</Lists>
+				<TabsWrapper>{loadTabs()}</TabsWrapper>
+				{loadLists()}
 				<GlobalStyle />
 			</HomeWrapper>
 		</ThemeProvider>
@@ -144,18 +136,14 @@ export default function Home() {
 	}
 
 	function loadLists() {
-		if (!lists || !bookList) {
-			return "";
-		}
-
 		const listMap = createListMap();
 
-		if (listMap && listMap.size > 0) {
-			return renderLists(listMap);
+		if (listMap.size > 0) {
+			return renderList();
 		} else {
 			return (
 				<ListWrapper>
-					<h1>Add a book to get started!</h1>
+					<h1>Loading...</h1>
 				</ListWrapper>
 			);
 		}
@@ -175,18 +163,22 @@ export default function Home() {
 		return listMap;
 	}
 
-	function renderLists(listMap) {
-		if (selectedList) {
-			const listArray = listMap.get(selectedList);
+	function renderList() {
+		if (pageLoaded && selectedList) {
+			const bookArray = createListMap().get(selectedList);
 			return (
 				<List
 					key={selectedList}
 					id={selectedList}
-					bookList={listArray}
+					bookList={bookArray}
 				/>
 			);
 		} else {
-			return <p>Loading...</p>;
+			return (
+				<ListWrapper>
+					<h1>Loading...</h1>
+				</ListWrapper>
+			);
 		}
 	}
 }

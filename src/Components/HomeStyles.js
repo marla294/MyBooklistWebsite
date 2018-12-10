@@ -12,11 +12,6 @@ export const Header = styled.h1`
 	justify-items: center;
 `;
 
-export const Lists = styled.div`
-	display: grid;
-	grid-gap: 1em;
-`;
-
 export const AddNewList = styled.label`
 	display: grid;
 	grid-template-columns: auto;
@@ -39,14 +34,6 @@ export const AddNewList = styled.label`
 			color: ${props => props.theme.blue};
 		}
 	}
-`;
-
-export const ListWrapper = styled.div`
-	display: grid;
-	grid-gap: 1em;
-	width: 45em;
-	padding: 1.5em;
-	justify-items: center;
 `;
 
 export const TabsWrapper = styled.div`

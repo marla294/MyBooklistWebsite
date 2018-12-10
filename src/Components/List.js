@@ -17,14 +17,15 @@ export default function List(props) {
 }
 
 function renderBooks(props) {
+	console.log(props.bookList);
 	let bookList = props.bookList;
 
 	if (!bookList) {
 		return "List not found";
 	}
 
-	if (bookList.length === 0) {
-		return "Add a book to your list to get started!";
+	if (bookList.length === 1 && bookList[0].Id === 0) {
+		return <h1>Add a book to your list to get started!</h1>;
 	}
 
 	return bookList.map(book => {
