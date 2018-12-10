@@ -81,7 +81,7 @@ export default function Home() {
 	};
 
 	const getFirstListId = () => {
-		if (lists) return lists[0].Id;
+		if (lists && lists[0]) return lists[0].Id;
 		else return null;
 	};
 
@@ -141,46 +141,51 @@ export default function Home() {
 
 		return tabArray;
 	}
-}
 
-function loadLists(bookList, lists) {
-	if (!lists || !bookList) {
-		return "";
+	function loadLists(bookList, lists) {
+		if (!lists || !bookList) {
+			return "";
+		}
+
+		const listMap = createListMap(bookList);
+
+		if (listMap && listMap.size > 0) {
+			return renderLists(listMap);
+		} else {
+			return (
+				<ListWrapper>
+					<h1>Add a book to get started!</h1>
+				</ListWrapper>
+			);
+		}
 	}
 
-	const listMap = createListMap(bookList);
+	function createListMap(bookList) {
+		const listMap = new Map();
 
-	if (listMap && listMap.size > 0) {
-		return renderLists(listMap);
-	} else {
-		return (
-			<ListWrapper>
-				<h1>Add a book to get started!</h1>
-			</ListWrapper>
-		);
-	}
-}
+		if (bookList) {
+			bookList.forEach(book => {
+				const bookArray = listMap.get(book.ListId) || [];
+				bookArray.push(book.Book);
+				listMap.set(book.ListId, bookArray);
+			});
+		}
 
-function createListMap(bookList) {
-	const listMap = new Map();
-
-	if (bookList) {
-		bookList.forEach(book => {
-			const bookArray = listMap.get(book.ListId) || [];
-			bookArray.push(book.Book);
-			listMap.set(book.ListId, bookArray);
-		});
+		return listMap;
 	}
 
-	return listMap;
-}
-
-function renderLists(listMap) {
-	const listArray = [];
-
-	listMap.forEach((value, key) => {
-		listArray.push(<List key={key} id={key} bookList={value} />);
-	});
-
-	return listArray;
+	function renderLists(listMap) {
+		if (selectedList) {
+			const listArray = listMap.get(selectedList);
+			return (
+				<List
+					key={selectedList}
+					id={selectedList}
+					bookList={listArray}
+				/>
+			);
+		} else {
+			return <p>Loading...</p>;
+		}
+	}
 }
