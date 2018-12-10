@@ -19,23 +19,26 @@ export const Lists = styled.div`
 `;
 
 export const AddNewList = styled.label`
-	font-size: 1.7em;
 	display: grid;
-	grid-template-columns: auto 1fr;
-	grid-gap: 0.5em;
-	justify-self: center;
+	grid-template-columns: auto;
+	justify-self: start;
 	align-items: center;
-	padding: 0.88em;
+	padding-left: 1rem;
 	button {
-		font-size: 50px;
-		width: 0.75em;
-		height: 0.75em;
-		border-radius: 0.5em;
+		padding: 0;
+		padding-bottom: 0.7rem;
+		font-size: 3rem;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 5rem;
 		line-height: 0;
-		padding-bottom: 0.25em;
 		outline: none;
-		border-color: ${props => props.theme.black};
-		color: ${props => props.theme.black};
+		border-color: ${props => props.theme.gray};
+		color: ${props => props.theme.gray};
+		:hover {
+			border-color: ${props => props.theme.blue};
+			color: ${props => props.theme.blue};
+		}
 	}
 `;
 

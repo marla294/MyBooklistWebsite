@@ -10,7 +10,8 @@ import {
 	Header,
 	Lists,
 	ListWrapper,
-	TabsWrapper
+	TabsWrapper,
+	AddNewList
 } from "./HomeStyles";
 
 export default function Home() {
@@ -102,12 +103,9 @@ export default function Home() {
 		}
 
 		tabArray.push(
-			<NewListTab
-				key={0}
-				count={count}
-				listTitle={"Add New List"}
-				addNewList={addNewList}
-			/>
+			<AddNewList>
+				<button onClick={() => addNewList("New List")}>+</button>
+			</AddNewList>
 		);
 
 		return tabArray;
