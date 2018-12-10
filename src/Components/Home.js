@@ -18,10 +18,20 @@ export default function Home() {
 	const [bookList, setBookList] = useState(null);
 	const [lists, setLists] = useState(null);
 	const [selectedList, setSelected] = useState(null);
+	const [pageLoaded, setPageLoaded] = useState(false);
 
-	useEffect(() => {
-		refreshBooklist();
+	useEffect(async () => {
+		await refreshBooklist();
+		setPageLoaded(true);
 	}, []);
+
+	useEffect(
+		async () => {
+			setSelected(getFirstListId());
+			await refreshBooklist();
+		},
+		[pageLoaded]
+	);
 
 	const refreshBooklist = async () => {
 		await getLists();
@@ -50,11 +60,14 @@ export default function Home() {
 	};
 
 	const addNewList = async name => {
-		await fetch(url + "Lists", {
+		const res = await fetch(url + "Lists", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name })
 		});
+		// When new list is created it is automatically selected
+		const id = await res.json();
+		setSelected(parseInt(id));
 		await refreshBooklist();
 	};
 
@@ -63,7 +76,20 @@ export default function Home() {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" }
 		});
+		setSelected(getNewListId(id));
 		await refreshBooklist();
+	};
+
+	const getFirstListId = () => {
+		if (lists) return lists[0].Id;
+		else return null;
+	};
+
+	const getNewListId = id => {
+		const index = lists.findIndex(list => list.Id === id);
+		if (lists.length <= 1) return null;
+		if (index === lists.length - 1) return lists[index - 1].Id;
+		return lists[index + 1].Id;
 	};
 
 	return (
@@ -102,8 +128,14 @@ export default function Home() {
 		}
 
 		tabArray.push(
-			<AddNewList>
-				<button onClick={() => addNewList("New List")}>+</button>
+			<AddNewList key={0}>
+				<button
+					onClick={async () => {
+						await addNewList("New List");
+					}}
+				>
+					+
+				</button>
 			</AddNewList>
 		);
 
