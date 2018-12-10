@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import List from "./List";
 import Tab from "./Tab";
-import NewListTab from "./NewListTab";
 import { theme, GlobalStyle } from "./GlobalStyles";
 import {
 	HomeWrapper,
