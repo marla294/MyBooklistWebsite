@@ -85,6 +85,7 @@ export default function Home() {
 		else return null;
 	};
 
+	// Use with deleting tabs
 	const getNewListId = id => {
 		const index = lists.findIndex(list => list.Id === id);
 		if (lists.length <= 1) return null;
@@ -99,13 +100,13 @@ export default function Home() {
 				<TabsWrapper>
 					{loadTabs(lists, updateListTitle, deleteList, addNewList)}
 				</TabsWrapper>
-				<Lists>{loadLists(bookList, lists)}</Lists>
+				<Lists>{loadLists()}</Lists>
 				<GlobalStyle />
 			</HomeWrapper>
 		</ThemeProvider>
 	);
 
-	function loadTabs(lists, updateListTitle, deleteList, addNewList) {
+	function loadTabs() {
 		const tabArray = [];
 		var count = 1;
 
@@ -142,12 +143,12 @@ export default function Home() {
 		return tabArray;
 	}
 
-	function loadLists(bookList, lists) {
+	function loadLists() {
 		if (!lists || !bookList) {
 			return "";
 		}
 
-		const listMap = createListMap(bookList);
+		const listMap = createListMap();
 
 		if (listMap && listMap.size > 0) {
 			return renderLists(listMap);
@@ -160,7 +161,7 @@ export default function Home() {
 		}
 	}
 
-	function createListMap(bookList) {
+	function createListMap() {
 		const listMap = new Map();
 
 		if (bookList) {

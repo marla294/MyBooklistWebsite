@@ -15,7 +15,6 @@ export const Header = styled.h1`
 export const Lists = styled.div`
 	display: grid;
 	grid-gap: 1em;
-	width: 45em;
 `;
 
 export const AddNewList = styled.label`
@@ -52,9 +51,10 @@ export const ListWrapper = styled.div`
 
 export const TabsWrapper = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fit, 14.5em);
+	grid-template-columns: repeat(auto-fit, 14.5rem);
 	width: 100%;
-	height: 3em;
-	padding: 1.5em;
+	height: 3rem;
+	padding: 1.5rem;
 	justify-items: start;
+	transform: translate(0em, -1.4rem);
 `;
