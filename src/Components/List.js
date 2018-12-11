@@ -5,7 +5,7 @@ import { ListWrapper, BooksWrapper } from "./ListStyles";
 
 List.propTypes = {
 	id: PropTypes.number.isRequired,
-	bookList: PropTypes.array.isRequired
+	books: PropTypes.array.isRequired
 };
 
 export default function List(props) {
@@ -17,18 +17,13 @@ export default function List(props) {
 }
 
 function renderBooks(props) {
-	console.log(props.bookList);
-	let bookList = props.bookList;
+	const books = props.books;
 
-	if (!bookList) {
-		return "List not found";
-	}
-
-	if (bookList.length === 1 && bookList[0].Id === 0) {
+	if (!books) {
 		return <h1>Add a book to your list to get started!</h1>;
 	}
 
-	return bookList.map(book => {
+	return books.map(book => {
 		return (
 			<Book
 				key={book.Id}

@@ -1,11 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
-import List from "./List";
-import Tab from "./Tab";
 import { theme, GlobalStyle } from "./GlobalStyles";
 import { HomeWrapper, Header, TabsWrapper, AddNewList } from "./HomeStyles";
 import { ListWrapper } from "./ListStyles";
+import List from "./List";
+import Tab from "./Tab";
 
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
@@ -136,9 +136,7 @@ export default function Home() {
 	}
 
 	function loadLists() {
-		const listMap = createListMap();
-
-		if (listMap.size > 0) {
+		if (createListMap().size > 0 && pageLoaded && selectedList) {
 			return renderList();
 		} else {
 			return (
@@ -154,9 +152,9 @@ export default function Home() {
 
 		if (bookList) {
 			bookList.forEach(book => {
-				const bookArray = listMap.get(book.ListId) || [];
-				bookArray.push(book.Book);
-				listMap.set(book.ListId, bookArray);
+				const books = listMap.get(book.ListId) || [];
+				books.push(book.Book);
+				listMap.set(book.ListId, books);
 			});
 		}
 
@@ -164,21 +162,8 @@ export default function Home() {
 	}
 
 	function renderList() {
-		if (pageLoaded && selectedList) {
-			const bookArray = createListMap().get(selectedList);
-			return (
-				<List
-					key={selectedList}
-					id={selectedList}
-					bookList={bookArray}
-				/>
-			);
-		} else {
-			return (
-				<ListWrapper>
-					<h1>Loading...</h1>
-				</ListWrapper>
-			);
-		}
+		const books = createListMap().get(selectedList);
+
+		return <List key={selectedList} id={selectedList} books={books} />;
 	}
 }
