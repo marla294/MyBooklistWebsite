@@ -11,13 +11,13 @@ List.propTypes = {
 };
 
 export default function List(props) {
-	const [displayNewList, setDisplayNewList] = useState(false);
+	const [displayNewBook, setDisplayNewBook] = useState(false);
 	return (
 		<ListWrapper>
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
-			<NewBook display={displayNewList} />
-			<AddNewBook key={0}>
-				<button onClick={() => setDisplayNewList(true)}>+</button>
+			<NewBook display={displayNewBook} />
+			<AddNewBook key={0} display={!displayNewBook}>
+				<button onClick={() => setDisplayNewBook(true)}>+</button>
 			</AddNewBook>
 		</ListWrapper>
 	);

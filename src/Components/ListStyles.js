@@ -15,7 +15,7 @@ export const BooksWrapper = styled.div`
 `;
 
 export const AddNewBook = styled.label`
-	display: grid;
+	display: ${props => (props.display ? "grid" : "none")};
 	grid-template-columns: auto;
 	justify-self: start;
 	align-items: center;
