@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Book from "./Book";
-import { ListWrapper, BooksWrapper } from "./ListStyles";
+import NewBook from "./NewBook";
+import { ListWrapper, BooksWrapper, AddNewBook } from "./ListStyles";
 
 List.propTypes = {
 	id: PropTypes.number.isRequired,
@@ -12,6 +13,10 @@ export default function List(props) {
 	return (
 		<ListWrapper>
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
+			<AddNewBook key={0}>
+				<button>+</button>
+			</AddNewBook>
+			<NewBook />
 		</ListWrapper>
 	);
 }

@@ -17,10 +17,6 @@ Book.propTypes = {
 };
 
 export default function Book(props) {
-	return renderBook(props);
-}
-
-function renderBook(props) {
 	let { title = "", author = "", url = "", image = "" } = props;
 	title = capitalizeFirstLetterEachWord(title);
 	author = capitalizeFirstLetterEachWord(author);
