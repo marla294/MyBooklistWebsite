@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import Book from "./Book";
 import NewBook from "./NewBook";
 import { ListWrapper, BooksWrapper, AddNewBook } from "./ListStyles";
@@ -10,13 +11,14 @@ List.propTypes = {
 };
 
 export default function List(props) {
+	const [displayNewList, setDisplayNewList] = useState(false);
 	return (
 		<ListWrapper>
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
+			<NewBook display={displayNewList} />
 			<AddNewBook key={0}>
-				<button>+</button>
+				<button onClick={() => setDisplayNewList(true)}>+</button>
 			</AddNewBook>
-			<NewBook />
 		</ListWrapper>
 	);
 }

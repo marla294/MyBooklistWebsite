@@ -6,7 +6,7 @@ import {
 	TitleAuthorWrapper,
 	Title,
 	Author
-} from "./BookStyles";
+} from "./NewBookStyles";
 
 export default function NewBook(props) {
 	// let { title = "", author = "", url = "", image = "" } = props;
@@ -22,5 +22,9 @@ export default function NewBook(props) {
 	// 	</BookWrapper>
 	// );
 
-	return <p>This will be the new book form!</p>;
+	return (
+		<BookWrapper display={props.display}>
+			<p>This will be the new book form!</p>
+		</BookWrapper>
+	);
 }
