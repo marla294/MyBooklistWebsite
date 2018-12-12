@@ -7,7 +7,8 @@ import { ListWrapper, BooksWrapper, AddNewBook } from "./ListStyles";
 
 List.propTypes = {
 	id: PropTypes.number.isRequired,
-	books: PropTypes.array.isRequired
+	books: PropTypes.array.isRequired,
+	addBook: PropTypes.func.isRequired
 };
 
 export default function List(props) {
@@ -15,8 +16,8 @@ export default function List(props) {
 	return (
 		<ListWrapper>
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
-			<NewBook display={displayNewBook} />
-			<AddNewBook key={0} display={!displayNewBook}>
+			<NewBook displayNewBook={displayNewBook} addBook={props.addBook} />
+			<AddNewBook key={0} displayNewBook={!displayNewBook}>
 				<button onClick={() => setDisplayNewBook(true)}>+</button>
 			</AddNewBook>
 		</ListWrapper>

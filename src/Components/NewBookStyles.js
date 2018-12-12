@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const NewBookWrapper = styled.div`
 	background: ${props => props.theme.yellow};
-	display: ${props => (props.display ? "grid" : "none")};
+	display: ${props => (props.displayNewBook ? "grid" : "none")};
 	grid-template-rows: auto auto;
 	grid-gap: 1rem;
 	width: 100%;

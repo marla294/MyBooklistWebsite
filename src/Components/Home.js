@@ -87,6 +87,18 @@ export default function Home() {
 		return lists[index + 1].Id;
 	};
 
+	// Returns id of added book
+	const addBook = async (title, author) => {
+		const res = await fetch(url + "Books", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ title, author })
+		});
+
+		const id = await res.json();
+		return parseInt(id);
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
@@ -164,6 +176,13 @@ export default function Home() {
 	function renderList() {
 		const books = createListMap().get(selectedList);
 
-		return <List key={selectedList} id={selectedList} books={books} />;
+		return (
+			<List
+				key={selectedList}
+				id={selectedList}
+				books={books}
+				addBook={addBook}
+			/>
+		);
 	}
 }
