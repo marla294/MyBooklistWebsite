@@ -31,7 +31,8 @@ export default function NewBook(props) {
 				<form
 					onSubmit={async e => {
 						e.preventDefault();
-						await props.addBook(title, author);
+						const bookId = await props.addBook(title, author);
+						await props.addBookToList(bookId, props.listId);
 					}}
 				>
 					<TitleAuthorWrapper>

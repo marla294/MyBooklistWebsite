@@ -16,7 +16,12 @@ export default function List(props) {
 	return (
 		<ListWrapper>
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
-			<NewBook displayNewBook={displayNewBook} addBook={props.addBook} />
+			<NewBook
+				displayNewBook={displayNewBook}
+				addBook={props.addBook}
+				addBookToList={props.addBookToList}
+				listId={props.id}
+			/>
 			<AddNewBook key={0} displayNewBook={!displayNewBook}>
 				<button onClick={() => setDisplayNewBook(true)}>+</button>
 			</AddNewBook>

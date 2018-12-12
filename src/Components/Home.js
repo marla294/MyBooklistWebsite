@@ -99,6 +99,17 @@ export default function Home() {
 		return parseInt(id);
 	};
 
+	const addBookToList = async (bookId, listId) => {
+		const res = await fetch(url + "BookList", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ bookId, listId })
+		});
+
+		const id = await res.json();
+		return parseInt(id);
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
@@ -182,6 +193,7 @@ export default function Home() {
 				id={selectedList}
 				books={books}
 				addBook={addBook}
+				addBookToList={addBookToList}
 			/>
 		);
 	}
