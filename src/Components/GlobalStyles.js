@@ -67,7 +67,4 @@ export const GlobalStyle = createGlobalStyle`
 		color: black;
 		text-decoration: none;
 	}
-	input {
-		color: ${props => props.theme.black};
-	}
 `;

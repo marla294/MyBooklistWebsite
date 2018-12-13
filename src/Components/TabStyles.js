@@ -2,56 +2,39 @@ import styled from "styled-components";
 
 export const TabStyles = styled.div`
 	grid-column: ${props => props.count};
-	width: 15em;
-	height: 0em;
 	display: grid;
 	grid-template-columns: ${props =>
-		props.type === "NewList" ? "1fr" : "1fr 15fr"}
-	justify-items: center;
-	border-bottom: 3em solid ${props => {
-		return props.selected ? props.theme.blue : props.theme.darkblue;
-	}}
+		props.type === "NewList" ? "1fr" : "15fr 1fr"};
+	border-bottom: ${props => props.theme.S07} solid ${props => {
+	return props.selected ? props.theme.blue : props.theme.darkblue;
+}}
+	border-right: ${props => props.theme.S04} solid rgba(255, 0, 0, 0);
+	border-left: ${props => props.theme.S04} solid rgba(255, 0, 0, 0);
+	font-size: ${props => props.theme.F06};
+	width: ${props => props.theme.S13};
+	height: 0em;
+	padding-left: ${props => props.theme.S01};
 	z-index: ${props => (props.selected ? 10 : 2)};
-	border-right: 1em solid rgba(255, 0, 0, 0);
-	border-left: 1em solid rgba(255, 0, 0, 0);
+
 	input {
 		color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
 		background: ${props => {
 			return props.selected ? props.theme.blue : props.theme.darkblue;
 		}}
-		font-size: 15px;
+		font-size: ${props => props.theme.F06};
 		width: 95%;
 		text-align: left;
 		border: none;
 		outline: none;
-		transform: translate(0em, 0.35em);
 	}
-	div {
-		cursor: pointer;
-		color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
-		background: ${props =>
-			props.selected ? props.theme.blue : props.theme.darkblue};
-		font-size: 15px;
-		width: 95%;
-		text-align: left;
-		border: none;
-		outline: none;
-		transform: translate(0em, 0.35em);
-		justify-items: center;
-	}
+
 	button {
 		color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
-		align-self: center;
-		justify-self: center;
-		font-size: 20px;
-		width: 0.5em;
-		height: 0.5em;
-		padding: 0;
-		padding-bottom: 0.25em;
-		line-height: 0;
-		outline: none;
-		border: none;
 		background: ${props =>
 			props.selected ? props.theme.blue : props.theme.darkblue};
+		font-size: ${props => props.theme.F08};
+		border: none;
+		outline: none;
 	}
+
 `;
