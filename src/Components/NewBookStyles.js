@@ -4,9 +4,9 @@ export const NewBookWrapper = styled.div`
 	background: ${props => props.theme.yellow};
 	display: ${props => (props.displayNewBook ? "grid" : "none")};
 	grid-template-rows: auto auto;
-	grid-gap: 1rem;
+	grid-gap: ${props => props.theme.S04};
 	width: 100%;
-	padding: 1.5rem;
+	padding: ${props => props.theme.S04};
 	h1 {
 		justify-self: center;
 	}
@@ -16,7 +16,7 @@ export const BookWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 6rem auto;
 	width: 100%;
-	grid-gap: 1rem;
+	grid-gap: ${props => props.theme.S04};
 `;
 
 export const BookCoverImage = styled.img`
@@ -26,13 +26,17 @@ export const BookCoverImage = styled.img`
 
 export const TitleAuthorWrapper = styled.fieldset`
 	align-self: center;
-	display: grid;
-	grid-gap: 0.5rem;
 	border: none;
+	display: grid;
+	grid-template-rows: repeat(3, auto);
 	input {
 		color: ${props => props.theme.black};
 		background: ${props => props.theme.yellow};
 		border: none;
 		outline: none;
+		font-size: 2rem;
+	}
+	label {
+		font-size: 2rem;
 	}
 `;

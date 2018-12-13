@@ -8,7 +8,23 @@ export const theme = {
 	gray: "#D1D1D1",
 	yellow: "#FCC631",
 	white: "#FFFFFF",
-	bs: "0 12px 24px 0 rgba(0, 0, 0, 0.09)"
+	bs: "0 12px 24px 0 rgba(0, 0, 0, 0.09)",
+	S01: "4px",
+	S02: "8px",
+	S03: "12px",
+	S04: "16px",
+	S05: "24px",
+	S06: "32px",
+	S07: "48px",
+	S08: "64px",
+	S09: "96px",
+	S10: "128px",
+	S11: "192px",
+	S12: "256px",
+	S13: "384px",
+	S14: "512px",
+	S15: "640px",
+	S16: "768px"
 };
 
 export const GlobalStyle = createGlobalStyle`
