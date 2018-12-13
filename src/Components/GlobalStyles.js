@@ -24,14 +24,25 @@ export const theme = {
 	S13: "384px",
 	S14: "512px",
 	S15: "640px",
-	S16: "768px"
+	S16: "768px",
+	F01: "12px",
+	F02: "14px",
+	F03: "16px",
+	F04: "18px",
+	F05: "20px",
+	F06: "24px",
+	F07: "30px",
+	F08: "36px",
+	F09: "48px",
+	F10: "60px",
+	F11: "72px"
 };
 
 export const GlobalStyle = createGlobalStyle`
 	html {
 		box-sizing: border-box;
 		font-family: 'greycliff';
-		font-size: 10px;
+		font-size: ${props => props.theme.F03};
 		color: ${props => props.theme.black};
 		padding: 0;
 		margin: 0;
