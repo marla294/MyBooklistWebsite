@@ -2,7 +2,13 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "./GlobalStyles";
-import { HomeWrapper, Header, TabsWrapper, AddNewList } from "./HomeStyles";
+import {
+	HomeWrapper,
+	Header,
+	TabsWrapper,
+	AddNewList,
+	TabDropButton
+} from "./HomeStyles";
 import { ListWrapper } from "./ListStyles";
 import List from "./List";
 import Tab from "./Tab";
@@ -114,7 +120,8 @@ export default function Home() {
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
-				<TabsWrapper>{loadTabs()}</TabsWrapper>
+				{loadAddNewListButton()}
+				{loadTabs()}
 				{loadLists()}
 				<GlobalStyle />
 			</HomeWrapper>
@@ -122,28 +129,32 @@ export default function Home() {
 	);
 
 	function loadTabs() {
-		const tabArray = [];
-		var count = 1;
+		let selected;
 
 		if (lists) {
-			lists.forEach(list => {
-				tabArray.push(
-					<Tab
-						key={list.Id}
-						id={list.Id}
-						count={count}
-						listTitle={list.Name}
-						updateListTitle={updateListTitle}
-						deleteList={deleteList}
-						selected={selectedList === list.Id}
-						setSelected={setSelected}
-					/>
-				);
-				count++;
-			});
+			selected = lists.find(list => list.Id === selectedList);
 		}
 
-		tabArray.push(
+		if (selected) {
+			return (
+				<TabsWrapper>
+					<Tab
+						key={selected.Id}
+						id={selected.Id}
+						listTitle={selected.Name}
+						updateListTitle={updateListTitle}
+						deleteList={deleteList}
+						selected={true}
+						setSelected={setSelected}
+					/>
+					<TabDropButton>&#9660;</TabDropButton>
+				</TabsWrapper>
+			);
+		}
+	}
+
+	function loadAddNewListButton() {
+		return (
 			<AddNewList key={0}>
 				<button
 					onClick={async () => {
@@ -152,10 +163,9 @@ export default function Home() {
 				>
 					+
 				</button>
+				Add New List
 			</AddNewList>
 		);
-
-		return tabArray;
 	}
 
 	function loadLists() {

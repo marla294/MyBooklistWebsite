@@ -14,10 +14,12 @@ export const Header = styled.h1`
 
 export const AddNewList = styled.label`
 	display: grid;
-	grid-template-columns: auto;
+	grid-template-columns: repeat(2, auto);
+	grid-gap: ${props => props.theme.S01};
+	color: ${props => props.theme.gray};
+	padding-left: ${props => props.theme.S03};
 	justify-self: start;
 	align-items: center;
-	padding-left: 1rem;
 	button {
 		padding: 0;
 		padding-bottom: 0.7rem;
@@ -34,14 +36,26 @@ export const AddNewList = styled.label`
 			color: ${props => props.theme.blue};
 		}
 	}
+	:hover {
+		color: ${props => props.theme.blue};
+	}
 `;
 
 export const TabsWrapper = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fit, 14.5rem);
+	grid-template-columns: 10fr 1fr;
 	width: 100%;
-	height: 3rem;
-	padding: 1.5rem;
-	justify-items: start;
-	transform: translate(0em, -1.4rem);
+`;
+
+export const TabDropButton = styled.button`
+	color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
+	background: white;
+	font-size: ${props => props.theme.F07};
+	width: ${props => props.theme.S06};
+	border: none;
+	outline: none;
+	justify-items: end;
+	:hover {
+		color: ${props => props.theme.blue};
+	}
 `;

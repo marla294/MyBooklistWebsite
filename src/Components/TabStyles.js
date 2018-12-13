@@ -11,7 +11,7 @@ export const TabStyles = styled.div`
 	border-right: ${props => props.theme.S04} solid rgba(255, 0, 0, 0);
 	border-left: ${props => props.theme.S04} solid rgba(255, 0, 0, 0);
 	font-size: ${props => props.theme.F06};
-	width: ${props => props.theme.S13};
+	width: ${props => props.theme.S12};
 	height: 0em;
 	padding-left: ${props => props.theme.S01};
 	z-index: ${props => (props.selected ? 10 : 2)};
@@ -26,6 +26,7 @@ export const TabStyles = styled.div`
 		text-align: left;
 		border: none;
 		outline: none;
+		cursor: pointer;
 	}
 
 	button {
