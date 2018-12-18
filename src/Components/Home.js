@@ -2,16 +2,10 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "./GlobalStyles";
-import {
-	HomeWrapper,
-	Header,
-	TabsWrapper,
-	AddNewList,
-	TabDropButton
-} from "./HomeStyles";
+import { HomeWrapper, Header } from "./HomeStyles";
 import { ListWrapper } from "./ListStyles";
 import List from "./List";
-import Tab from "./Tab";
+import TabBar from "./TabBar";
 
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";
@@ -120,51 +114,18 @@ export default function Home() {
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
 				<Header>Marla's Books!</Header>
-				{loadAddNewListButton()}
-				{loadTabs()}
+				<TabBar
+					addNewList={addNewList}
+					lists={lists || []}
+					selectedList={selectedList || 0}
+					updateListTitle={updateListTitle}
+					deleteList={deleteList}
+				/>
 				{loadLists()}
 				<GlobalStyle />
 			</HomeWrapper>
 		</ThemeProvider>
 	);
-
-	function loadTabs() {
-		let selected;
-
-		if (lists) {
-			selected = lists.find(list => list.Id === selectedList);
-		}
-
-		if (selected) {
-			return (
-				<TabsWrapper>
-					<Tab
-						key={selected.Id}
-						id={selected.Id}
-						listTitle={selected.Name}
-						updateListTitle={updateListTitle}
-						deleteList={deleteList}
-					/>
-					<TabDropButton>&#9660;</TabDropButton>
-				</TabsWrapper>
-			);
-		}
-	}
-
-	function loadAddNewListButton() {
-		return (
-			<AddNewList key={0}>
-				<button
-					onClick={async () => {
-						await addNewList("New List");
-					}}
-				>
-					+
-				</button>
-				Add New List
-			</AddNewList>
-		);
-	}
 
 	function loadLists() {
 		if (createListMap().size > 0 && pageLoaded && selectedList) {
