@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { TabStyles } from "./TabStyles";
+import styled from "styled-components";
 
 Tab.propTypes = {
 	id: PropTypes.number.isRequired,
@@ -9,6 +8,44 @@ Tab.propTypes = {
 	updateListTitle: PropTypes.func.isRequired,
 	deleteList: PropTypes.func.isRequired
 };
+
+const TabStyles = styled.div`
+	width: ${props => props.theme.S11};
+	height: 0;
+
+	border-bottom: ${props => props.theme.S06} solid
+		${props => props.theme.blue};
+	border-right: ${props => props.theme.S04} solid rgba(255, 0, 0, 0);
+	border-left: ${props => props.theme.S04} solid rgba(255, 0, 0, 0);
+
+	display: grid;
+	grid-template-columns: 15fr 1fr;
+
+	* {
+		height: ${props => props.theme.S06};
+
+		color: ${props => props.theme.black};
+		background: ${props => props.theme.blue};
+
+		border: none;
+		outline: none;
+		cursor: pointer;
+	}
+
+	input {
+		width: 95%;
+
+		font-size: ${props => props.theme.F03};
+	}
+
+	button {
+		padding: 0 5px 5px 0;
+
+		font-size: ${props => props.theme.F07};
+		text-align: center;
+		line-height: ${props => props.theme.S05};
+	}
+`;
 
 /* 
 The Tab component is the title of the list being shown on the screen.  It is meant to look like a file tab.  You can edit the list name by typing in the new name and clicking enter or clicking off the tab.  You can delete the list name by clicking the "x" button on the side of the tab.  An other list that you have created will show up in the deleted list's place.
