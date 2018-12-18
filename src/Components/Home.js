@@ -144,8 +144,6 @@ export default function Home() {
 						listTitle={selected.Name}
 						updateListTitle={updateListTitle}
 						deleteList={deleteList}
-						selected={true}
-						setSelected={setSelected}
 					/>
 					<TabDropButton>&#9660;</TabDropButton>
 				</TabsWrapper>
