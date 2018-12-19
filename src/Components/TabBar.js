@@ -13,13 +13,13 @@ TabBar.propTypes = {
 
 const TabsWrapper = styled.div`
 	display: grid;
-	grid-template-columns: 10fr 1fr;
+	grid-template-columns: 1fr 9fr;
 	width: 100%;
 `;
 
 const ButtonGroup = styled.div`
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	display: flex;
+	justify-content: space-between;
 
 	button {
 		width: ${props => props.theme.S06};
