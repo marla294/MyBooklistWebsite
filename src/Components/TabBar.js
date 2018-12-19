@@ -17,66 +17,51 @@ const TabsWrapper = styled.div`
 	width: 100%;
 `;
 
-const TabDropButton = styled.button`
-	color: ${props => (props.selected ? props.theme.black : props.theme.gray)};
-	background: white;
-	font-size: ${props => props.theme.F07};
-	width: ${props => props.theme.S06};
-	border: none;
-	outline: none;
-	justify-items: end;
-	:hover {
-		color: ${props => props.theme.blue};
-	}
-`;
-
-const AddNewList = styled.label`
+const ButtonGroup = styled.div`
 	display: grid;
-	grid-template-columns: repeat(2, auto);
-	grid-gap: ${props => props.theme.S01};
-	color: ${props => props.theme.gray};
-	padding-left: ${props => props.theme.S03};
-	justify-self: start;
-	align-items: center;
+	grid-template-columns: repeat(2, 1fr);
+
 	button {
-		padding: 0;
-		padding-bottom: 0.7rem;
-		font-size: 3rem;
-		width: 2rem;
-		height: 2rem;
-		border-radius: 5rem;
-		line-height: 0;
-		outline: none;
-		border-color: ${props => props.theme.gray};
+		width: ${props => props.theme.S06};
+		height: ${props => props.theme.S06};
+		border: none;
+
 		color: ${props => props.theme.gray};
+
 		:hover {
-			border-color: ${props => props.theme.blue};
 			color: ${props => props.theme.blue};
 		}
 	}
-	:hover {
-		color: ${props => props.theme.blue};
-	}
+`;
+
+const TabDropButton = styled.button`
+	font-size: ${props => props.theme.F04};
+`;
+
+const AddNewList = styled.button`
+	font-size: ${props => props.theme.F09};
+	line-height: 0;
+	padding-bottom: 13px;
 `;
 
 export default function TabBar(props) {
 	return (
-		<React.Fragment>
-			<AddNewList key={0}>
-				<button
+		<TabsWrapper>
+			{loadTab()}
+			<ButtonGroup>
+				<AddNewList
 					onClick={async () => {
 						await props.addNewList("New List");
 					}}
 				>
 					+
-				</button>
-				Add New List
-			</AddNewList>
-			{loadTabs()}
-		</React.Fragment>
+				</AddNewList>
+				<TabDropButton>&#9660;</TabDropButton>
+			</ButtonGroup>
+		</TabsWrapper>
 	);
 
-	function loadTabs() {
+	function loadTab() {
 		let selected;
 
 		if (props.lists.length > 0) {
@@ -85,16 +70,13 @@ export default function TabBar(props) {
 
 		if (selected) {
 			return (
-				<TabsWrapper>
-					<Tab
-						key={selected.Id}
-						id={selected.Id}
-						listTitle={selected.Name}
-						updateListTitle={props.updateListTitle}
-						deleteList={props.deleteList}
-					/>
-					<TabDropButton>&#9660;</TabDropButton>
-				</TabsWrapper>
+				<Tab
+					key={selected.Id}
+					id={selected.Id}
+					listTitle={selected.Name}
+					updateListTitle={props.updateListTitle}
+					deleteList={props.deleteList}
+				/>
 			);
 		}
 	}
