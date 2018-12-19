@@ -14,12 +14,17 @@ const TabDropButton = styled.button`
 `;
 
 const Dropdown = styled.div`
+	width: 140px;
+
 	border: 1px solid black;
+
 	position: absolute;
-	width: 20px;
+	right: 10px;
 
 	display: grid;
 `;
+
+const Option = styled.div``;
 
 export default function TabDropdown(props) {
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -28,8 +33,8 @@ export default function TabDropdown(props) {
 		<Wrapper>
 			<TabDropButton>&#9660;</TabDropButton>
 			<Dropdown>
-				<div>Option 1</div>
-				<div>Option 2</div>
+				<Option>Option 1</Option>
+				<Option>Option 2</Option>
 			</Dropdown>
 		</Wrapper>
 	);
