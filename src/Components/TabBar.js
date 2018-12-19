@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Tab from "./Tab";
+import TabDropdown from "./TabDropdown";
 
 TabBar.propTypes = {
 	addNewList: PropTypes.func.isRequired,
@@ -34,29 +35,29 @@ const ButtonGroup = styled.div`
 	}
 `;
 
-const TabDropButton = styled.button`
-	font-size: ${props => props.theme.F04};
-`;
-
 const AddNewList = styled.button`
 	font-size: ${props => props.theme.F09};
 	line-height: 0;
 	padding-bottom: 13px;
 `;
 
+/* 
+The tab bar component holds the current list tab, the create a new list button, and the tab dropdown which holds all the users lists that aren't being displayed right now.
+*/
 export default function TabBar(props) {
 	return (
 		<TabsWrapper>
 			{loadTab()}
 			<ButtonGroup>
 				<AddNewList
-					onClick={async () => {
-						await props.addNewList("New List");
-					}}
+					onClick={async () => await props.addNewList("New List")}
 				>
 					+
 				</AddNewList>
-				<TabDropButton>&#9660;</TabDropButton>
+				<TabDropdown
+					lists={props.lists}
+					selectedList={props.selectedList}
+				/>
 			</ButtonGroup>
 		</TabsWrapper>
 	);
