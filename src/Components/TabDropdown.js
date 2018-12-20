@@ -8,8 +8,6 @@ TabDropdown.propTypes = {
 	setSelected: PropTypes.func.isRequired
 };
 
-const Wrapper = styled.div``;
-
 const TabDropButton = styled.button`
 	font-size: ${props => props.theme.F04};
 	outline: none;
@@ -19,9 +17,12 @@ const Dropdown = styled.div`
 	position: absolute;
 	right: 8px;
 
-	border: 1px solid black;
+	border: none;
+	background: ${props => props.theme.yellow};
 
 	display: ${props => (props.showDropdown ? "grid" : "none")};
+
+	z-index: 1000;
 `;
 
 const Option = styled.div`
@@ -29,7 +30,6 @@ const Option = styled.div`
 	overflow: scroll;
 
 	color: ${props => props.theme.black};
-	background: white;
 
 	padding: ${props => props.theme.S03};
 
@@ -46,23 +46,20 @@ export default function TabDropdown(props) {
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	return (
-		<Wrapper>
+		<div>
 			<TabDropButton onClick={() => setShowDropdown(!showDropdown)}>
 				&#9660;
 			</TabDropButton>
 			<Dropdown showDropdown={showDropdown}>
 				{renderDropdownOptions()}
 			</Dropdown>
-		</Wrapper>
+		</div>
 	);
 
 	function renderDropdownOptions() {
 		return filterListsToNotSelected().map(list => {
 			return (
-				<Option
-					key={list.Id}
-					onClick={() => props.setSelected(list.Id)}
-				>
+				<Option key={list.Id} onClick={() => clickAnOption(list.Id)}>
 					{list.Name}
 				</Option>
 			);
@@ -87,5 +84,10 @@ export default function TabDropdown(props) {
 			return listsCopy;
 		}
 		return props.lists;
+	}
+
+	function clickAnOption(listId) {
+		setShowDropdown(!showDropdown);
+		props.setSelected(listId);
 	}
 }
