@@ -16,8 +16,8 @@ const TabDropButton = styled.button`
 const Dropdown = styled.div`
 	position: absolute;
 	right: 8px;
-	border: none;
-	background: ${props => props.theme.yellow};
+	border: 1px solid black;
+	background: white;
 	display: ${props => (props.showDropdown ? "grid" : "none")};
 	z-index: 1000;
 `;
@@ -29,6 +29,19 @@ const Option = styled.div`
 	color: ${props => props.theme.black};
 	font-size: ${props => props.theme.F01};
 	cursor: pointer;
+
+	button {
+		padding: 0 5px 5px 0;
+
+		background: white;
+		color: ${props => props.theme.black};
+
+		font-size: ${props => props.theme.F07};
+		text-align: center;
+		line-height: ${props => props.theme.S05};
+
+		outline: none;
+	}
 
 	:hover {
 		background-color: ${props => props.theme.gray};
@@ -54,6 +67,13 @@ export default function TabDropdown(props) {
 			return (
 				<Option key={list.Id} onClick={() => clickAnOption(list.Id)}>
 					{list.Name}
+					<button
+						onClick={async () => {
+							await props.deleteList(list.Id);
+						}}
+					>
+						&times;
+					</button>
 				</Option>
 			);
 		});

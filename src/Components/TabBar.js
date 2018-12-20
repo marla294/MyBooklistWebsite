@@ -36,12 +36,6 @@ const ButtonGroup = styled.div`
 	}
 `;
 
-// const AddNewList = styled.button`
-// 	font-size: ${props => props.theme.F09};
-// 	line-height: 0;
-// 	padding-bottom: 13px;
-// `;
-
 /* 
 The tab bar component holds the current list tab, the create a new list button, and the tab dropdown which holds all the users lists that aren't being displayed right now.
 */
@@ -55,6 +49,7 @@ export default function TabBar(props) {
 					selectedList={props.selectedList}
 					setSelected={props.setSelected}
 					addNewList={props.addNewList}
+					deleteList={props.deleteList}
 				/>
 			</ButtonGroup>
 		</TabsWrapper>
@@ -80,9 +75,3 @@ export default function TabBar(props) {
 		}
 	}
 }
-
-// <AddNewList
-// 	onClick={async () => await props.addNewList("New List")}
-// >
-// 	+
-// </AddNewList>

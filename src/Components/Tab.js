@@ -37,16 +37,6 @@ const TabStyles = styled.div`
 
 		font-size: ${props => props.theme.F03};
 	}
-
-	button {
-		padding: 0 5px 5px 0;
-
-		font-size: ${props => props.theme.F07};
-		text-align: center;
-		line-height: ${props => props.theme.S05};
-
-		outline: none;
-	}
 `;
 
 /* 
@@ -69,14 +59,6 @@ export default function Tab(props) {
 					await props.updateListTitle(props.id, listTitle);
 				}}
 			/>
-
-			<button
-				onClick={async () => {
-					await props.deleteList(props.id);
-				}}
-			>
-				&times;
-			</button>
 		</TabStyles>
 	);
 }
