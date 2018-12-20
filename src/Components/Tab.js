@@ -38,20 +38,22 @@ export default class Tab extends React.Component {
 		listTitle: this.props.listTitle
 	};
 
+	componentDidMount() {
+		this.myInput = React.createRef();
+	}
+
 	render() {
 		return (
 			<TabStyles>
 				<input
+					ref={this.myInput}
 					value={this.state.listTitle}
 					onChange={event =>
 						this.setState({ listTitle: event.target.value })
 					}
 					onKeyPress={async event => {
 						if (event.key === "Enter") {
-							await this.props.updateListTitle(
-								this.props.id,
-								this.state.listTitle
-							);
+							this.myInput.current.blur();
 						}
 					}}
 					onBlur={async event => {
