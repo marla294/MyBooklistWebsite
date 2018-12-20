@@ -16,25 +16,18 @@ const TabDropButton = styled.button`
 const Dropdown = styled.div`
 	position: absolute;
 	right: 8px;
-
 	border: none;
 	background: ${props => props.theme.yellow};
-
 	display: ${props => (props.showDropdown ? "grid" : "none")};
-
 	z-index: 1000;
 `;
 
 const Option = styled.div`
 	max-width: 150px;
-	overflow: scroll;
-
-	color: ${props => props.theme.black};
-
 	padding: ${props => props.theme.S03};
-
+	overflow: scroll;
+	color: ${props => props.theme.black};
 	font-size: ${props => props.theme.F01};
-
 	cursor: pointer;
 
 	:hover {
@@ -57,13 +50,21 @@ export default function TabDropdown(props) {
 	);
 
 	function renderDropdownOptions() {
-		return filterListsToNotSelected().map(list => {
+		const options = filterListsToNotSelected().map(list => {
 			return (
 				<Option key={list.Id} onClick={() => clickAnOption(list.Id)}>
 					{list.Name}
 				</Option>
 			);
 		});
+
+		options.push(
+			<Option key={"add new list"} onClick={clickAddNewList}>
+				<i>+ New List</i>
+			</Option>
+		);
+
+		return options;
 	}
 
 	function filterListsToNotSelected() {
@@ -89,5 +90,10 @@ export default function TabDropdown(props) {
 	function clickAnOption(listId) {
 		setShowDropdown(!showDropdown);
 		props.setSelected(listId);
+	}
+
+	async function clickAddNewList() {
+		setShowDropdown(!showDropdown);
+		await props.addNewList("New List");
 	}
 }
