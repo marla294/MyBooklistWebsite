@@ -50,10 +50,34 @@ export default function TabDropdown(props) {
 				&#9660;
 			</TabDropButton>
 			<Dropdown showDropdown={showDropdown}>
-				<Option>Audible books</Option>
-				<Option>Unread books</Option>
-				<Option>Option 4</Option>
+				{renderDropdownOptions()}
 			</Dropdown>
 		</Wrapper>
 	);
+
+	function renderDropdownOptions() {
+		return filterListsToNotSelected().map(list => {
+			return <Option key={list.Id}>{list.Name}</Option>;
+		});
+	}
+
+	function filterListsToNotSelected() {
+		// Make a deep copy of lists
+		let listsCopy = [];
+		props.lists.forEach(list => {
+			listsCopy.push(list);
+		});
+
+		// Get index of list to remove
+		const spliceIndex = props.lists.findIndex(list => {
+			return list.Id === props.selectedList;
+		});
+
+		// If the selected list is found, return that, otherwise return full array
+		if (spliceIndex !== -1) {
+			listsCopy.splice(spliceIndex, 1);
+			return listsCopy;
+		}
+		return props.lists;
+	}
 }
