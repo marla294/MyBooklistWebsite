@@ -44,6 +44,8 @@ const TabStyles = styled.div`
 		font-size: ${props => props.theme.F07};
 		text-align: center;
 		line-height: ${props => props.theme.S05};
+
+		outline: none;
 	}
 `;
 

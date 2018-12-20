@@ -11,6 +11,7 @@ const Wrapper = styled.div``;
 
 const TabDropButton = styled.button`
 	font-size: ${props => props.theme.F04};
+	outline: none;
 `;
 
 const Dropdown = styled.div`
@@ -19,7 +20,7 @@ const Dropdown = styled.div`
 
 	border: 1px solid black;
 
-	display: grid;
+	display: ${props => (props.showDropdown ? "grid" : "none")};
 `;
 
 const Option = styled.div`
@@ -45,8 +46,10 @@ export default function TabDropdown(props) {
 
 	return (
 		<Wrapper>
-			<TabDropButton>&#9660;</TabDropButton>
-			<Dropdown>
+			<TabDropButton onClick={() => setShowDropdown(!showDropdown)}>
+				&#9660;
+			</TabDropButton>
+			<Dropdown showDropdown={showDropdown}>
 				<Option>Audible books</Option>
 				<Option>Unread books</Option>
 				<Option>Option 4</Option>
