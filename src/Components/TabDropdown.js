@@ -23,7 +23,7 @@ const Dropdown = styled.div`
 `;
 
 const Option = styled.div`
-	max-width: 150px;
+	max-width: 200px;
 	padding: ${props => props.theme.S03};
 	overflow: scroll;
 	color: ${props => props.theme.black};
@@ -63,7 +63,7 @@ export default function TabDropdown(props) {
 	);
 
 	function renderDropdownOptions() {
-		const options = filterListsToNotSelected().map(list => {
+		const options = props.lists.map(list => {
 			return (
 				<Option key={list.Id} onClick={() => clickAnOption(list.Id)}>
 					{list.Name}
@@ -85,26 +85,6 @@ export default function TabDropdown(props) {
 		);
 
 		return options;
-	}
-
-	function filterListsToNotSelected() {
-		// Make a deep copy of lists
-		const listsCopy = [];
-		props.lists.forEach(list => {
-			listsCopy.push(list);
-		});
-
-		// Get index of list to remove
-		const spliceIndex = props.lists.findIndex(list => {
-			return list.Id === props.selectedList;
-		});
-
-		// If the selected list is found, return that, otherwise return full array
-		if (spliceIndex !== -1) {
-			listsCopy.splice(spliceIndex, 1);
-			return listsCopy;
-		}
-		return props.lists;
 	}
 
 	function clickAnOption(listId) {

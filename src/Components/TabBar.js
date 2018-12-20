@@ -15,7 +15,7 @@ TabBar.propTypes = {
 
 const TabsWrapper = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 9fr;
+	grid-template-columns: 95fr 5fr;
 	width: 100%;
 `;
 
