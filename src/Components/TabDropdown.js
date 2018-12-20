@@ -14,17 +14,31 @@ const TabDropButton = styled.button`
 `;
 
 const Dropdown = styled.div`
-	width: 140px;
+	position: absolute;
+	right: 8px;
 
 	border: 1px solid black;
-
-	position: absolute;
-	right: 10px;
 
 	display: grid;
 `;
 
-const Option = styled.div``;
+const Option = styled.div`
+	max-width: 150px;
+	overflow: scroll;
+
+	color: ${props => props.theme.black};
+	background: white;
+
+	padding: ${props => props.theme.S03};
+
+	font-size: ${props => props.theme.F01};
+
+	cursor: pointer;
+
+	:hover {
+		background-color: ${props => props.theme.gray};
+	}
+`;
 
 export default function TabDropdown(props) {
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -33,8 +47,9 @@ export default function TabDropdown(props) {
 		<Wrapper>
 			<TabDropButton>&#9660;</TabDropButton>
 			<Dropdown>
-				<Option>Option 1</Option>
-				<Option>Option 2</Option>
+				<Option>Audible books</Option>
+				<Option>Unread books</Option>
+				<Option>Option 4</Option>
 			</Dropdown>
 		</Wrapper>
 	);
