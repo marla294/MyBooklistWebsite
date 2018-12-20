@@ -8,6 +8,7 @@ TabBar.propTypes = {
 	addNewList: PropTypes.func.isRequired,
 	lists: PropTypes.array.isRequired,
 	selectedList: PropTypes.number.isRequired,
+	setSelected: PropTypes.func.isRequired,
 	updateListTitle: PropTypes.func.isRequired,
 	deleteList: PropTypes.func.isRequired
 };
@@ -57,6 +58,7 @@ export default function TabBar(props) {
 				<TabDropdown
 					lists={props.lists}
 					selectedList={props.selectedList}
+					setSelected={props.setSelected}
 				/>
 			</ButtonGroup>
 		</TabsWrapper>

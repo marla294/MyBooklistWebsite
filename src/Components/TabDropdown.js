@@ -4,7 +4,8 @@ import styled from "styled-components";
 
 TabDropdown.propTypes = {
 	lists: PropTypes.array.isRequired,
-	selectedList: PropTypes.number.isRequired
+	selectedList: PropTypes.number.isRequired,
+	setSelected: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div``;
@@ -57,13 +58,20 @@ export default function TabDropdown(props) {
 
 	function renderDropdownOptions() {
 		return filterListsToNotSelected().map(list => {
-			return <Option key={list.Id}>{list.Name}</Option>;
+			return (
+				<Option
+					key={list.Id}
+					onClick={() => props.setSelected(list.Id)}
+				>
+					{list.Name}
+				</Option>
+			);
 		});
 	}
 
 	function filterListsToNotSelected() {
 		// Make a deep copy of lists
-		let listsCopy = [];
+		const listsCopy = [];
 		props.lists.forEach(list => {
 			listsCopy.push(list);
 		});

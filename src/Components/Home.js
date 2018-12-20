@@ -118,6 +118,7 @@ export default function Home() {
 					addNewList={addNewList}
 					lists={lists || []}
 					selectedList={selectedList || 0}
+					setSelected={setSelected}
 					updateListTitle={updateListTitle}
 					deleteList={deleteList}
 				/>
