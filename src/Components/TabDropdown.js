@@ -1,12 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
-TabDropdown.propTypes = {
-	lists: PropTypes.array.isRequired,
-	selectedList: PropTypes.number.isRequired,
-	setSelected: PropTypes.func.isRequired
-};
 
 const TabDropButton = styled.button`
 	font-size: ${props => props.theme.F04};
@@ -15,7 +9,7 @@ const TabDropButton = styled.button`
 	width: ${props => props.theme.S06};
 	height: ${props => props.theme.S06};
 	border: none;
-	color: ${props => props.theme.gray};
+	color: ${props => props.showDropdown ? props.theme.yellow : props.theme.gray};
 
 	:hover {
 		color: ${props => props.theme.yellow};
@@ -30,10 +24,11 @@ const Dropdown = styled.div`
 	display: ${props => (props.showDropdown ? "grid" : "none")};
 	z-index: 1000;
 	box-shadow: ${props => props.theme.bs};
+	outline: none;
 `;
 
 const Option = styled.a`
-	max-width: ${props => props.theme.S12};
+	max-width: ${props => props.theme.S13};
 	padding: ${props => props.theme.S03};
 	color: ${props => props.theme.black};
 
@@ -43,12 +38,13 @@ const Option = styled.a`
 	cursor: pointer;
 
 	div {
-		height: 25px;
+		height: 23px;
 		border-bottom: ${props => props.selected ? `0.3rem solid ${props.theme.yellow}` : "none"};
+		overflow: hidden;
 	}
 
 	button {
-		height: 30px;
+		height: 25px;
 		line-height: 0;
 		font-size: ${props => props.theme.F07};
 		background-color: white;
@@ -65,28 +61,37 @@ const Option = styled.a`
 	}
 `;
 
-export default function TabDropdown(props) {
-	const [showDropdown, setShowDropdown] = useState(false);
+export default class TabDropdown extends React.Component  {
+	state = {
+		showDropdown: false
+	};
 
-	return (
-		<div>
-			<TabDropButton onClick={() => setShowDropdown(!showDropdown)}>
-				&#9660;
-			</TabDropButton>
-			<Dropdown showDropdown={showDropdown}>
-				{renderDropdownOptions()}
-			</Dropdown>
-		</div>
-	);
+	render() {
+		return (
+			<div>
+				<TabDropButton 
+					onClick={() => this.setState({showDropdown: !this.state.showDropdown})} 
+					
+					showDropdown={this.state.showDropdown}
+				>
+					&#9660;
+				</TabDropButton>
+				<Dropdown showDropdown={this.state.showDropdown} tabIndex="0">
+					{this.renderDropdownOptions()}
+				</Dropdown>
+			</div>
+		);
+	}
+	
 
-	function renderDropdownOptions() {
-		const options = props.lists.map(list => {
+	renderDropdownOptions = () => {
+		const options = this.props.lists.map(list => {
 			return (
-				<Option key={list.Id} onClick={() => clickAnOption(list.Id)} selected={list.Id === props.selectedList}>
+				<Option key={list.Id} onClick={() => this.clickAnOption(list.Id)} selected={list.Id === this.props.selectedList}>
 					<div>{list.Name}</div>
 					<button
 						onClick={async () => {
-							await props.deleteList(list.Id);
+							await this.props.deleteList(list.Id);
 						}}
 					>
 						&times;
@@ -96,7 +101,7 @@ export default function TabDropdown(props) {
 		});
 
 		options.push(
-			<Option key={"add new list"} onClick={clickAddNewList}>
+			<Option key={"add new list"} onClick={this.clickAddNewList}>
 				<i>+ New List</i>
 			</Option>
 		);
@@ -104,13 +109,19 @@ export default function TabDropdown(props) {
 		return options;
 	}
 
-	function clickAnOption(listId) {
-		setShowDropdown(!showDropdown);
-		props.setSelected(listId);
+	clickAnOption = (listId) => {
+		this.setState({showDropdown: !this.state.showDropdown});
+		this.props.setSelected(listId);
 	}
 
-	async function clickAddNewList() {
-		setShowDropdown(!showDropdown);
-		await props.addNewList("New List");
+	clickAddNewList = async () => {
+		this.setState({showDropdown: !this.state.showDropdown});
+		await this.props.addNewList("New List");
 	}
 }
+
+TabDropdown.propTypes = {
+	lists: PropTypes.array.isRequired,
+	selectedList: PropTypes.number.isRequired,
+	setSelected: PropTypes.func.isRequired
+};
