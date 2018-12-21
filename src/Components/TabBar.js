@@ -19,39 +19,20 @@ const TabsWrapper = styled.div`
 	width: 100%;
 `;
 
-const ButtonGroup = styled.div`
-	display: flex;
-	justify-content: space-between;
-
-	button {
-		width: ${props => props.theme.S06};
-		height: ${props => props.theme.S06};
-		border: none;
-
-		color: ${props => props.theme.gray};
-
-		:hover {
-			color: ${props => props.theme.blue};
-		}
-	}
-`;
-
 /* 
-The tab bar component holds the current list tab, the create a new list button, and the tab dropdown which holds all the users lists that aren't being displayed right now.
+The tab bar component holds the current list and the tab dropdown which holds all the users lists that aren't being displayed right now.
 */
 export default function TabBar(props) {
 	return (
 		<TabsWrapper>
 			{loadTab()}
-			<ButtonGroup>
-				<TabDropdown
-					lists={props.lists}
-					selectedList={props.selectedList}
-					setSelected={props.setSelected}
-					addNewList={props.addNewList}
-					deleteList={props.deleteList}
-				/>
-			</ButtonGroup>
+			<TabDropdown
+				lists={props.lists}
+				selectedList={props.selectedList}
+				setSelected={props.setSelected}
+				addNewList={props.addNewList}
+				deleteList={props.deleteList}
+			/>
 		</TabsWrapper>
 	);
 

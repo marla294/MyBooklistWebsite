@@ -11,6 +11,15 @@ TabDropdown.propTypes = {
 const TabDropButton = styled.button`
 	font-size: ${props => props.theme.F04};
 	outline: none;
+
+	width: ${props => props.theme.S06};
+	height: ${props => props.theme.S06};
+	border: none;
+	color: ${props => props.theme.gray};
+
+	:hover {
+		color: ${props => props.theme.blue};
+	}
 `;
 
 const Dropdown = styled.div`
@@ -22,29 +31,47 @@ const Dropdown = styled.div`
 	z-index: 1000;
 `;
 
-const Option = styled.div`
-	max-width: 200px;
+// const Option = styled.div`
+// 	max-width: 200px;
+// 	padding: ${props => props.theme.S03};
+// 	overflow: scroll;
+// 	color: ${props => props.theme.black};
+// 	font-size: ${props => props.theme.F01};
+// 	cursor: pointer;
+
+// 	button {
+// 		padding: 0 5px 5px 0;
+
+// 		background: white;
+// 		color: ${props => props.theme.black};
+
+// 		font-size: ${props => props.theme.F07};
+// 		text-align: center;
+// 		line-height: ${props => props.theme.S05};
+
+// 		outline: none;
+// 	}
+
+// 	:hover {
+// 		background-color: ${props => props.theme.gray};
+// 	}
+// `;
+
+const Option = styled.a`
+	max-width: ${props => props.theme.S11};
 	padding: ${props => props.theme.S03};
-	overflow: scroll;
 	color: ${props => props.theme.black};
-	font-size: ${props => props.theme.F01};
-	cursor: pointer;
 
 	button {
-		padding: 0 5px 5px 0;
-
-		background: white;
-		color: ${props => props.theme.black};
-
 		font-size: ${props => props.theme.F07};
-		text-align: center;
-		line-height: ${props => props.theme.S05};
 
-		outline: none;
 	}
 
 	:hover {
 		background-color: ${props => props.theme.gray};
+		button {
+			background-color: ${props => props.theme.gray};
+		}
 	}
 `;
 
