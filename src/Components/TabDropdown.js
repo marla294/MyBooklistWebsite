@@ -62,9 +62,22 @@ const Option = styled.a`
 	padding: ${props => props.theme.S03};
 	color: ${props => props.theme.black};
 
-	button {
-		font-size: ${props => props.theme.F07};
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
 
+	button {
+		height: 40px;
+		font-size: ${props => props.theme.F07};
+		background-color: white;
+		padding-bottom: 8px;
+		margin-left: ${props => props.theme.S02};
+		border: none;
+	}
+
+	button:hover {
+		color: ${props => props.theme.red};
 	}
 
 	:hover {
