@@ -9,13 +9,15 @@ TabDropdown.propTypes = {
 };
 
 const TabDropButton = styled.button`
-	font-size: ${props => props.theme.F04};
-	outline: none;
-
 	width: ${props => props.theme.S06};
 	height: ${props => props.theme.S06};
+
+	color: ${props => props.showDropdown ? props.theme.yellow : props.theme.gray};
+
 	border: none;
-	color: ${props => props.theme.gray};
+	outline: none;
+
+	font-size: ${props => props.theme.F04};
 
 	:hover {
 		color: ${props => props.theme.yellow};
@@ -24,44 +26,75 @@ const TabDropButton = styled.button`
 
 const Dropdown = styled.div`
 	position: absolute;
-	right: 8px;
+	right: ${props => props.theme.S02};
+
+	background-color: white;
+
 	border: 0.3rem solid ${props => props.theme.yellow};
-	background: white;
+
 	display: ${props => (props.showDropdown ? "grid" : "none")};
-	z-index: 1000;
+
 	box-shadow: ${props => props.theme.bs};
+	cursor: pointer;
 `;
 
 const Option = styled.a`
 	max-width: ${props => props.theme.S12};
+	height: ${props => props.theme.S07};
+
 	padding: ${props => props.theme.S03};
+	
 	color: ${props => props.theme.black};
 
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	cursor: pointer;
 
 	div {
 		height: 25px;
+
 		border-bottom: ${props => props.selected ? `0.3rem solid ${props.theme.yellow}` : "none"};
 	}
 
 	button {
-		height: 30px;
-		line-height: 0;
-		font-size: ${props => props.theme.F07};
-		background-color: white;
 		margin-left: ${props => props.theme.S02};
 		padding-bottom: 10px;
+
+		color: white;
+		background-color: white;
+
 		border: none;
+
+		font-size: ${props => props.theme.F07};
+		line-height: 0;
+		
+		outline: none;
+	}
+
+	button:hover {
+		color: ${props => props.theme.black};
 	}
 
 	:hover {
 		background-color: ${props => props.theme.gray};
+
 		button {
 			background-color: ${props => props.theme.gray};
 		}
+	}
+`;
+
+const NewListOption = styled.a`
+	height: ${props => props.theme.S07};
+
+	padding: ${props => props.theme.S03};
+
+	color: ${props => props.theme.black};
+
+	font-size: ${props => props.theme.F04};
+	font-weight: 700;
+
+	:hover {
+		background-color: ${props => props.theme.gray};
 	}
 `;
 
@@ -70,7 +103,10 @@ export default function TabDropdown(props) {
 
 	return (
 		<div>
-			<TabDropButton onClick={() => setShowDropdown(!showDropdown)}>
+			<TabDropButton 
+				onClick={() => setShowDropdown(!showDropdown)}
+				showDropdown={showDropdown}
+			>
 				&#9660;
 			</TabDropButton>
 			<Dropdown showDropdown={showDropdown}>
@@ -96,9 +132,9 @@ export default function TabDropdown(props) {
 		});
 
 		options.push(
-			<Option key={"add new list"} onClick={clickAddNewList}>
+			<NewListOption key={"add new list"} onClick={clickAddNewList}>
 				<i>+ New List</i>
-			</Option>
+			</NewListOption>
 		);
 
 		return options;
