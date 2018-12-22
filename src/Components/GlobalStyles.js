@@ -3,8 +3,9 @@ import { createGlobalStyle } from "styled-components";
 export const theme = {
 	black: "#2D2A32",
 	blue: "#30BCED",
-	orange: "#D87B1D",
 	darkblue: "#16566C",
+	orange: "#b46618",
+	darkorange: "#874d12",
 	gray: "#D1D1D1",
 	yellow: "#FCC631",
 	white: "#FFFFFF",
