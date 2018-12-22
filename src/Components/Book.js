@@ -1,13 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { capitalizeFirstLetterEachWord } from "../HelperFunctions";
-import {
-	BookWrapper,
-	BookCoverImage,
-	TitleAuthorWrapper,
-	Title,
-	Author
-} from "./BookStyles";
 
 Book.propTypes = {
 	title: PropTypes.string.isRequired,
@@ -16,14 +10,33 @@ Book.propTypes = {
 	image: PropTypes.string.isRequired
 };
 
+export const BookWrapper = styled.div`
+	background: ${props => props.theme.yellow};
+	padding: ${props => props.theme.S05};
+`;
+
+export const TitleAuthorWrapper = styled.div`
+	align-self: center;
+	display: grid;
+	grid-gap: ${props => props.theme.S04};
+`;
+
+export const Title = styled.h1`
+	font-size: ${props => props.theme.F04};
+`;
+
+export const Author = styled.h3`
+	font-size: ${props => props.theme.F03};
+	font-style: italic;
+`;
+
 export default function Book(props) {
-	let { title = "", author = "", url = "", image = "" } = props;
+	let { title = "", author = "" } = props;
 	title = capitalizeFirstLetterEachWord(title);
 	author = capitalizeFirstLetterEachWord(author);
 
 	return (
-		<BookWrapper href={url}>
-			<BookCoverImage src={image} />
+		<BookWrapper>
 			<TitleAuthorWrapper>
 				<Title>{title}</Title>
 				<Author>{author}</Author>

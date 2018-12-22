@@ -129,7 +129,7 @@ export default function Home() {
 	);
 
 	function loadLists() {
-		if (createListMap().size > 0 && pageLoaded && selectedList) {
+		if (pageLoaded && selectedList) {
 			return renderList();
 		} else {
 			return (

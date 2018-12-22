@@ -12,7 +12,7 @@ const TabDropButton = styled.button`
 	width: ${props => props.theme.S06};
 	height: ${props => props.theme.S06};
 
-	color: ${props => props.showDropdown ? props.theme.yellow : props.theme.gray};
+	color: ${props => props.showDropdown ? props.theme.orange : props.theme.gray};
 
 	border: none;
 	outline: none;
@@ -20,7 +20,7 @@ const TabDropButton = styled.button`
 	font-size: ${props => props.theme.F04};
 
 	:hover {
-		color: ${props => props.theme.yellow};
+		color: ${props => props.theme.orange};
 	}
 `;
 
@@ -30,7 +30,7 @@ const Dropdown = styled.div`
 
 	background-color: white;
 
-	border: 0.3rem solid ${props => props.theme.yellow};
+	border: 0.3rem solid ${props => props.theme.orange};
 
 	display: ${props => (props.showDropdown ? "grid" : "none")};
 
@@ -52,7 +52,7 @@ const Option = styled.a`
 	div {
 		height: 25px;
 
-		border-bottom: ${props => props.selected ? `0.3rem solid ${props.theme.yellow}` : "none"};
+		border-bottom: ${props => props.selected ? `0.3rem solid ${props.theme.orange}` : "none"};
 	}
 
 	button {
