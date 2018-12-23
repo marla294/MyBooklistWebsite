@@ -119,6 +119,18 @@ export default function Home() {
 		await refreshBooklist();
 	};
 
+	const deleteBookFromList = async (bookId, listId) => {
+		console.log(bookList);
+		// const res = await fetch(url + "BookList", {
+		// 	method: "POST",
+		// 	headers: { "Content-Type": "application/json" },
+		// 	body: JSON.stringify({ bookId, listId })
+		// });
+
+		// const id = await res.json();
+		// return parseInt(id);
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
@@ -173,6 +185,8 @@ export default function Home() {
 				books={books}
 				addBook={addBook}
 				addBookToList={addBookToList}
+				deleteBook={deleteBook}
+				deleteBookFromList={deleteBookFromList}
 			/>
 		);
 	}

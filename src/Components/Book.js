@@ -4,10 +4,14 @@ import styled from "styled-components";
 import { capitalizeFirstLetterEachWord } from "../HelperFunctions";
 
 Book.propTypes = {
+	bookId: PropTypes.number.isRequired,
+	listId: PropTypes.number.isRequired,
 	title: PropTypes.string.isRequired,
 	author: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
-	image: PropTypes.string.isRequired
+	image: PropTypes.string.isRequired,
+	deleteBook: PropTypes.func.isRequired,
+	deleteBookFromList: PropTypes.func.isRequired
 };
 
 export const BookWrapper = styled.div`
@@ -45,6 +49,13 @@ export default function Book(props) {
 				<Title>{title}</Title>
 				<Author>{author}</Author>
 			</TitleAuthorWrapper>
+			<button
+				onClick={() =>
+					props.deleteBookFromList(props.bookId, props.listId)
+				}
+			>
+				X
+			</button>
 		</BookWrapper>
 	);
 }

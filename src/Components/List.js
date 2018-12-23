@@ -8,7 +8,10 @@ import { ListWrapper, BooksWrapper, AddNewBook } from "./ListStyles";
 List.propTypes = {
 	id: PropTypes.number.isRequired,
 	books: PropTypes.array.isRequired,
-	addBook: PropTypes.func.isRequired
+	addBook: PropTypes.func.isRequired,
+	addBookToList: PropTypes.func.isRequired,
+	deleteBook: PropTypes.func.isRequired,
+	deleteBookFromList: PropTypes.func.isRequired
 };
 
 export default function List(props) {
@@ -40,10 +43,14 @@ function renderBooks(props) {
 		return (
 			<Book
 				key={book.Id}
+				bookId={book.Id}
+				listId={props.id}
 				title={book.Title}
 				author={book.Author}
 				url={book.URL}
 				image={book.Cover}
+				deleteBook={props.deleteBook}
+				deleteBookFromList={props.deleteBookFromList}
 			/>
 		);
 	});
