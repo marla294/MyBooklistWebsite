@@ -110,6 +110,15 @@ export default function Home() {
 		return parseInt(id);
 	};
 
+	const deleteBook = async id => {
+		await fetch(url + `Books/${id}`, {
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" }
+		});
+
+		await refreshBooklist();
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<HomeWrapper>
