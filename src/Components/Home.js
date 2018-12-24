@@ -100,11 +100,14 @@ export default function Home() {
 	};
 
 	const addBookToList = async (bookId, listId) => {
+		console.log("add book to list called");
 		const res = await fetch(url + "BookList", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ bookId, listId })
 		});
+
+		await refreshBooklist();
 
 		const id = await res.json();
 		return parseInt(id);

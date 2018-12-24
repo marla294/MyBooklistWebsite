@@ -76,7 +76,7 @@ export default function NewBook(props) {
 					<ButtonWrapper>
 						<button type="submit">Submit</button>
 						<button
-							type="cancel"
+							type="reset"
 							onClick={() => props.setDisplayNewBook(false)}
 						>
 							Cancel
