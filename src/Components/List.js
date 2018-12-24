@@ -21,6 +21,7 @@ export default function List(props) {
 			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
 			<NewBook
 				displayNewBook={displayNewBook}
+				setDisplayNewBook={setDisplayNewBook}
 				addBook={props.addBook}
 				addBookToList={props.addBookToList}
 				listId={props.id}
