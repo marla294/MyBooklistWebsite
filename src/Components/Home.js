@@ -121,14 +121,19 @@ export default function Home() {
 
 	const deleteBookFromList = async (bookId, listId) => {
 		console.log(bookList);
-		// const res = await fetch(url + "BookList", {
-		// 	method: "POST",
-		// 	headers: { "Content-Type": "application/json" },
-		// 	body: JSON.stringify({ bookId, listId })
-		// });
 
-		// const id = await res.json();
-		// return parseInt(id);
+		const id = bookList.find(item => {
+			return item.Book.Id === bookId && item.ListId === listId;
+		}).Id;
+
+		console.log(id);
+
+		await fetch(url + `BookList/${id}`, {
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" }
+		});
+
+		await refreshBooklist();
 	};
 
 	return (
