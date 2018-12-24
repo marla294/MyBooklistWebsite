@@ -14,28 +14,49 @@ Book.propTypes = {
 	deleteBookFromList: PropTypes.func.isRequired
 };
 
-export const BookWrapper = styled.div`
-	background: ${props => props.theme.yellow};
+const BookWrapper = styled.div`
 	padding: ${props => props.theme.S05};
+
+	background: ${props => props.theme.yellow};
+
 	border: 0.3rem solid ${props => props.theme.orange};
+
+	display: grid;
+	grid-template-columns: 10fr 1fr;
 `;
 
-export const TitleAuthorWrapper = styled.div`
+const TitleAuthorWrapper = styled.div`
 	align-self: center;
+
 	display: grid;
 	grid-gap: ${props => props.theme.S02};
 `;
 
-export const Title = styled.h1`
-	font-size: ${props => props.theme.F04};
+const Title = styled.h1`
 	color: ${props => props.theme.darkorange};
+
+	font-size: ${props => props.theme.F04};
 	font-weight: 900;
 `;
 
-export const Author = styled.h3`
-	font-size: ${props => props.theme.F03};
+const Author = styled.h3`
 	color: ${props => props.theme.orange};
+
+	font-size: ${props => props.theme.F03};
 	font-weight: 900;
+`;
+
+const DeleteBook = styled.button`
+	color: ${props => props.theme.darkorange};
+	background-color: ${props => props.theme.yellow};
+
+	border: none;
+
+	font-size: ${props => props.theme.F08};
+	line-height: 0;
+
+	align-self: start;
+	justify-self: end;
 `;
 
 export default function Book(props) {
@@ -49,13 +70,13 @@ export default function Book(props) {
 				<Title>{title}</Title>
 				<Author>{author}</Author>
 			</TitleAuthorWrapper>
-			<button
+			<DeleteBook
 				onClick={() =>
 					props.deleteBookFromList(props.bookId, props.listId)
 				}
 			>
-				X
-			</button>
+				&times;
+			</DeleteBook>
 		</BookWrapper>
 	);
 }

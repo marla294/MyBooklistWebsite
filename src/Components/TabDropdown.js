@@ -12,7 +12,8 @@ const TabDropButton = styled.button`
 	width: ${props => props.theme.S06};
 	height: ${props => props.theme.S06};
 
-	color: ${props => props.showDropdown ? props.theme.orange : props.theme.gray};
+	color: ${props =>
+		props.showDropdown ? props.theme.orange : props.theme.gray};
 
 	border: none;
 	outline: none;
@@ -43,7 +44,7 @@ const Option = styled.a`
 	height: ${props => props.theme.S07};
 
 	padding: ${props => props.theme.S03};
-	
+
 	color: ${props => props.theme.black};
 
 	display: flex;
@@ -52,7 +53,8 @@ const Option = styled.a`
 	div {
 		height: 25px;
 
-		border-bottom: ${props => props.selected ? `0.3rem solid ${props.theme.orange}` : "none"};
+		border-bottom: ${props =>
+			props.selected ? `0.3rem solid ${props.theme.orange}` : "none"};
 	}
 
 	button {
@@ -66,7 +68,7 @@ const Option = styled.a`
 
 		font-size: ${props => props.theme.F07};
 		line-height: 0;
-		
+
 		outline: none;
 	}
 
@@ -103,7 +105,7 @@ export default function TabDropdown(props) {
 
 	return (
 		<div>
-			<TabDropButton 
+			<TabDropButton
 				onClick={() => setShowDropdown(!showDropdown)}
 				showDropdown={showDropdown}
 			>
@@ -118,7 +120,11 @@ export default function TabDropdown(props) {
 	function renderDropdownOptions() {
 		const options = props.lists.map(list => {
 			return (
-				<Option key={list.Id} onClick={() => clickAnOption(list.Id)} selected={list.Id === props.selectedList}>
+				<Option
+					key={list.Id}
+					onClick={() => clickAnOption(list.Id)}
+					selected={list.Id === props.selectedList}
+				>
 					<div>{list.Name}</div>
 					<button
 						onClick={async () => {
