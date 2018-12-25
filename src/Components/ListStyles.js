@@ -1,11 +1,17 @@
 import styled from "styled-components";
 
 export const ListWrapper = styled.div`
+	justify-self: center;
+
 	display: grid;
 	grid-gap: 1em;
 	width: 100%;
 	padding: 1.5em;
 	border: 0.3rem solid ${props => props.theme.blue};
+
+	@media only screen and (min-width: 768px) {
+		width: 768px;
+	}
 `;
 
 export const BooksWrapper = styled.div`

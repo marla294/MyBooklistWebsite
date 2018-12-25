@@ -14,9 +14,15 @@ TabBar.propTypes = {
 };
 
 const TabsWrapper = styled.div`
+	justify-self: center;
+
 	display: grid;
 	grid-template-columns: 95fr 5fr;
 	width: 100%;
+
+	@media only screen and (min-width: 768px) {
+		width: 768px;
+	}
 `;
 
 /* 
