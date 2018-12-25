@@ -11,10 +11,14 @@ NewBook.propTypes = {
 };
 
 const BookWrapper = styled.div`
-	background: ${props => props.theme.yellow};
 	padding: ${props => props.theme.S05};
+
+	background: ${props => props.theme.yellow};
+
 	border: 0.3rem solid ${props => props.theme.orange};
+
 	display: ${props => (props.displayNewBook ? "grid" : "none")};
+	grid-template-columns: 5fr 1fr;
 `;
 
 const TitleAuthorWrapper = styled.div`
@@ -23,15 +27,49 @@ const TitleAuthorWrapper = styled.div`
 	grid-gap: ${props => props.theme.S02};
 
 	input {
-		border: none;
+		background: ${props => props.theme.yellow};
+
+		border: 1px solid ${props => props.theme.orange};
 		outline: none;
 	}
 `;
 
-const ButtonWrapper = styled.div`
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-gap: 20px;
+const Title = styled.input`
+	color: ${props => props.theme.darkorange};
+
+	font-size: ${props => props.theme.F04};
+	font-weight: 900;
+`;
+
+const Author = styled.input`
+	color: ${props => props.theme.orange};
+
+	font-size: ${props => props.theme.F03};
+	font-weight: 900;
+`;
+
+const SubmitForm = styled.button`
+	color: ${props => props.theme.yellow};
+	background-color: ${props => props.theme.darkorange};
+
+	border: none;
+
+	font-size: ${props => props.theme.F04};
+	font-weight: 900;
+`;
+
+const CloseForm = styled.button`
+	color: ${props => props.theme.darkorange};
+	background-color: ${props => props.theme.yellow};
+
+	border: none;
+	outline: none;
+
+	font-size: ${props => props.theme.F08};
+	line-height: 0;
+
+	align-self: start;
+	justify-self: end;
 `;
 
 export default function NewBook(props) {
@@ -55,35 +93,28 @@ export default function NewBook(props) {
 				}}
 			>
 				<TitleAuthorWrapper>
-					<input
+					<Title
 						type="text"
 						id="title"
 						name="title"
-						placeholder="Title"
 						required
 						value={title}
 						onChange={handleChange}
 					/>
-					<input
+					<Author
 						type="text"
 						id="author"
 						name="author"
-						placeholder="Author"
 						required
 						value={author}
 						onChange={handleChange}
 					/>
-					<ButtonWrapper>
-						<button type="submit">Submit</button>
-						<button
-							type="reset"
-							onClick={() => props.setDisplayNewBook(false)}
-						>
-							Cancel
-						</button>
-					</ButtonWrapper>
+					<SubmitForm type="submit">Submit</SubmitForm>
 				</TitleAuthorWrapper>
 			</form>
+			<CloseForm onClick={() => props.setDisplayNewBook(false)}>
+				&times;
+			</CloseForm>
 		</BookWrapper>
 	);
 }
