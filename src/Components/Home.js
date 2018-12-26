@@ -1,11 +1,23 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { ThemeProvider } from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "./GlobalStyles";
-import { HomeWrapper, Header } from "./HomeStyles";
-import { ListWrapper } from "./ListStyles";
-import List from "./List";
+import List, { ListWrapper } from "./List";
 import TabBar from "./TabBar";
+
+const HomeWrapper = styled.div`
+	display: grid;
+	grid-template-rows: 8rem 1fr;
+`;
+
+const Header = styled.h1`
+	display: grid;
+	align-items: center;
+	justify-items: center;
+
+	color: ${props => props.theme.orange};
+
+	font-size: ${props => props.theme.F09};
+`;
 
 export default function Home() {
 	const url = "http://127.0.0.1:8080/api/";

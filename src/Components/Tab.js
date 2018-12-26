@@ -7,7 +7,7 @@ const TabStyles = styled.div`
 	height: 0;
 
 	border-bottom: ${props => props.theme.S06} solid
-		${props => props.theme.blue};
+		${props => props.theme.orange};
 	border-right: ${props => props.theme.S04} solid rgba(255, 0, 0, 0);
 	border-left: ${props => props.theme.S04} solid rgba(255, 0, 0, 0);
 
@@ -15,14 +15,17 @@ const TabStyles = styled.div`
 		width: 95%;
 		height: ${props => props.theme.S06};
 
-		color: ${props => props.theme.black};
-		background: ${props => props.theme.blue};
+		padding-left: ${props => props.theme.S02};
+
+		color: ${props => props.theme.yellow};
+		background: ${props => props.theme.orange};
 
 		border: none;
 		outline: none;
 		cursor: pointer;
 
-		font-size: ${props => props.theme.F03};
+		font-size: ${props => props.theme.F05};
+		font-weight: 900;
 
 		:focus {
 			font-style: italic;
