@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bcrypt": "^3.0.3",
+    "cookie-parser": "^1.4.3",
     "eslint-plugin-react-hooks": "0.0.0",
     "jsonwebtoken": "^8.4.0",
     "react": "^16.7.0-alpha.0",
