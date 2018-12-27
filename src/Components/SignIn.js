@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const SignInWrapper = styled.div`
@@ -18,9 +18,38 @@ const SignInWrapper = styled.div`
 `;
 
 export default function SignIn(props) {
+	const [username, setUsername] = useState("Username");
+	const [password, setPassword] = useState("");
+
+	const handleChange = e => {
+		const { name, value } = e.target;
+
+		if (name === "username") setUsername(value);
+		if (name === "password") setPassword(value);
+	};
+
 	return (
 		<SignInWrapper>
 			<p>Sign in component</p>
+			<form>
+				<input
+					type="text"
+					id="username"
+					name="username"
+					required
+					value={username}
+					onChange={handleChange}
+				/>
+				<input
+					type="password"
+					id="password"
+					name="password"
+					required
+					value={password}
+					onChange={handleChange}
+				/>
+				<button type="submit">Submit</button>
+			</form>
 		</SignInWrapper>
 	);
 }
