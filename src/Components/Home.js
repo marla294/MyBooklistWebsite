@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
+import jwt from "jsonwebtoken";
 import { theme, GlobalStyle } from "./GlobalStyles";
 import List, { ListWrapper } from "./List";
 import TabBar from "./TabBar";
@@ -28,7 +29,7 @@ export default function Home(props) {
 	const [pageLoaded, setPageLoaded] = useState(false);
 
 	useEffect(async () => {
-		setCookies();
+		signIn();
 		await refreshBooklist();
 		setPageLoaded(true);
 	}, []);
@@ -41,8 +42,16 @@ export default function Home(props) {
 		[pageLoaded]
 	);
 
-	const setCookies = () => {
-		props.cookies.set("name", "test setting cookie");
+	const signIn = () => {
+		const token = jwt.sign({ userId: 1 }, "sdfg");
+
+		props.cookies.set("token", token, {
+			maxAge: 60 * 60 * 24 * 365
+		});
+	};
+
+	const getToken = () => {
+		return props.cookies.get("token");
 	};
 
 	const refreshBooklist = async () => {
@@ -156,7 +165,7 @@ export default function Home(props) {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<SignIn>
+			<SignIn getToken={getToken}>
 				<HomeWrapper>
 					<Header>Marla's Books!</Header>
 					<TabBar
