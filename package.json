@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "eslint-plugin-react-hooks": "0.0.0",
+    "jsonwebtoken": "^8.4.0",
     "react": "^16.7.0-alpha.0",
     "react-dom": "^16.7.0-alpha.0",
     "react-router-dom": "^4.3.1",
