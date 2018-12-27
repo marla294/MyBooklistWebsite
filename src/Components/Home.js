@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "./GlobalStyles";
 import List, { ListWrapper } from "./List";
 import TabBar from "./TabBar";
+import SignIn from "./SignIn";
 
 const HomeWrapper = styled.div`
 	display: grid;
@@ -150,19 +151,21 @@ export default function Home() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<HomeWrapper>
-				<Header>Marla's Books!</Header>
-				<TabBar
-					addNewList={addNewList}
-					lists={lists || []}
-					selectedList={selectedList || 0}
-					setSelected={setSelected}
-					updateListTitle={updateListTitle}
-					deleteList={deleteList}
-				/>
-				{loadLists()}
-				<GlobalStyle />
-			</HomeWrapper>
+			<SignIn>
+				<HomeWrapper>
+					<Header>Marla's Books!</Header>
+					<TabBar
+						addNewList={addNewList}
+						lists={lists || []}
+						selectedList={selectedList || 0}
+						setSelected={setSelected}
+						updateListTitle={updateListTitle}
+						deleteList={deleteList}
+					/>
+					{loadLists()}
+					<GlobalStyle />
+				</HomeWrapper>
+			</SignIn>
 		</ThemeProvider>
 	);
 
