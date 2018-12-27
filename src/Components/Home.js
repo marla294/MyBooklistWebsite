@@ -4,14 +4,14 @@ import jwt from "jsonwebtoken";
 import { theme, GlobalStyle } from "./GlobalStyles";
 import List, { ListWrapper } from "./List";
 import TabBar from "./TabBar";
-import SignIn from "./SignIn";
+import SignInPage from "./SignInPage";
 
-const HomeWrapper = styled.div`
+export const HomeWrapper = styled.div`
 	display: grid;
 	grid-template-rows: 8rem 1fr;
 `;
 
-const Header = styled.h1`
+export const Header = styled.h1`
 	display: grid;
 	align-items: center;
 	justify-items: center;
@@ -29,7 +29,7 @@ export default function Home(props) {
 	const [pageLoaded, setPageLoaded] = useState(false);
 
 	useEffect(async () => {
-		signIn();
+		//signIn();
 		await refreshBooklist();
 		setPageLoaded(true);
 	}, []);
@@ -165,7 +165,7 @@ export default function Home(props) {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<SignIn getToken={getToken}>
+			<SignInPage getToken={getToken}>
 				<HomeWrapper>
 					<Header>Marla's Books!</Header>
 					<TabBar
@@ -179,7 +179,7 @@ export default function Home(props) {
 					{loadLists()}
 					<GlobalStyle />
 				</HomeWrapper>
-			</SignIn>
+			</SignInPage>
 		</ThemeProvider>
 	);
 

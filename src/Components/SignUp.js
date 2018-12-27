@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const SignInWrapper = styled.div`
+const SignUpWrapper = styled.div`
 	justify-self: center;
 
 	width: 100%;
@@ -17,10 +17,10 @@ const SignInWrapper = styled.div`
 	}
 `;
 
-export default function SignIn(props) {
+export default function SignUp(props) {
 	return (
-		<SignInWrapper>
-			<p>Sign in component</p>
-		</SignInWrapper>
+		<SignUpWrapper>
+			<p>Sign up component</p>
+		</SignUpWrapper>
 	);
 }
