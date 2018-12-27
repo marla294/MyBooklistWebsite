@@ -20,7 +20,7 @@ const Header = styled.h1`
 	font-size: ${props => props.theme.F09};
 `;
 
-export default function Home() {
+export default function Home(props) {
 	const url = "http://127.0.0.1:8080/api/";
 	const [bookList, setBookList] = useState(null);
 	const [lists, setLists] = useState(null);
@@ -28,6 +28,7 @@ export default function Home() {
 	const [pageLoaded, setPageLoaded] = useState(false);
 
 	useEffect(async () => {
+		setCookies();
 		await refreshBooklist();
 		setPageLoaded(true);
 	}, []);
@@ -39,6 +40,10 @@ export default function Home() {
 		},
 		[pageLoaded]
 	);
+
+	const setCookies = () => {
+		props.cookies.set("name", "test setting cookie");
+	};
 
 	const refreshBooklist = async () => {
 		await getLists();

@@ -8,6 +8,7 @@
     "eslint-plugin-react-hooks": "0.0.0",
     "jsonwebtoken": "^8.4.0",
     "react": "^16.7.0-alpha.0",
+    "react-cookie": "^3.0.8",
     "react-dom": "^16.7.0-alpha.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
