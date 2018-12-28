@@ -1,8 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { GlobalStyle } from "./GlobalStyles";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
+
+SignInPage.propTypes = {
+	getToken: PropTypes.func.isRequired,
+	addNewUser: PropTypes.func.isRequired,
+	signIn: PropTypes.func.isRequired
+};
 
 const PageWrapper = styled.div`
 	display: grid;
@@ -25,7 +32,7 @@ export default function SignInPage(props) {
 		return (
 			<PageWrapper>
 				<Header>Sign In or Sign Up!</Header>
-				<SignUp />
+				<SignUp addNewUser={props.addNewUser} signIn={props.signIn} />
 				<SignIn />
 				<GlobalStyle />
 			</PageWrapper>

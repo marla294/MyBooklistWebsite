@@ -42,8 +42,8 @@ export default function Home(props) {
 		[pageLoaded]
 	);
 
-	const signIn = () => {
-		const token = jwt.sign({ userId: 1 }, "sdfg");
+	const signIn = id => {
+		const token = jwt.sign({ userId: id }, "sdfg");
 
 		props.cookies.set("token", token, {
 			maxAge: 60 * 60 * 24 * 365
@@ -163,9 +163,23 @@ export default function Home(props) {
 		}
 	};
 
+	const addNewUser = async (name, username, password) => {
+		const res = await fetch(url + "Users", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ name, username, password })
+		});
+
+		await refreshBooklist();
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
-			<SignInPage getToken={getToken}>
+			<SignInPage
+				getToken={getToken}
+				addNewUser={addNewUser}
+				signIn={signIn}
+			>
 				<HomeWrapper>
 					<Header>Marla's Books!</Header>
 					<TabBar
