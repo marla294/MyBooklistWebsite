@@ -8,7 +8,8 @@ import SignIn from "./SignIn";
 SignInPage.propTypes = {
 	getToken: PropTypes.func.isRequired,
 	addNewUser: PropTypes.func.isRequired,
-	signIn: PropTypes.func.isRequired
+	signIn: PropTypes.func.isRequired,
+	getUser: PropTypes.func.isRequired
 };
 
 const PageWrapper = styled.div`
@@ -33,7 +34,7 @@ export default function SignInPage(props) {
 			<PageWrapper>
 				<Header>Sign In or Sign Up!</Header>
 				<SignUp addNewUser={props.addNewUser} signIn={props.signIn} />
-				<SignIn />
+				<SignIn getUser={props.getUser} signIn={props.signIn} />
 				<GlobalStyle />
 			</PageWrapper>
 		);

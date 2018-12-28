@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+
+SignIn.propTypes = {
+	signIn: PropTypes.func.isRequired,
+	getUser: PropTypes.func.isRequired
+};
 
 const SignInWrapper = styled.div`
 	justify-self: center;
@@ -31,7 +37,18 @@ export default function SignIn(props) {
 	return (
 		<SignInWrapper>
 			<p>Sign in component</p>
-			<form>
+			<form
+				onSubmit={async e => {
+					e.preventDefault();
+					const userId = await props.getUser(username, password);
+
+					if (userId !== null) {
+						props.signIn(userId);
+					}
+
+					//TODO: error handling when user gets username/password wrong
+				}}
+			>
 				<input
 					type="text"
 					id="username"

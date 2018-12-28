@@ -164,7 +164,9 @@ export default function Home(props) {
 	};
 
 	const addNewUser = async (name, username, password) => {
-		const res = await fetch(url + "Users", {
+		// TODO: hash password
+
+		await fetch(url + "Users", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name, username, password })
@@ -173,12 +175,26 @@ export default function Home(props) {
 		await refreshBooklist();
 	};
 
+	const getUser = async (username, password) => {
+		const result = await fetch(url + `Users?username=${username}`);
+		const user = await result.json();
+
+		//TODO: hash password
+
+		if (user.Password === password) {
+			return user.Id;
+		}
+
+		return null;
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<SignInPage
 				getToken={getToken}
 				addNewUser={addNewUser}
 				signIn={signIn}
+				getUser={getUser}
 			>
 				<HomeWrapper>
 					<Header>Marla's Books!</Header>
