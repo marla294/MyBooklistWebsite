@@ -163,8 +163,6 @@ export default function Home(props) {
 	};
 
 	const addNewUser = async (name, username, password) => {
-		// TODO: hash password
-
 		await fetch(url + "Users", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -179,18 +177,17 @@ export default function Home(props) {
 	};
 
 	const getUser = async (username, password) => {
-		const result = await fetch(
-			url + `Users?username=${username.toLowerCase()}`
-		);
-		const user = await result.json();
+		const result = await fetch(url + "Users", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				name: "",
+				username: username.toLowerCase(),
+				password
+			})
+		});
 
-		//TODO: hash password
-
-		if (user.Password === password) {
-			return user.Id;
-		}
-
-		return null;
+		return await result.json();
 	};
 
 	return (
