@@ -29,7 +29,6 @@ export default function Home(props) {
 	const [pageLoaded, setPageLoaded] = useState(false);
 
 	useEffect(async () => {
-		//signIn();
 		await refreshBooklist();
 		setPageLoaded(true);
 	}, []);
@@ -169,14 +168,20 @@ export default function Home(props) {
 		await fetch(url + "Users", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ name, username, password })
+			body: JSON.stringify({
+				name,
+				username: username.toLowerCase(),
+				password
+			})
 		});
 
 		await refreshBooklist();
 	};
 
 	const getUser = async (username, password) => {
-		const result = await fetch(url + `Users?username=${username}`);
+		const result = await fetch(
+			url + `Users?username=${username.toLowerCase()}`
+		);
 		const user = await result.json();
 
 		//TODO: hash password
