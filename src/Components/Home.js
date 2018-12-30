@@ -27,6 +27,7 @@ export default function Home(props) {
 	const [lists, setLists] = useState(null);
 	const [selectedList, setSelected] = useState(null);
 	const [pageLoaded, setPageLoaded] = useState(false);
+	const [currentUser, setCurrentUser] = useState(false);
 
 	useEffect(async () => {
 		await refreshBooklist();
@@ -47,6 +48,10 @@ export default function Home(props) {
 		props.cookies.set("token", token, {
 			maxAge: 60 * 60 * 24 * 365
 		});
+	};
+
+	const signOut = id => {
+		props.cookies.remove("token");
 	};
 
 	const getToken = () => {
@@ -200,6 +205,7 @@ export default function Home(props) {
 			>
 				<HomeWrapper>
 					<Header>Marla's Books!</Header>
+					<button onClick={signOut}>Log out</button>
 					<TabBar
 						addNewList={addNewList}
 						lists={lists || []}
