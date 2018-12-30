@@ -9,7 +9,7 @@ SignInPage.propTypes = {
 	getToken: PropTypes.func.isRequired,
 	addNewUser: PropTypes.func.isRequired,
 	signIn: PropTypes.func.isRequired,
-	getUser: PropTypes.func.isRequired
+	validateUser: PropTypes.func.isRequired
 };
 
 const PageWrapper = styled.div`
@@ -34,7 +34,10 @@ export default function SignInPage(props) {
 			<PageWrapper>
 				<Header>Sign In or Sign Up!</Header>
 				<SignUp addNewUser={props.addNewUser} signIn={props.signIn} />
-				<SignIn getUser={props.getUser} signIn={props.signIn} />
+				<SignIn
+					validateUser={props.validateUser}
+					signIn={props.signIn}
+				/>
 				<GlobalStyle />
 			</PageWrapper>
 		);

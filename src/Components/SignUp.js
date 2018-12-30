@@ -101,7 +101,7 @@ export default function SignUp(props) {
 							username,
 							password
 						);
-						props.signIn(id);
+						await props.signIn(id);
 					}
 				}}
 			>

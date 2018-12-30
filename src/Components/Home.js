@@ -42,12 +42,14 @@ export default function Home(props) {
 		[pageLoaded]
 	);
 
-	const signIn = id => {
+	const signIn = async id => {
 		const token = jwt.sign({ userId: id }, "sdfg");
 
 		props.cookies.set("token", token, {
 			maxAge: 60 * 60 * 24 * 365
 		});
+
+		await loadUserById(id);
 	};
 
 	const signOut = id => {
@@ -168,7 +170,7 @@ export default function Home(props) {
 	};
 
 	const addNewUser = async (name, username, password) => {
-		await fetch(url + "Users", {
+		const result = await fetch(url + "Users", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -178,10 +180,10 @@ export default function Home(props) {
 			})
 		});
 
-		await refreshBooklist();
+		return await result.json();
 	};
 
-	const getUser = async (username, password) => {
+	const validateUser = async (username, password) => {
 		const result = await fetch(url + "Users", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -195,16 +197,23 @@ export default function Home(props) {
 		return await result.json();
 	};
 
+	const loadUserById = async id => {
+		let result = await fetch(url + `Users/${id}`);
+		let r = await result.json();
+
+		setCurrentUser(r);
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<SignInPage
 				getToken={getToken}
 				addNewUser={addNewUser}
 				signIn={signIn}
-				getUser={getUser}
+				validateUser={validateUser}
 			>
 				<HomeWrapper>
-					<Header>Marla's Books!</Header>
+					<Header>{currentUser.Name}'s Books!</Header>
 					<button onClick={signOut}>Log out</button>
 					<TabBar
 						addNewList={addNewList}

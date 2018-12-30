@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 SignIn.propTypes = {
 	signIn: PropTypes.func.isRequired,
-	getUser: PropTypes.func.isRequired
+	validateUser: PropTypes.func.isRequired
 };
 
 const SignInWrapper = styled.div`
@@ -91,10 +91,10 @@ export default function SignIn(props) {
 			<SignInForm
 				onSubmit={async e => {
 					e.preventDefault();
-					const userId = await props.getUser(username, password);
+					const userId = await props.validateUser(username, password);
 
 					if (userId !== null) {
-						props.signIn(userId);
+						await props.signIn(userId);
 					}
 
 					//TODO: error handling when user gets username/password wrong
