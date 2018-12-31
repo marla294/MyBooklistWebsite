@@ -166,6 +166,8 @@ export default function Home(props) {
 
 	const signOut = id => {
 		props.cookies.remove("token");
+
+		setCurrentUser(null);
 	};
 
 	const setCurrentUserFromCookie = async () => {
@@ -227,7 +229,11 @@ export default function Home(props) {
 				validateUser={validateUser}
 			>
 				<HomeWrapper>
-					<Header>{currentUser.Name}'s Books!</Header>
+					<Header>
+						{currentUser
+							? `${currentUser.Name}'s Books!`
+							: "My Books!"}
+					</Header>
 					<button onClick={signOut}>Log out</button>
 					<TabBar
 						addNewList={addNewList}
