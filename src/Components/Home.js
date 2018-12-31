@@ -30,6 +30,9 @@ export default function Home(props) {
 	const [currentUser, setCurrentUser] = useState(false);
 
 	useEffect(async () => {
+		if (getToken()) {
+			await setCurrentUserFromCookie();
+		}
 		await refreshBooklist();
 		setPageLoaded(true);
 	}, []);
@@ -41,24 +44,6 @@ export default function Home(props) {
 		},
 		[pageLoaded]
 	);
-
-	const signIn = async id => {
-		const token = jwt.sign({ userId: id }, "sdfg");
-
-		props.cookies.set("token", token, {
-			maxAge: 60 * 60 * 24 * 365
-		});
-
-		await loadUserById(id);
-	};
-
-	const signOut = id => {
-		props.cookies.remove("token");
-	};
-
-	const getToken = () => {
-		return props.cookies.get("token");
-	};
 
 	const refreshBooklist = async () => {
 		await getLists();
@@ -169,6 +154,35 @@ export default function Home(props) {
 		}
 	};
 
+	const signIn = async id => {
+		const token = jwt.sign({ userId: id }, "sdfg");
+
+		props.cookies.set("token", token, {
+			maxAge: 60 * 60 * 24 * 365
+		});
+
+		await setCurrentUserById(id);
+	};
+
+	const signOut = id => {
+		props.cookies.remove("token");
+	};
+
+	const setCurrentUserFromCookie = async () => {
+		// First get the token from the cookie
+		const token = getToken();
+
+		// Next get the userId from the token
+		const { userId } = jwt.verify(token, "sdfg");
+
+		// Finally load the current user by id
+		await setCurrentUserById(userId);
+	};
+
+	const getToken = () => {
+		return props.cookies.get("token");
+	};
+
 	const addNewUser = async (name, username, password) => {
 		const result = await fetch(url + "Users", {
 			method: "POST",
@@ -197,7 +211,7 @@ export default function Home(props) {
 		return await result.json();
 	};
 
-	const loadUserById = async id => {
+	const setCurrentUserById = async id => {
 		let result = await fetch(url + `Users/${id}`);
 		let r = await result.json();
 
