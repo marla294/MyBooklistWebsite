@@ -60,6 +60,16 @@ export default function TabBar(props) {
 					deleteList={props.deleteList}
 				/>
 			);
+		} else {
+			return (
+				<Tab
+					key={0}
+					id={0}
+					listTitle={"New List"}
+					updateListTitle={props.updateListTitle}
+					deleteList={props.deleteList}
+				/>
+			);
 		}
 	}
 }

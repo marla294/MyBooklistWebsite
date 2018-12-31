@@ -94,7 +94,12 @@ export default function Home(props) {
 	};
 
 	const getFirstListId = () => {
-		if (lists && lists[0]) return lists[0].Id;
+		// if (lists && lists[0]) return lists[0].Id;
+		// else return null;
+
+		const filteredLists = filterLists();
+
+		if (filteredLists && filteredLists[0]) return filteredLists[0].Id;
 		else return null;
 	};
 
@@ -163,7 +168,7 @@ export default function Home(props) {
 		});
 
 		await setCurrentUserById(id);
-
+		setSelected(getFirstListId());
 		await refreshBooklist();
 	};
 
@@ -171,6 +176,7 @@ export default function Home(props) {
 		props.cookies.remove("token");
 
 		setCurrentUser(null);
+		setSelected(null);
 	};
 
 	const setCurrentUserFromCookie = async () => {
