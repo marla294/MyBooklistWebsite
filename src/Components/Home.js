@@ -94,9 +94,6 @@ export default function Home(props) {
 	};
 
 	const getFirstListId = () => {
-		// if (lists && lists[0]) return lists[0].Id;
-		// else return null;
-
 		const filteredLists = filterLists();
 
 		if (filteredLists && filteredLists[0]) return filteredLists[0].Id;
@@ -168,11 +165,11 @@ export default function Home(props) {
 		});
 
 		await setCurrentUserById(id);
-		setSelected(getFirstListId());
 		await refreshBooklist();
+		setSelected(getFirstListId());
 	};
 
-	const signOut = id => {
+	const signOut = () => {
 		props.cookies.remove("token");
 
 		setCurrentUser(null);
@@ -269,7 +266,7 @@ export default function Home(props) {
 	}
 
 	function loadLists() {
-		if (pageLoaded && selectedList) {
+		if (pageLoaded) {
 			return renderList();
 		} else {
 			return (
@@ -295,6 +292,8 @@ export default function Home(props) {
 	}
 
 	function renderList() {
+		console.log(selectedList);
+
 		const books = createListMap().get(selectedList);
 
 		return (
