@@ -240,7 +240,7 @@ export default function Home(props) {
 					<button onClick={signOut}>Log out</button>
 					<TabBar
 						addNewList={addNewList}
-						lists={lists || []}
+						lists={filterLists() || []}
 						selectedList={selectedList || 0}
 						setSelected={setSelected}
 						updateListTitle={updateListTitle}
@@ -253,6 +253,14 @@ export default function Home(props) {
 			</SignInPage>
 		</ThemeProvider>
 	);
+
+	function filterLists() {
+		if (currentUser && lists) {
+			return lists.filter(list => list.Owner.Id === currentUser.Id);
+		}
+
+		return lists;
+	}
 
 	function loadLists() {
 		if (pageLoaded && selectedList) {

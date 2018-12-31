@@ -120,30 +120,24 @@ export default function TabDropdown(props) {
 	function renderDropdownOptions() {
 		let options = [];
 
-		if (props.currentUser) {
-			const filteredLists = props.lists.filter(
-				list => list.Owner.Id === props.currentUser.Id
-			);
-
-			options = filteredLists.map(list => {
-				return (
-					<Option
-						key={list.Id}
-						onClick={() => clickAnOption(list.Id)}
-						selected={list.Id === props.selectedList}
+		options = props.lists.map(list => {
+			return (
+				<Option
+					key={list.Id}
+					onClick={() => clickAnOption(list.Id)}
+					selected={list.Id === props.selectedList}
+				>
+					<div>{list.Name}</div>
+					<button
+						onClick={async () => {
+							await props.deleteList(list.Id);
+						}}
 					>
-						<div>{list.Name}</div>
-						<button
-							onClick={async () => {
-								await props.deleteList(list.Id);
-							}}
-						>
-							&times;
-						</button>
-					</Option>
-				);
-			});
-		}
+						&times;
+					</button>
+				</Option>
+			);
+		});
 
 		options.push(
 			<NewListOption key={"add new list"} onClick={clickAddNewList}>
