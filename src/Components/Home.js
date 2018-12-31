@@ -27,7 +27,7 @@ export default function Home(props) {
 	const [lists, setLists] = useState(null);
 	const [selectedList, setSelected] = useState(null);
 	const [pageLoaded, setPageLoaded] = useState(false);
-	const [currentUser, setCurrentUser] = useState(false);
+	const [currentUser, setCurrentUser] = useState(null);
 
 	useEffect(async () => {
 		if (getToken()) {
@@ -59,6 +59,7 @@ export default function Home(props) {
 	const getLists = async () => {
 		const result = await fetch(url + "Lists");
 		const r = await result.json();
+
 		setLists(r);
 	};
 
@@ -162,6 +163,8 @@ export default function Home(props) {
 		});
 
 		await setCurrentUserById(id);
+
+		await refreshBooklist();
 	};
 
 	const signOut = id => {
