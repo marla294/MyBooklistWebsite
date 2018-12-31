@@ -51,14 +51,14 @@ export default function Home(props) {
 	};
 
 	const getBookList = async () => {
-		let result = await fetch(url + "BookList");
-		let r = await result.json();
+		const result = await fetch(url + "BookList");
+		const r = await result.json();
 		setBookList(r);
 	};
 
 	const getLists = async () => {
-		let result = await fetch(url + "Lists");
-		let r = await result.json();
+		const result = await fetch(url + "Lists");
+		const r = await result.json();
 		setLists(r);
 	};
 
@@ -214,8 +214,8 @@ export default function Home(props) {
 	};
 
 	const setCurrentUserById = async id => {
-		let result = await fetch(url + `Users/${id}`);
-		let r = await result.json();
+		const result = await fetch(url + `Users/${id}`);
+		const r = await result.json();
 
 		setCurrentUser(r);
 	};
