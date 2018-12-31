@@ -245,6 +245,7 @@ export default function Home(props) {
 						setSelected={setSelected}
 						updateListTitle={updateListTitle}
 						deleteList={deleteList}
+						currentUser={currentUser}
 					/>
 					{loadLists()}
 					<GlobalStyle />

@@ -38,6 +38,7 @@ export default function TabBar(props) {
 				setSelected={props.setSelected}
 				addNewList={props.addNewList}
 				deleteList={props.deleteList}
+				currentUser={props.currentUser}
 			/>
 		</TabsWrapper>
 	);
