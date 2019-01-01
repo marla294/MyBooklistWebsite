@@ -30,7 +30,7 @@ export default function Home(props) {
 	const [currentUser, setCurrentUser] = useState(null);
 
 	useEffect(async () => {
-		if (getToken()) {
+		if (getTokenFromCookie()) {
 			const userId = getUserIdFromToken();
 			await setCurrentUserFromToken();
 			await refreshBooklist(userId);
@@ -40,7 +40,7 @@ export default function Home(props) {
 
 	useEffect(
 		async () => {
-			if (getToken()) {
+			if (getTokenFromCookie()) {
 				const userId = getUserIdFromToken();
 				setSelected(getFirstListId());
 				await refreshBooklist(userId);
@@ -161,31 +161,73 @@ export default function Home(props) {
 		}
 	};
 
-	const signIn = async id => {
-		const token = jwt.sign({ userId: id }, "sdfg");
+	// *******
+	// Sign in/out methods
+	// *******
 
-		props.cookies.set("token", token, {
-			maxAge: 60 * 60 * 24 * 365
-		});
+	const signIn = async userId => {
+		// Ensure userId is an int
+		userId = parseInt(userId);
 
-		await setCurrentUserById(id);
-		await refreshBooklist(parseInt(id));
+		// Create a JWT
+		const token = createJWT(userId);
+
+		// Put the JWT on the cookie
+		addTokenToCookie(token);
+
+		// Set the current user to the signed-in user
+		await setCurrentUserById(userId);
+
+		// Get the site displaying correctly
+		await refreshBooklist(userId);
 		setSelected(getFirstListId());
 	};
 
 	const signOut = () => {
-		props.cookies.remove("token");
+		// Remove the token cookie, which will sign the user out
+		removeTokenFromCookie();
 
+		// Reset the app state
 		setCurrentUser(null);
 		setSelected(null);
 	};
 
-	const getToken = () => {
+	// *******
+	// JWT methods
+	// *******
+
+	const createJWT = userId => {
+		return jwt.sign({ userId }, "sdfg");
+	};
+
+	const verifyJWT = token => {
+		return jwt.verify(token, "sdfg");
+	};
+
+	// *******
+	// Cookie methods
+	// *******
+
+	const addTokenToCookie = token => {
+		props.cookies.set("token", token, {
+			maxAge: 60 * 60 * 24 * 365 // one year cookie
+		});
+	};
+
+	const getTokenFromCookie = () => {
 		return props.cookies.get("token");
 	};
 
+	const removeTokenFromCookie = () => {
+		props.cookies.remove("token");
+	};
+
+	// *******
+	// currentUser methods
+	// *******
+
 	const getUserIdFromToken = () => {
-		const { userId } = jwt.verify(getToken(), "sdfg");
+		const { userId } = verifyJWT(getTokenFromCookie());
 		return userId;
 	};
 
@@ -198,6 +240,10 @@ export default function Home(props) {
 		const user = await fetchGetUserById(parseInt(userId));
 		setCurrentUser(user);
 	};
+
+	// *******
+	// Fetching Users
+	// *******
 
 	// creates a new user in the database
 	// returns the new userId as a string
@@ -237,7 +283,7 @@ export default function Home(props) {
 	return (
 		<ThemeProvider theme={theme}>
 			<SignInPage
-				getToken={getToken}
+				getToken={getTokenFromCookie}
 				addNewUser={fetchCreateNewUser}
 				signIn={signIn}
 				validateUser={fetchValidateUser}
