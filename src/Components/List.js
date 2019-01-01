@@ -7,8 +7,7 @@ import NewBook from "./NewBook";
 List.propTypes = {
 	id: PropTypes.number.isRequired,
 	books: PropTypes.array.isRequired,
-	addBook: PropTypes.func.isRequired,
-	addBookToList: PropTypes.func.isRequired,
+	createNewBook: PropTypes.func.isRequired,
 	deleteBook: PropTypes.func.isRequired,
 	deleteBookFromList: PropTypes.func.isRequired
 };
@@ -66,8 +65,7 @@ export default function List(props) {
 			<NewBook
 				displayNewBook={displayNewBook}
 				setDisplayNewBook={setDisplayNewBook}
-				addBook={props.addBook}
-				addBookToList={props.addBookToList}
+				createNewBook={props.createNewBook}
 				listId={props.id}
 			/>
 			<AddNewBook onClick={() => setDisplayNewBook(true)}>+</AddNewBook>

@@ -5,8 +5,7 @@ import styled from "styled-components";
 NewBook.propTypes = {
 	displayNewBook: PropTypes.bool.isRequired,
 	setDisplayNewBook: PropTypes.func.isRequired,
-	addBook: PropTypes.func.isRequired,
-	addBookToList: PropTypes.func.isRequired,
+	createNewBook: PropTypes.func.isRequired,
 	listId: PropTypes.number.isRequired
 };
 
@@ -88,8 +87,7 @@ export default function NewBook(props) {
 			<form
 				onSubmit={async e => {
 					e.preventDefault();
-					const bookId = await props.addBook(title, author);
-					await props.addBookToList(bookId, props.listId);
+					await props.createNewBook(props.listId, title, author);
 				}}
 			>
 				<TitleAuthorWrapper>

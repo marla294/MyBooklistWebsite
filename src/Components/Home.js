@@ -112,29 +112,41 @@ export default function Home(props) {
 		return lists[index + 1].Id;
 	};
 
+	// *******
+	// Fetching Books
+	// *******
+
+	const createNewBook = async (listId, title, author) => {
+		// First create the new book in the database
+		const bookId = await fetchCreateNewBook(title, author);
+
+		// Then add the new book to the list
+		await fetchAddBookToList(bookId, listId);
+
+		// Refresh the page
+		await refreshBooklist(currentUser.Id);
+	};
+
+	// Creates a new book in the Books table on the database
 	// Returns id of added book
-	const addBook = async (title, author) => {
+	const fetchCreateNewBook = async (title, author) => {
 		const res = await fetch(url + "Books", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ title, author })
 		});
 
-		const id = await res.json();
-		return parseInt(id);
+		const bookId = await res.json();
+		return parseInt(bookId);
 	};
 
-	const addBookToList = async (bookId, listId) => {
-		const res = await fetch(url + "BookList", {
+	// Adds a book to a list
+	const fetchAddBookToList = async (bookId, listId) => {
+		await fetch(url + "BookList", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ bookId, listId })
 		});
-
-		await refreshBooklist(currentUser.Id);
-
-		const id = await res.json();
-		return parseInt(id);
 	};
 
 	const deleteBook = async id => {
@@ -354,8 +366,7 @@ export default function Home(props) {
 					key={selectedList}
 					id={selectedList}
 					books={books}
-					addBook={addBook}
-					addBookToList={addBookToList}
+					createNewBook={createNewBook}
 					deleteBook={deleteBook}
 					deleteBookFromList={deleteBookFromList}
 				/>
