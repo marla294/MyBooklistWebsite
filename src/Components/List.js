@@ -8,8 +8,7 @@ List.propTypes = {
 	id: PropTypes.number.isRequired,
 	books: PropTypes.array.isRequired,
 	createNewBook: PropTypes.func.isRequired,
-	deleteBook: PropTypes.func.isRequired,
-	deleteBookFromList: PropTypes.func.isRequired
+	deleteBook: PropTypes.func.isRequired
 };
 
 export const ListWrapper = styled.div`
@@ -91,7 +90,6 @@ function renderBooks(props) {
 				url={book.URL}
 				image={book.Cover}
 				deleteBook={props.deleteBook}
-				deleteBookFromList={props.deleteBookFromList}
 			/>
 		);
 	});

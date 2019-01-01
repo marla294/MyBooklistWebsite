@@ -113,7 +113,7 @@ export default function Home(props) {
 	};
 
 	// *******
-	// Fetching Books
+	// Book Methods
 	// *******
 
 	const createNewBook = async (listId, title, author) => {
@@ -140,7 +140,7 @@ export default function Home(props) {
 		return parseInt(bookId);
 	};
 
-	// Adds a book to a list
+	// Adds a book to a list (by adding to the booklist table on the db)
 	const fetchAddBookToList = async (bookId, listId) => {
 		await fetch(url + "BookList", {
 			method: "POST",
@@ -149,28 +149,36 @@ export default function Home(props) {
 		});
 	};
 
-	const deleteBook = async id => {
-		await fetch(url + `Books/${id}`, {
-			method: "DELETE",
-			headers: { "Content-Type": "application/json" }
-		});
+	const deleteBook = async (bookId, listId) => {
+		// First delete the book from the list
+		await fetchDeleteBookFromList(bookId, listId);
 
+		// Then delete the book from the books table
+		await fetchDeleteBook(bookId);
+
+		// Finally refresh the page
 		await refreshBooklist(currentUser.Id);
 	};
 
-	const deleteBookFromList = async (bookId, listId) => {
-		const id = bookList.find(item => {
+	// Deletes a book from the Books table on the db
+	const fetchDeleteBook = async bookId => {
+		await fetch(url + `Books/${bookId}`, {
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" }
+		});
+	};
+
+	// Deletes a book from a list (by deleting from the booklist table on the db)
+	const fetchDeleteBookFromList = async (bookId, listId) => {
+		// Get the bookListId to delete
+		const bookListId = bookList.find(item => {
 			return item.Book.Id === bookId && item.ListId === listId;
 		}).Id;
 
-		if (id) {
-			await fetch(url + `BookList/${id}`, {
-				method: "DELETE",
-				headers: { "Content-Type": "application/json" }
-			});
-
-			await refreshBooklist(currentUser.Id);
-		}
+		await fetch(url + `BookList/${bookListId}`, {
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" }
+		});
 	};
 
 	// *******
@@ -368,7 +376,6 @@ export default function Home(props) {
 					books={books}
 					createNewBook={createNewBook}
 					deleteBook={deleteBook}
-					deleteBookFromList={deleteBookFromList}
 				/>
 			);
 		}

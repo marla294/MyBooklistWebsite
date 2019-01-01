@@ -10,8 +10,7 @@ Book.propTypes = {
 	author: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	image: PropTypes.string.isRequired,
-	deleteBook: PropTypes.func.isRequired,
-	deleteBookFromList: PropTypes.func.isRequired
+	deleteBook: PropTypes.func.isRequired
 };
 
 const BookWrapper = styled.div`
@@ -72,9 +71,7 @@ export default function Book(props) {
 				<Author>{author}</Author>
 			</TitleAuthorWrapper>
 			<DeleteBook
-				onClick={() =>
-					props.deleteBookFromList(props.bookId, props.listId)
-				}
+				onClick={() => props.deleteBook(props.bookId, props.listId)}
 			>
 				&times;
 			</DeleteBook>
