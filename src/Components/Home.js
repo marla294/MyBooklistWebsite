@@ -32,7 +32,7 @@ export default function Home(props) {
 	useEffect(async () => {
 		if (getToken()) {
 			const userId = getUserIdFromToken();
-			await setCurrentUserFromCookie();
+			await setCurrentUserFromToken();
 			await refreshBooklist(userId);
 		}
 		setPageLoaded(true);
@@ -180,28 +180,22 @@ export default function Home(props) {
 		setSelected(null);
 	};
 
-	const setCurrentUserFromCookie = async () => {
-		const userId = getUserIdFromToken();
-		// Finally load the current user by id
-		await setCurrentUserById(userId);
-	};
-
 	const getToken = () => {
 		return props.cookies.get("token");
 	};
 
 	const getUserIdFromToken = () => {
-		// First get the token from the cookie
-		const token = getToken();
-		// Next get the userId from the token
-		const { userId } = jwt.verify(token, "sdfg");
-
+		const { userId } = jwt.verify(getToken(), "sdfg");
 		return userId;
 	};
 
-	const setCurrentUserById = async id => {
-		const user = await fetchGetUserById(id);
+	const setCurrentUserFromToken = async () => {
+		const userId = getUserIdFromToken();
+		await setCurrentUserById(userId);
+	};
 
+	const setCurrentUserById = async userId => {
+		const user = await fetchGetUserById(parseInt(userId));
 		setCurrentUser(user);
 	};
 
@@ -234,9 +228,9 @@ export default function Home(props) {
 	};
 
 	// gets the user from the database that uses this id
-	const fetchGetUserById = async id => {
-		const result = await fetch(url + `Users/${id}`);
-
+	// userId is an int
+	const fetchGetUserById = async userId => {
+		const result = await fetch(url + `Users/${userId}`);
 		return await result.json();
 	};
 
