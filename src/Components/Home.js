@@ -31,8 +31,9 @@ export default function Home(props) {
 
 	useEffect(async () => {
 		if (getToken()) {
+			const userId = getUserIdFromToken();
 			await setCurrentUserFromCookie();
-			await refreshBooklist(currentUser.Id);
+			await refreshBooklist(userId);
 		}
 		setPageLoaded(true);
 	}, []);
@@ -40,8 +41,9 @@ export default function Home(props) {
 	useEffect(
 		async () => {
 			if (getToken()) {
+				const userId = getUserIdFromToken();
 				setSelected(getFirstListId());
-				await refreshBooklist(currentUser.Id);
+				await refreshBooklist(userId);
 			}
 		},
 		[pageLoaded]
@@ -193,6 +195,16 @@ export default function Home(props) {
 
 	const getToken = () => {
 		return props.cookies.get("token");
+	};
+
+	const getUserIdFromToken = () => {
+		// First get the token from the cookie
+		const token = getToken();
+
+		// Next get the userId from the token
+		const { userId } = jwt.verify(token, "sdfg");
+
+		return userId;
 	};
 
 	const addNewUser = async (name, username, password) => {

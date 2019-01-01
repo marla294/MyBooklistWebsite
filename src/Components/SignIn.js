@@ -104,7 +104,7 @@ export default function SignIn(props) {
 					Username:
 					<input
 						type="text"
-						id="username"
+						id="SIusername"
 						name="username"
 						required
 						value={username}
@@ -115,7 +115,7 @@ export default function SignIn(props) {
 					Password:
 					<input
 						type="password"
-						id="password"
+						id="SIpassword"
 						name="password"
 						required
 						value={password}
