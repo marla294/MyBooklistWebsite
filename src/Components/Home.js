@@ -64,8 +64,6 @@ export default function Home(props) {
 		const result = await fetch(url + `Lists/${userId}`);
 		const r = await result.json();
 
-		console.log(result);
-
 		setLists(r);
 	};
 
@@ -78,11 +76,11 @@ export default function Home(props) {
 		await refreshBooklist(currentUser.Id);
 	};
 
-	const addNewList = async name => {
+	const addNewList = async (name, userId) => {
 		const res = await fetch(url + "Lists", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ name })
+			body: JSON.stringify({ name, userId })
 		});
 		// When new list is created it is automatically selected
 		const id = await res.json();
@@ -308,18 +306,20 @@ export default function Home(props) {
 	}
 
 	function renderList() {
-		const books = createListMap().get(selectedList);
+		if (selectedList) {
+			const books = createListMap().get(selectedList);
 
-		return (
-			<List
-				key={selectedList}
-				id={selectedList}
-				books={books}
-				addBook={addBook}
-				addBookToList={addBookToList}
-				deleteBook={deleteBook}
-				deleteBookFromList={deleteBookFromList}
-			/>
-		);
+			return (
+				<List
+					key={selectedList}
+					id={selectedList}
+					books={books}
+					addBook={addBook}
+					addBookToList={addBookToList}
+					deleteBook={deleteBook}
+					deleteBookFromList={deleteBookFromList}
+				/>
+			);
+		}
 	}
 }
