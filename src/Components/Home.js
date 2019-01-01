@@ -32,21 +32,23 @@ export default function Home(props) {
 	useEffect(async () => {
 		if (getToken()) {
 			await setCurrentUserFromCookie();
+			await refreshBooklist(currentUser.Id);
 		}
-		await refreshBooklist();
 		setPageLoaded(true);
 	}, []);
 
 	useEffect(
 		async () => {
-			setSelected(getFirstListId());
-			await refreshBooklist();
+			if (getToken()) {
+				setSelected(getFirstListId());
+				await refreshBooklist(currentUser.Id);
+			}
 		},
 		[pageLoaded]
 	);
 
-	const refreshBooklist = async () => {
-		await getLists();
+	const refreshBooklist = async userId => {
+		await getLists(userId);
 		await getBookList();
 	};
 
@@ -56,9 +58,11 @@ export default function Home(props) {
 		setBookList(r);
 	};
 
-	const getLists = async () => {
-		const result = await fetch(url + "Lists");
+	const getLists = async userId => {
+		const result = await fetch(url + `Lists/${userId}`);
 		const r = await result.json();
+
+		console.log(result);
 
 		setLists(r);
 	};
@@ -69,7 +73,7 @@ export default function Home(props) {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name })
 		});
-		await refreshBooklist();
+		await refreshBooklist(currentUser.Id);
 	};
 
 	const addNewList = async name => {
@@ -81,7 +85,7 @@ export default function Home(props) {
 		// When new list is created it is automatically selected
 		const id = await res.json();
 		setSelected(parseInt(id));
-		await refreshBooklist();
+		await refreshBooklist(currentUser.Id);
 	};
 
 	const deleteList = async id => {
@@ -90,7 +94,7 @@ export default function Home(props) {
 			headers: { "Content-Type": "application/json" }
 		});
 		setSelected(getNewListId(id));
-		await refreshBooklist();
+		await refreshBooklist(currentUser.Id);
 	};
 
 	const getFirstListId = () => {
@@ -127,7 +131,7 @@ export default function Home(props) {
 			body: JSON.stringify({ bookId, listId })
 		});
 
-		await refreshBooklist();
+		await refreshBooklist(currentUser.Id);
 
 		const id = await res.json();
 		return parseInt(id);
@@ -139,7 +143,7 @@ export default function Home(props) {
 			headers: { "Content-Type": "application/json" }
 		});
 
-		await refreshBooklist();
+		await refreshBooklist(currentUser.Id);
 	};
 
 	const deleteBookFromList = async (bookId, listId) => {
@@ -153,7 +157,7 @@ export default function Home(props) {
 				headers: { "Content-Type": "application/json" }
 			});
 
-			await refreshBooklist();
+			await refreshBooklist(currentUser.Id);
 		}
 	};
 
@@ -165,7 +169,7 @@ export default function Home(props) {
 		});
 
 		await setCurrentUserById(id);
-		await refreshBooklist();
+		await refreshBooklist(parseInt(id));
 		setSelected(getFirstListId());
 	};
 
@@ -292,8 +296,6 @@ export default function Home(props) {
 	}
 
 	function renderList() {
-		console.log(selectedList);
-
 		const books = createListMap().get(selectedList);
 
 		return (
