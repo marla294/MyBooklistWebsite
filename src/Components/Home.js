@@ -50,7 +50,9 @@ export default function Home(props) {
 	);
 
 	const refreshBooklist = async userId => {
-		await getLists(userId);
+		const userLists = await fetchGetListsByUser(userId);
+		setLists(userLists);
+
 		await getBookList();
 	};
 
@@ -60,11 +62,39 @@ export default function Home(props) {
 		setBookList(r);
 	};
 
-	const getLists = async userId => {
-		const result = await fetch(url + `Lists/${userId}`);
-		const r = await result.json();
+	// *******
+	// List Methods
+	// *******
 
-		setLists(r);
+	const createNewList = async (name, userId) => {
+		// first create the list on the db
+		const listId = fetchCreateNewList(name, userId);
+
+		// next set the selected list to the new list
+		setSelected(parseInt(listId));
+
+		// refresh the page
+		await refreshBooklist(currentUser.Id);
+	};
+
+	// Creates a new list on the db for a user
+	// Returns the listId
+	const fetchCreateNewList = async (name, userId) => {
+		const res = await fetch(url + "Lists", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ name, userId })
+		});
+
+		return await res.json();
+	};
+
+	// Gets the lists on the db per user
+	// Returns the lists collected
+	const fetchGetListsByUser = async userId => {
+		const result = await fetch(url + `Lists/${userId}`);
+
+		return await result.json();
 	};
 
 	const updateListTitle = async (id, name) => {
@@ -73,18 +103,6 @@ export default function Home(props) {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name })
 		});
-		await refreshBooklist(currentUser.Id);
-	};
-
-	const addNewList = async (name, userId) => {
-		const res = await fetch(url + "Lists", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ name, userId })
-		});
-		// When new list is created it is automatically selected
-		const id = await res.json();
-		setSelected(parseInt(id));
 		await refreshBooklist(currentUser.Id);
 	};
 
@@ -110,6 +128,14 @@ export default function Home(props) {
 		if (lists.length <= 1) return null;
 		if (index === lists.length - 1) return lists[index - 1].Id;
 		return lists[index + 1].Id;
+	};
+
+	const filterLists = () => {
+		if (currentUser && lists) {
+			return lists.filter(list => list.Owner.Id === currentUser.Id);
+		}
+
+		return lists;
 	};
 
 	// *******
@@ -316,7 +342,7 @@ export default function Home(props) {
 					</Header>
 					<button onClick={signOut}>Log out</button>
 					<TabBar
-						addNewList={addNewList}
+						addNewList={createNewList}
 						lists={filterLists() || []}
 						selectedList={selectedList || 0}
 						setSelected={setSelected}
@@ -330,14 +356,6 @@ export default function Home(props) {
 			</SignInPage>
 		</ThemeProvider>
 	);
-
-	function filterLists() {
-		if (currentUser && lists) {
-			return lists.filter(list => list.Owner.Id === currentUser.Id);
-		}
-
-		return lists;
-	}
 
 	function loadLists() {
 		if (pageLoaded) {
