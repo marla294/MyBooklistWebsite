@@ -181,12 +181,7 @@ export default function Home(props) {
 	};
 
 	const setCurrentUserFromCookie = async () => {
-		// First get the token from the cookie
-		const token = getToken();
-
-		// Next get the userId from the token
-		const { userId } = jwt.verify(token, "sdfg");
-
+		const userId = getUserIdFromToken();
 		// Finally load the current user by id
 		await setCurrentUserById(userId);
 	};
@@ -198,14 +193,33 @@ export default function Home(props) {
 	const getUserIdFromToken = () => {
 		// First get the token from the cookie
 		const token = getToken();
-
 		// Next get the userId from the token
 		const { userId } = jwt.verify(token, "sdfg");
 
 		return userId;
 	};
 
-	const addNewUser = async (name, username, password) => {
+	const setCurrentUserById = async id => {
+		const user = await fetchGetUserById(id);
+
+		setCurrentUser(user);
+	};
+
+	// creates a new user in the database
+	// returns the new userId as a string
+	const fetchCreateNewUser = async (name, username, password) => {
+		return await fetchPostUser(name, username, password);
+	};
+
+	// validates whether the user is valid or not on the database
+	// returns the userId as a string if it is found, null if not found
+	const fetchValidateUser = async (username, password) => {
+		return await fetchPostUser("", username, password);
+	};
+
+	// does the fetch Post action on the server for the above 2 methods,
+	// fetchCreateNewUser and fetchValidateUser
+	const fetchPostUser = async (name, username, password) => {
 		const result = await fetch(url + "Users", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -219,34 +233,20 @@ export default function Home(props) {
 		return await result.json();
 	};
 
-	const validateUser = async (username, password) => {
-		const result = await fetch(url + "Users", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				name: "",
-				username: username.toLowerCase(),
-				password
-			})
-		});
+	// gets the user from the database that uses this id
+	const fetchGetUserById = async id => {
+		const result = await fetch(url + `Users/${id}`);
 
 		return await result.json();
-	};
-
-	const setCurrentUserById = async id => {
-		const result = await fetch(url + `Users/${id}`);
-		const r = await result.json();
-
-		setCurrentUser(r);
 	};
 
 	return (
 		<ThemeProvider theme={theme}>
 			<SignInPage
 				getToken={getToken}
-				addNewUser={addNewUser}
+				addNewUser={fetchCreateNewUser}
 				signIn={signIn}
-				validateUser={validateUser}
+				validateUser={fetchValidateUser}
 			>
 				<HomeWrapper>
 					<Header>
