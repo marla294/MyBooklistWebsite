@@ -97,13 +97,21 @@ export default function Home(props) {
 		return await result.json();
 	};
 
-	const updateListTitle = async (id, name) => {
-		await fetch(url + `Lists/${id}`, {
+	const updateListName = async (listId, listName) => {
+		// update the list name on the db
+		await fetchUpdateListName(listId, listName);
+
+		// refresh the page
+		await refreshBooklist(currentUser.Id);
+	};
+
+	// Updates the list name on the db
+	const fetchUpdateListName = async (listId, listName) => {
+		await fetch(url + `Lists/${listId}`, {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ name })
+			body: JSON.stringify({ name: listName })
 		});
-		await refreshBooklist(currentUser.Id);
 	};
 
 	const deleteList = async id => {
@@ -346,7 +354,7 @@ export default function Home(props) {
 						lists={filterLists() || []}
 						selectedList={selectedList || 0}
 						setSelected={setSelected}
-						updateListTitle={updateListTitle}
+						updateListName={updateListName}
 						deleteList={deleteList}
 						currentUser={currentUser}
 					/>

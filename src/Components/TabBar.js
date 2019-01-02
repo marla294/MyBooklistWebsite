@@ -9,7 +9,7 @@ TabBar.propTypes = {
 	lists: PropTypes.array.isRequired,
 	selectedList: PropTypes.number.isRequired,
 	setSelected: PropTypes.func.isRequired,
-	updateListTitle: PropTypes.func.isRequired,
+	updateListName: PropTypes.func.isRequired,
 	deleteList: PropTypes.func.isRequired
 };
 
@@ -55,8 +55,8 @@ export default function TabBar(props) {
 				<Tab
 					key={selected.Id}
 					id={selected.Id}
-					listTitle={selected.Name}
-					updateListTitle={props.updateListTitle}
+					listName={selected.Name}
+					updateListName={props.updateListName}
 					deleteList={props.deleteList}
 				/>
 			);
@@ -65,8 +65,8 @@ export default function TabBar(props) {
 				<Tab
 					key={0}
 					id={0}
-					listTitle={"New List"}
-					updateListTitle={props.updateListTitle}
+					listName={"New List"}
+					updateListName={props.updateListName}
 					deleteList={props.deleteList}
 				/>
 			);

@@ -34,11 +34,11 @@ const TabStyles = styled.div`
 `;
 
 /* 
-The Tab component is the title of the list being shown on the screen.  It is meant to look like a file tab.  You can edit the list name by typing in the new name and clicking enter or clicking off the tab.  You can delete the list name by clicking the "x" button on the side of the tab.  An other list that you have created will show up in the deleted list's place.
+The Tab component is the title of the list being shown on the screen.  It is meant to look like a file tab.  You can edit the list name by typing in the new name and clicking enter or clicking off the tab.  You can delete the list name by clicking the "x" button on the side of the tab.  A different list that you have created will show up in the deleted list's place.
 */
 export default class Tab extends React.Component {
 	state = {
-		listTitle: this.props.listTitle
+		listName: this.props.listName
 	};
 
 	componentDidMount() {
@@ -50,9 +50,9 @@ export default class Tab extends React.Component {
 			<TabStyles>
 				<input
 					ref={this.myInput}
-					value={this.state.listTitle}
+					value={this.state.listName}
 					onChange={event =>
-						this.setState({ listTitle: event.target.value })
+						this.setState({ listName: event.target.value })
 					}
 					onKeyPress={async event => {
 						if (event.key === "Enter") {
@@ -60,9 +60,9 @@ export default class Tab extends React.Component {
 						}
 					}}
 					onBlur={async event => {
-						await this.props.updateListTitle(
+						await this.props.updateListName(
 							this.props.id,
-							this.state.listTitle
+							this.state.listName
 						);
 					}}
 				/>
@@ -73,7 +73,7 @@ export default class Tab extends React.Component {
 
 Tab.propTypes = {
 	id: PropTypes.number.isRequired,
-	listTitle: PropTypes.string.isRequired,
-	updateListTitle: PropTypes.func.isRequired,
+	listName: PropTypes.string.isRequired,
+	updateListName: PropTypes.func.isRequired,
 	deleteList: PropTypes.func.isRequired
 };
