@@ -68,6 +68,8 @@ export default function TabBar(props) {
 					listName={"New List"}
 					updateListName={props.updateListName}
 					deleteList={props.deleteList}
+					createNewList={props.createNewList}
+					currentUser={props.currentUser}
 				/>
 			);
 		}

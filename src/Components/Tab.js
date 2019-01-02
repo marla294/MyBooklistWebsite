@@ -41,7 +41,7 @@ export default class Tab extends React.Component {
 		listName: this.props.listName
 	};
 
-	componentDidMount() {
+	async componentDidMount() {
 		this.myInput = React.createRef();
 	}
 
@@ -60,10 +60,21 @@ export default class Tab extends React.Component {
 						}
 					}}
 					onBlur={async event => {
-						await this.props.updateListName(
-							this.props.id,
-							this.state.listName
-						);
+						if (this.props.id !== 0) {
+							await this.props.updateListName(
+								this.props.id,
+								this.state.listName
+							);
+						} else {
+							const newListId = await this.props.createNewList(
+								this.state.listName,
+								this.props.currentUser.Id
+							);
+							await this.props.updateListName(
+								newListId,
+								this.state.listName
+							);
+						}
 					}}
 				/>
 			</TabStyles>

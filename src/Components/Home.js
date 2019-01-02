@@ -64,6 +64,8 @@ export default function Home(props) {
 		// set the selected list to the newly created list
 		setSelected(parseInt(listId));
 		await refreshBooklist(currentUser.Id);
+		// return the listId in case this is the user's first list
+		return parseInt(listId);
 	};
 
 	// Handles all actions around updating a list name
@@ -212,6 +214,8 @@ export default function Home(props) {
 
 		// Get the site displaying correctly
 		await refreshBooklist(userId);
+		const userLists = await refreshBooklist(userId);
+		setSelected(getFirstListId(userLists));
 	};
 
 	const signOut = () => {
