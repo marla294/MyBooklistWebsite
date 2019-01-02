@@ -48,6 +48,14 @@ export default function TabBar(props) {
 
 		if (props.lists.length > 0) {
 			selected = props.lists.find(list => list.Id === props.selectedList);
+		} else {
+			if (props.currentUser) {
+				const listId = props.fetchCreateNewList(
+					"New List aahhhhhh",
+					props.currentUser.Id
+				);
+				selected = props.lists.find(list => list.Id === listId);
+			}
 		}
 
 		if (selected) {

@@ -334,6 +334,7 @@ export default function Home(props) {
 						updateListName={updateListName}
 						deleteList={deleteList}
 						currentUser={currentUser}
+						fetchCreateNewList={fetchCreateNewList}
 					/>
 					{loadLists()}
 					<GlobalStyle />
