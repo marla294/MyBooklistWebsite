@@ -114,13 +114,23 @@ export default function Home(props) {
 		});
 	};
 
-	const deleteList = async id => {
-		await fetch(url + `Lists/${id}`, {
+	const deleteList = async listId => {
+		// delete the list on the db
+		await fetchDeleteList(listId);
+
+		// since the list is gone, set selectedList to a new list
+		setSelected(getNewListId(listId));
+
+		// refresh the page
+		await refreshBooklist(currentUser.Id);
+	};
+
+	// Deletes a list on the db
+	const fetchDeleteList = async listId => {
+		await fetch(url + `Lists/${listId}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" }
 		});
-		setSelected(getNewListId(id));
-		await refreshBooklist(currentUser.Id);
 	};
 
 	const getFirstListId = () => {
@@ -399,7 +409,7 @@ export default function Home(props) {
 				<List
 					key={selectedList}
 					id={selectedList}
-					books={books}
+					books={books || []}
 					createNewBook={createNewBook}
 					deleteBook={deleteBook}
 				/>
