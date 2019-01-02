@@ -60,7 +60,7 @@ export default function Home(props) {
 
 	// Handles all actions around creating a new list
 	const createNewList = async (name, userId) => {
-		const listId = fetchCreateNewList(name, userId);
+		const listId = await fetchCreateNewList(name, userId);
 		// set the selected list to the newly created list
 		setSelected(parseInt(listId));
 		await refreshBooklist(currentUser.Id);
