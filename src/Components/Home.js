@@ -30,6 +30,7 @@ export default function Home(props) {
 	const [currentUser, setCurrentUser] = useState(null);
 
 	useEffect(async () => {
+		console.log(selectedList);
 		if (getTokenFromCookie()) {
 			const userId = getUserIdFromToken();
 			await setCurrentUserFromToken();
@@ -38,20 +39,11 @@ export default function Home(props) {
 		setPageLoaded(true);
 	}, []);
 
-	useEffect(
-		async () => {
-			if (getTokenFromCookie()) {
-				const userId = getUserIdFromToken();
-				setSelected(getFirstListId());
-				await refreshBooklist(userId);
-			}
-		},
-		[pageLoaded]
-	);
-
 	const refreshBooklist = async userId => {
 		const userLists = await fetchGetListsByUser(userId);
 		setLists(userLists);
+
+		setSelected(getFirstListId(userLists));
 
 		await getBookList();
 	};
@@ -124,8 +116,8 @@ export default function Home(props) {
 		});
 	};
 
-	const getFirstListId = () => {
-		if (lists && lists[0]) return lists[0].Id;
+	const getFirstListId = userLists => {
+		if (userLists && userLists[0]) return userLists[0].Id;
 		else return null;
 	};
 
@@ -145,11 +137,16 @@ export default function Home(props) {
 	const createNewBook = async (listId, title, author) => {
 		// First create the new book in the database
 		const bookId = await fetchCreateNewBook(title, author);
-
 		// Then add the new book to the list
 		await fetchAddBookToList(bookId, listId);
+		await refreshBooklist(currentUser.Id);
+	};
 
-		// Refresh the page
+	const deleteBook = async (bookId, listId) => {
+		// First delete the book from the list
+		await fetchDeleteBookFromList(bookId, listId);
+		// Then delete the book from the books table
+		await fetchDeleteBook(bookId);
 		await refreshBooklist(currentUser.Id);
 	};
 
@@ -173,17 +170,6 @@ export default function Home(props) {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ bookId, listId })
 		});
-	};
-
-	const deleteBook = async (bookId, listId) => {
-		// First delete the book from the list
-		await fetchDeleteBookFromList(bookId, listId);
-
-		// Then delete the book from the books table
-		await fetchDeleteBook(bookId);
-
-		// Finally refresh the page
-		await refreshBooklist(currentUser.Id);
 	};
 
 	// Deletes a book from the Books table on the db
@@ -226,7 +212,6 @@ export default function Home(props) {
 
 		// Get the site displaying correctly
 		await refreshBooklist(userId);
-		setSelected(getFirstListId());
 	};
 
 	const signOut = () => {
@@ -269,7 +254,7 @@ export default function Home(props) {
 	};
 
 	// *******
-	// currentUser methods
+	// User methods
 	// *******
 
 	const getUserIdFromToken = () => {
@@ -287,14 +272,17 @@ export default function Home(props) {
 		setCurrentUser(user);
 	};
 
-	// *******
-	// Fetching Users
-	// *******
-
 	// creates a new user in the database
 	// returns the new userId as a string
 	const fetchCreateNewUser = async (name, username, password) => {
 		return await fetchPostUser(name, username, password);
+	};
+
+	// gets the user from the database that uses this id - userId is an int
+	// returns the user
+	const fetchGetUserById = async userId => {
+		const result = await fetch(url + `Users/${userId}`);
+		return await result.json();
 	};
 
 	// validates whether the user is valid or not on the database
@@ -316,13 +304,6 @@ export default function Home(props) {
 			})
 		});
 
-		return await result.json();
-	};
-
-	// gets the user from the database that uses this id
-	// userId is an int
-	const fetchGetUserById = async userId => {
-		const result = await fetch(url + `Users/${userId}`);
 		return await result.json();
 	};
 
