@@ -29,23 +29,23 @@ export default function Home(props) {
 	const [pageLoaded, setPageLoaded] = useState(false);
 	const [currentUser, setCurrentUser] = useState(null);
 
+	// Only runs if the user is logged in
 	useEffect(async () => {
-		console.log(selectedList);
 		if (getTokenFromCookie()) {
 			const userId = getUserIdFromToken();
 			await setCurrentUserFromToken();
-			await refreshBooklist(userId);
+			const userLists = await refreshBooklist(userId);
+			setSelected(getFirstListId(userLists));
 		}
 		setPageLoaded(true);
 	}, []);
 
+	// returns the userLists in case you need them
 	const refreshBooklist = async userId => {
 		const userLists = await fetchGetListsByUser(userId);
 		setLists(userLists);
-
-		setSelected(getFirstListId(userLists));
-
 		await getBookList();
+		return userLists;
 	};
 
 	const getBookList = async () => {
@@ -323,7 +323,7 @@ export default function Home(props) {
 					</Header>
 					<button onClick={signOut}>Log out</button>
 					<TabBar
-						addNewList={createNewList}
+						createNewList={createNewList}
 						lists={lists || []}
 						selectedList={selectedList || 0}
 						setSelected={setSelected}

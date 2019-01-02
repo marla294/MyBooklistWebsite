@@ -5,7 +5,7 @@ import Tab from "./Tab";
 import TabDropdown from "./TabDropdown";
 
 TabBar.propTypes = {
-	addNewList: PropTypes.func.isRequired,
+	createNewList: PropTypes.func.isRequired,
 	lists: PropTypes.array.isRequired,
 	selectedList: PropTypes.number.isRequired,
 	setSelected: PropTypes.func.isRequired,
@@ -36,7 +36,7 @@ export default function TabBar(props) {
 				lists={props.lists}
 				selectedList={props.selectedList}
 				setSelected={props.setSelected}
-				addNewList={props.addNewList}
+				createNewList={props.createNewList}
 				deleteList={props.deleteList}
 				currentUser={props.currentUser}
 			/>

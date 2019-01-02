@@ -5,7 +5,8 @@ import styled from "styled-components";
 TabDropdown.propTypes = {
 	lists: PropTypes.array.isRequired,
 	selectedList: PropTypes.number.isRequired,
-	setSelected: PropTypes.func.isRequired
+	setSelected: PropTypes.func.isRequired,
+	createNewList: PropTypes.func.isRequired
 };
 
 const TabDropButton = styled.button`
@@ -155,6 +156,6 @@ export default function TabDropdown(props) {
 
 	async function clickAddNewList() {
 		setShowDropdown(!showDropdown);
-		await props.addNewList("New List", props.currentUser.Id);
+		await props.createNewList("New List", props.currentUser.Id);
 	}
 }
