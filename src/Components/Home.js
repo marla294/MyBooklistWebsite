@@ -66,14 +66,25 @@ export default function Home(props) {
 	// List Methods
 	// *******
 
+	// Handles all actions around creating a new list
 	const createNewList = async (name, userId) => {
-		// first create the list on the db
 		const listId = fetchCreateNewList(name, userId);
-
-		// next set the selected list to the new list
+		// set the selected list to the newly created list
 		setSelected(parseInt(listId));
+		await refreshBooklist(currentUser.Id);
+	};
 
-		// refresh the page
+	// Handles all actions around updating a list name
+	const updateListName = async (listId, listName) => {
+		await fetchUpdateListName(listId, listName);
+		await refreshBooklist(currentUser.Id);
+	};
+
+	// Handles all actions around deleting lists
+	const deleteList = async listId => {
+		await fetchDeleteList(listId);
+		// since the list is gone, set selectedList to a new list
+		setSelected(getDifferentListId(listId));
 		await refreshBooklist(currentUser.Id);
 	};
 
@@ -93,16 +104,7 @@ export default function Home(props) {
 	// Returns the lists collected
 	const fetchGetListsByUser = async userId => {
 		const result = await fetch(url + `Lists/${userId}`);
-
 		return await result.json();
-	};
-
-	const updateListName = async (listId, listName) => {
-		// update the list name on the db
-		await fetchUpdateListName(listId, listName);
-
-		// refresh the page
-		await refreshBooklist(currentUser.Id);
 	};
 
 	// Updates the list name on the db
@@ -114,17 +116,6 @@ export default function Home(props) {
 		});
 	};
 
-	const deleteList = async listId => {
-		// delete the list on the db
-		await fetchDeleteList(listId);
-
-		// since the list is gone, set selectedList to a new list
-		setSelected(getNewListId(listId));
-
-		// refresh the page
-		await refreshBooklist(currentUser.Id);
-	};
-
 	// Deletes a list on the db
 	const fetchDeleteList = async listId => {
 		await fetch(url + `Lists/${listId}`, {
@@ -134,26 +125,17 @@ export default function Home(props) {
 	};
 
 	const getFirstListId = () => {
-		const filteredLists = filterLists();
-
-		if (filteredLists && filteredLists[0]) return filteredLists[0].Id;
+		if (lists && lists[0]) return lists[0].Id;
 		else return null;
 	};
 
-	// Use with deleting tabs
-	const getNewListId = id => {
-		const index = lists.findIndex(list => list.Id === id);
+	// Gets a different list id close to the given one
+	// Use for deleting lists
+	const getDifferentListId = listId => {
+		const index = lists.findIndex(list => list.Id === listId);
 		if (lists.length <= 1) return null;
 		if (index === lists.length - 1) return lists[index - 1].Id;
 		return lists[index + 1].Id;
-	};
-
-	const filterLists = () => {
-		if (currentUser && lists) {
-			return lists.filter(list => list.Owner.Id === currentUser.Id);
-		}
-
-		return lists;
 	};
 
 	// *******
@@ -361,7 +343,7 @@ export default function Home(props) {
 					<button onClick={signOut}>Log out</button>
 					<TabBar
 						addNewList={createNewList}
-						lists={filterLists() || []}
+						lists={lists || []}
 						selectedList={selectedList || 0}
 						setSelected={setSelected}
 						updateListName={updateListName}
