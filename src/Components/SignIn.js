@@ -20,7 +20,7 @@ const SignInWrapper = styled.div`
 
 	border: 0.3rem solid ${props => props.theme.orange};
 
-	h1 {
+	h2 {
 		justify-self: center;
 
 		margin-bottom: ${props => props.theme.S03};
@@ -99,7 +99,7 @@ export default function SignIn(props) {
 
 	return (
 		<SignInWrapper>
-			<h1>Sign In</h1>
+			<h2>Sign In</h2>
 			<SignInForm
 				onSubmit={async e => {
 					e.preventDefault();

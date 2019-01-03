@@ -15,7 +15,7 @@ SignInPage.propTypes = {
 const PageWrapper = styled.div`
 	display: grid;
 	grid-template-rows: 8rem 1fr;
-	grid-gap: ${props => props.theme.S03};
+	grid-gap: ${props => props.theme.S05};
 `;
 
 const Header = styled.h1`
@@ -33,11 +33,11 @@ export default function SignInPage(props) {
 		return (
 			<PageWrapper>
 				<Header>BookList</Header>
-				<SignUp addNewUser={props.addNewUser} signIn={props.signIn} />
 				<SignIn
 					validateUser={props.validateUser}
 					signIn={props.signIn}
 				/>
+				<SignUp addNewUser={props.addNewUser} signIn={props.signIn} />
 				<GlobalStyle />
 			</PageWrapper>
 		);
