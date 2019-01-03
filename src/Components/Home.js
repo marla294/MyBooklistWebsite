@@ -42,7 +42,15 @@ export default function Home(props) {
 
 	// returns the userLists in case you need them
 	const refreshBooklist = async userId => {
-		const userLists = await fetchGetListsByUser(userId);
+		let userLists = await fetchGetListsByUser(userId);
+
+		// If the user has no lists, create one and add it to the user lists
+		if (userLists.length === 0) {
+			const listId = await fetchCreateNewList("New List", userId);
+			userLists = await fetchGetListsByUser(userId);
+			setSelected(parseInt(listId));
+		}
+
 		setLists(userLists);
 		await getBookList();
 		return userLists;

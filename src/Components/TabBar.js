@@ -48,14 +48,6 @@ export default function TabBar(props) {
 
 		if (props.lists.length > 0) {
 			selected = props.lists.find(list => list.Id === props.selectedList);
-		} else {
-			if (props.currentUser) {
-				const listId = props.fetchCreateNewList(
-					"New List aahhhhhh",
-					props.currentUser.Id
-				);
-				selected = props.lists.find(list => list.Id === listId);
-			}
 		}
 
 		if (selected) {
@@ -66,18 +58,6 @@ export default function TabBar(props) {
 					listName={selected.Name}
 					updateListName={props.updateListName}
 					deleteList={props.deleteList}
-				/>
-			);
-		} else {
-			return (
-				<Tab
-					key={0}
-					id={0}
-					listName={"New List"}
-					updateListName={props.updateListName}
-					deleteList={props.deleteList}
-					createNewList={props.createNewList}
-					currentUser={props.currentUser}
 				/>
 			);
 		}
