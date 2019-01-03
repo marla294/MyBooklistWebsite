@@ -32,7 +32,7 @@ export default function SignInPage(props) {
 	if (!props.getToken()) {
 		return (
 			<PageWrapper>
-				<Header>Sign In or Sign Up!</Header>
+				<Header>BookList</Header>
 				<SignUp addNewUser={props.addNewUser} signIn={props.signIn} />
 				<SignIn
 					validateUser={props.validateUser}

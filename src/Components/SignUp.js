@@ -75,8 +75,8 @@ const SubmitForm = styled.button`
 `;
 
 export default function SignUp(props) {
-	const [firstname, setFirstname] = useState("First Name");
-	const [username, setUsername] = useState("Username");
+	const [firstname, setFirstname] = useState("");
+	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirm, setConfirm] = useState("");
 

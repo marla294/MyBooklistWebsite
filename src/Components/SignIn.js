@@ -86,7 +86,7 @@ const ErrorField = styled.div`
 `;
 
 export default function SignIn(props) {
-	const [username, setUsername] = useState("Username");
+	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [err, setErr] = useState(false);
 
