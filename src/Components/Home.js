@@ -15,9 +15,13 @@ export const Header = styled.h1`
 	align-items: center;
 	justify-items: center;
 
+	padding: ${props => props.theme.S05} 0;
+
 	color: ${props => props.theme.orange};
 
 	font-size: ${props => props.theme.F09};
+
+	cursor: default;
 `;
 
 const LogOut = styled.button`
