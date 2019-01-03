@@ -8,7 +8,6 @@ import SignInPage from "./SignInPage";
 
 export const HomeWrapper = styled.div`
 	display: grid;
-	grid-template-rows: 8rem 1fr;
 `;
 
 export const Header = styled.h1`
@@ -19,6 +18,19 @@ export const Header = styled.h1`
 	color: ${props => props.theme.orange};
 
 	font-size: ${props => props.theme.F09};
+`;
+
+const LogOut = styled.button`
+	width: 80px;
+
+	justify-self: end;
+
+	color: ${props => props.theme.yellow};
+
+	border: none;
+
+	font-size: ${props => props.theme.F04};
+	font-weight: 900;
 `;
 
 export default function Home(props) {
@@ -328,12 +340,12 @@ export default function Home(props) {
 				validateUser={fetchValidateUser}
 			>
 				<HomeWrapper>
+					<LogOut onClick={signOut}>Log out</LogOut>
 					<Header>
 						{currentUser
 							? `${currentUser.Name}'s Books!`
 							: "My Books!"}
 					</Header>
-					<button onClick={signOut}>Log out</button>
 					<TabBar
 						createNewList={createNewList}
 						lists={lists || []}
