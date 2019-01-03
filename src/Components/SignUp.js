@@ -74,11 +74,24 @@ const SubmitForm = styled.button`
 	font-weight: 900;
 `;
 
+const ErrorField = styled.div`
+	justify-self: center;
+
+	display: ${props => (props.displayError ? "grid" : "none")};
+
+	color: red;
+
+	font-size: ${props => props.theme.F03};
+	font-weight: 900;
+`;
+
 export default function SignUp(props) {
 	const [firstname, setFirstname] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirm, setConfirm] = useState("");
+	const [displayError, setDisplayError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	const handleChange = e => {
 		const { name, value } = e.target;
@@ -96,12 +109,18 @@ export default function SignUp(props) {
 				onSubmit={async e => {
 					e.preventDefault();
 					if (password === confirm) {
-						let id = await props.addNewUser(
+						setDisplayError(false);
+						const userId = await props.addNewUser(
 							firstname,
 							username,
 							password
 						);
-						await props.signIn(id);
+						await props.signIn(userId);
+					} else {
+						setDisplayError(true);
+						setErrorMessage(
+							"Password and Confirm Password do not match, please try again"
+						);
 					}
 				}}
 			>
@@ -150,6 +169,9 @@ export default function SignUp(props) {
 					/>
 				</FormField>
 				<SubmitForm type="submit">Submit</SubmitForm>
+				<ErrorField displayError={displayError}>
+					{errorMessage}
+				</ErrorField>
 			</SignUpForm>
 		</SignUpWrapper>
 	);
