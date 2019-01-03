@@ -34,24 +34,35 @@ const BooksWrapper = styled.div`
 	grid-gap: 1em;
 `;
 
-const AddNewBook = styled.button`
-	width: 2rem;
+const AddNewBookLabel = styled.label`
 	height: 2rem;
-
-	padding: 0;
-	padding-bottom: 0.7rem;
-
-	font-size: 3rem;
-	line-height: 0;
 
 	color: ${props => props.theme.gray};
 
-	border-radius: 5rem;
-	border-color: ${props => props.theme.gray};
-	outline: none;
+	line-height: 0;
+
+	button {
+		width: 2rem;
+		height: 2rem;
+
+		padding: 0;
+		padding-bottom: 0.7rem;
+
+		font-size: 3rem;
+		line-height: 0;
+
+		color: ${props => props.theme.gray};
+
+		border-radius: 5rem;
+		border-color: ${props => props.theme.gray};
+		outline: none;
+	}
 
 	:hover {
-		border-color: ${props => props.theme.orange};
+		button {
+			border-color: ${props => props.theme.orange};
+			color: ${props => props.theme.orange};
+		}
 		color: ${props => props.theme.orange};
 	}
 `;
@@ -67,7 +78,10 @@ export default function List(props) {
 				createNewBook={props.createNewBook}
 				listId={props.id}
 			/>
-			<AddNewBook onClick={() => setDisplayNewBook(true)}>+</AddNewBook>
+			<AddNewBookLabel>
+				<button onClick={() => setDisplayNewBook(true)}>+</button>
+				Add New Book
+			</AddNewBookLabel>
 		</ListWrapper>
 	);
 }

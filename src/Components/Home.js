@@ -29,12 +29,16 @@ const LogOut = styled.button`
 
 	justify-self: end;
 
-	color: ${props => props.theme.yellow};
+	color: ${props => props.theme.gray};
 
 	border: none;
 
 	font-size: ${props => props.theme.F04};
 	font-weight: 900;
+
+	:hover {
+		color: ${props => props.theme.orange};
+	}
 `;
 
 export default function Home(props) {
