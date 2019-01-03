@@ -31,6 +31,11 @@ const TitleAuthorWrapper = styled.div`
 		border: 1px solid ${props => props.theme.orange};
 		outline: none;
 	}
+
+	input::placeholder {
+		color: ${props => props.theme.orange};
+		font-style: italic;
+	}
 `;
 
 const Title = styled.input`
@@ -51,10 +56,20 @@ const SubmitForm = styled.button`
 	color: ${props => props.theme.yellow};
 	background-color: ${props => props.theme.darkorange};
 
-	border: none;
+	border: 4px solid ${props => props.theme.darkorange};
 
 	font-size: ${props => props.theme.F04};
 	font-weight: 900;
+
+	-webkit-transition: color 0.2s; /* Safari */
+	transition: color 0.2s;
+	-webkit-transition: background-color 0.2s; /* Safari */
+	transition: background-color 0.2s;
+
+	:hover {
+		color: ${props => props.theme.darkorange};
+		background-color: ${props => props.theme.yellow};
+	}
 `;
 
 const CloseForm = styled.button`
