@@ -72,14 +72,17 @@ const CloseForm = styled.button`
 `;
 
 export default function NewBook(props) {
-	const [title, setTitle] = useState("New Title");
-	const [author, setAuthor] = useState("Author");
+	const [title, setTitle] = useState("");
+	const [author, setAuthor] = useState("");
 
 	const handleChange = e => {
 		const { name, value } = e.target;
 
-		if (name === "title") setTitle(value);
-		if (name === "author") setAuthor(value);
+		// Want to keep the allowed title and author under 120 characters
+		const slicedValue = value.slice(0, 120);
+
+		if (name === "title") setTitle(slicedValue);
+		if (name === "author") setAuthor(slicedValue);
 	};
 
 	return (
@@ -88,6 +91,9 @@ export default function NewBook(props) {
 				onSubmit={async e => {
 					e.preventDefault();
 					await props.createNewBook(props.listId, title, author);
+					props.setDisplayNewBook(false);
+					setTitle("");
+					setAuthor("");
 				}}
 			>
 				<TitleAuthorWrapper>
@@ -96,6 +102,7 @@ export default function NewBook(props) {
 						id="title"
 						name="title"
 						required
+						placeholder="Title"
 						value={title}
 						onChange={handleChange}
 					/>
@@ -104,6 +111,7 @@ export default function NewBook(props) {
 						id="author"
 						name="author"
 						required
+						placeholder="Author"
 						value={author}
 						onChange={handleChange}
 					/>
