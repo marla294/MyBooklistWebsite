@@ -74,9 +74,21 @@ const SubmitForm = styled.button`
 	font-weight: 900;
 `;
 
+const ErrorField = styled.div`
+	justify-self: center;
+
+	display: ${props => (props.err ? "grid" : "none")};
+
+	color: red;
+
+	font-size: ${props => props.theme.F03};
+	font-weight: 900;
+`;
+
 export default function SignIn(props) {
 	const [username, setUsername] = useState("Username");
 	const [password, setPassword] = useState("");
+	const [err, setErr] = useState(false);
 
 	const handleChange = e => {
 		const { name, value } = e.target;
@@ -94,10 +106,11 @@ export default function SignIn(props) {
 					const userId = await props.validateUser(username, password);
 
 					if (userId !== null) {
+						setErr(false);
 						await props.signIn(userId);
+					} else {
+						setErr(true);
 					}
-
-					//TODO: error handling when user gets username/password wrong
 				}}
 			>
 				<FormField>
@@ -123,6 +136,9 @@ export default function SignIn(props) {
 					/>
 				</FormField>
 				<SubmitForm type="submit">Submit</SubmitForm>
+				<ErrorField err={err}>
+					Your username or password is invalid, please try again
+				</ErrorField>
 			</SignInForm>
 		</SignInWrapper>
 	);
