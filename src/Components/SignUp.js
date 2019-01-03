@@ -109,13 +109,19 @@ export default function SignUp(props) {
 				onSubmit={async e => {
 					e.preventDefault();
 					if (password === confirm) {
-						setDisplayError(false);
 						const userId = await props.addNewUser(
 							firstname,
 							username,
 							password
 						);
-						await props.signIn(userId);
+
+						if (userId) await props.signIn(userId);
+						else {
+							setDisplayError(true);
+							setErrorMessage(
+								"Username already exists, please choose another and try again"
+							);
+						}
 					} else {
 						setDisplayError(true);
 						setErrorMessage(
