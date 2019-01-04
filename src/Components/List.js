@@ -90,11 +90,14 @@ export default function List(props) {
 }
 
 function renderBooks(props) {
-	const books = props.books;
+	let books = props.books;
 
 	if (!books) {
 		return <h1>Add a book to your list to get started!</h1>;
 	}
+
+	// Sorts books from oldest to newest, so new books show up on the bottom of the list
+	books = books.sort((a, b) => a.Id - b.Id);
 
 	return books.map(book => {
 		return (
