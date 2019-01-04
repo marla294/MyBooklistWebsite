@@ -9,6 +9,10 @@ TabDropdown.propTypes = {
 	createNewList: PropTypes.func.isRequired
 };
 
+const Container = styled.div`
+	position: relative;
+`;
+
 const TabDropButton = styled.button`
 	width: ${props => props.theme.S06};
 	height: ${props => props.theme.S06};
@@ -22,17 +26,19 @@ const TabDropButton = styled.button`
 	font-size: ${props => props.theme.F04};
 
 	:hover {
-		color: ${props => props.theme.orange};
+		color: ${props => props.theme.darkorange};
 	}
 `;
 
 const Dropdown = styled.div`
+	width: ${props => props.theme.S11};
+
 	position: absolute;
-	right: ${props => props.theme.S02};
+	right: 0;
 
 	background-color: white;
 
-	border: 0.3rem solid ${props => props.theme.orange};
+	border: 0.3rem solid ${props => props.theme.darkorange};
 
 	display: ${props => (props.showDropdown ? "grid" : "none")};
 
@@ -55,7 +61,7 @@ const Option = styled.a`
 		height: 25px;
 
 		border-bottom: ${props =>
-			props.selected ? `0.3rem solid ${props.theme.orange}` : "none"};
+			props.selected ? `0.3rem solid ${props.theme.darkorange}` : "none"};
 	}
 
 	button {
@@ -105,7 +111,7 @@ export default function TabDropdown(props) {
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	return (
-		<div>
+		<Container>
 			<TabDropButton
 				onClick={() => setShowDropdown(!showDropdown)}
 				showDropdown={showDropdown}
@@ -115,7 +121,7 @@ export default function TabDropdown(props) {
 			<Dropdown showDropdown={showDropdown}>
 				{renderDropdownOptions()}
 			</Dropdown>
-		</div>
+		</Container>
 	);
 
 	function renderDropdownOptions() {
