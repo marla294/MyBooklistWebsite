@@ -71,6 +71,10 @@ const AddNewBookLabel = styled.label`
 	}
 `;
 
+const AddBookHeader = styled.h2`
+	color: ${props => props.theme.orange};
+`;
+
 export default function List(props) {
 	const [displayNewBook, setDisplayNewBook] = useState(false);
 	return (
@@ -93,8 +97,8 @@ export default function List(props) {
 function renderBooks(props) {
 	let books = props.books;
 
-	if (!books) {
-		return <h1>Add a book to your list to get started!</h1>;
+	if (!books || books.length === 0) {
+		return <AddBookHeader>Add a book to get started!</AddBookHeader>;
 	}
 
 	// Sorts books from oldest to newest, so new books show up on the bottom of the list

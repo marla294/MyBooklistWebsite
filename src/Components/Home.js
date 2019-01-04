@@ -42,6 +42,10 @@ const LogOut = styled.button`
 	}
 `;
 
+const Loading = styled.h2`
+	color: ${props => props.theme.orange};
+`;
+
 export default function Home(props) {
 	const url = "http://127.0.0.1:8080/api/";
 	const [bookList, setBookList] = useState(null);
@@ -378,7 +382,7 @@ export default function Home(props) {
 		} else {
 			return (
 				<ListWrapper>
-					<h1>Loading...</h1>
+					<Loading>Loading...</Loading>
 				</ListWrapper>
 			);
 		}
