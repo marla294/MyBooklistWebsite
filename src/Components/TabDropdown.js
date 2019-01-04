@@ -17,6 +17,7 @@ const TabDropButton = styled.button`
 	width: ${props => props.theme.S06};
 	height: ${props => props.theme.S06};
 
+	background: none;
 	color: ${props =>
 		props.showDropdown ? props.theme.orange : props.theme.gray};
 

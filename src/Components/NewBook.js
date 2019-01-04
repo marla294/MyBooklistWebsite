@@ -73,6 +73,8 @@ const SubmitForm = styled.button`
 `;
 
 const CloseForm = styled.button`
+	height: 17px;
+
 	color: ${props => props.theme.darkorange};
 	background-color: ${props => props.theme.yellow};
 

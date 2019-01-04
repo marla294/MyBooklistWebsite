@@ -29,6 +29,7 @@ const LogOut = styled.button`
 
 	justify-self: end;
 
+	background: none;
 	color: ${props => props.theme.gray};
 
 	border: none;

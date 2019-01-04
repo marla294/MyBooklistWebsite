@@ -54,16 +54,17 @@ const AddNewBookLabel = styled.label`
 		font-size: 3rem;
 		line-height: 0;
 
+		background: none;
 		color: ${props => props.theme.gray};
 
-		border-radius: 5rem;
-		border-color: ${props => props.theme.gray};
+		border: none;
 		outline: none;
+
+		-webkit-appearance: none;
 	}
 
 	:hover {
 		button {
-			border-color: ${props => props.theme.orange};
 			color: ${props => props.theme.orange};
 		}
 		color: ${props => props.theme.orange};
