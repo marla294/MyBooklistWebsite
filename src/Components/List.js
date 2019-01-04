@@ -36,10 +36,12 @@ const BooksWrapper = styled.div`
 
 const AddNewBookLabel = styled.label`
 	height: 2rem;
+	width: 150px;
 
 	color: ${props => props.theme.gray};
 
-	line-height: 0;
+	display: flex;
+	align-items: center;
 
 	button {
 		width: 2rem;
@@ -47,6 +49,7 @@ const AddNewBookLabel = styled.label`
 
 		padding: 0;
 		padding-bottom: 0.7rem;
+		margin-right: ${props => props.theme.S01};
 
 		font-size: 3rem;
 		line-height: 0;
