@@ -96,10 +96,13 @@ export default function SignUp(props) {
 	const handleChange = e => {
 		const { name, value } = e.target;
 
-		if (name === "firstname") setFirstname(value);
-		if (name === "username") setUsername(value);
-		if (name === "password") setPassword(value);
-		if (name === "confirm") setConfirm(value);
+		// Want to keep all allowed values under 40 characters
+		const slicedValue = value.slice(0, 40);
+
+		if (name === "firstname") setFirstname(slicedValue);
+		if (name === "username") setUsername(slicedValue);
+		if (name === "password") setPassword(slicedValue);
+		if (name === "confirm") setConfirm(slicedValue);
 	};
 
 	return (
@@ -108,7 +111,8 @@ export default function SignUp(props) {
 			<SignUpForm
 				onSubmit={async e => {
 					e.preventDefault();
-					if (password === confirm) {
+
+					if (password === confirm && password.length > 6) {
 						const userId = await props.addNewUser(
 							firstname,
 							username,
@@ -124,9 +128,15 @@ export default function SignUp(props) {
 						}
 					} else {
 						setDisplayError(true);
-						setErrorMessage(
-							"Password and Confirm Password do not match, please try again"
-						);
+
+						if (password !== confirm)
+							setErrorMessage(
+								"Password and Confirm Password do not match, please try again"
+							);
+						else
+							setErrorMessage(
+								"Password must be at least 7 characters"
+							);
 					}
 				}}
 			>
