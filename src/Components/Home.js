@@ -58,23 +58,22 @@ export default function Home(props) {
 	useEffect(async () => {
 		if (getJWTFromCookie()) {
 			const userToken = await getUserTokenFromCookie();
-			const userId = await fetchGetUserByUserToken(userToken).Id;
 
 			await setCurrentUserFromToken();
-			const userLists = await refreshBooklist(userId);
+			const userLists = await refreshBooklist(userToken);
 			setSelected(getFirstListId(userLists));
 		}
 		setPageLoaded(true);
 	}, []);
 
 	// returns the userLists in case you need them
-	const refreshBooklist = async userId => {
-		let userLists = await fetchGetListsByUser(userId);
+	const refreshBooklist = async userToken => {
+		let userLists = await fetchGetListsByUser(userToken);
 
 		// If the user has no lists, create one and add it to the user lists
 		if (userLists.length === 0) {
-			const listId = await fetchCreateNewList("New List", userId);
-			userLists = await fetchGetListsByUser(userId);
+			const listId = await fetchCreateNewList("New List", userToken);
+			userLists = await fetchGetListsByUser(userToken);
 			setSelected(parseInt(listId));
 		}
 
@@ -94,8 +93,8 @@ export default function Home(props) {
 	// *******
 
 	// Handles all actions around creating a new list
-	const createNewList = async (name, userId) => {
-		const listId = await fetchCreateNewList(name, userId);
+	const createNewList = async (name, userToken) => {
+		const listId = await fetchCreateNewList(name, userToken);
 		// set the selected list to the newly created list
 		setSelected(parseInt(listId));
 		await refreshBooklist(currentUser.Id);
@@ -119,11 +118,11 @@ export default function Home(props) {
 
 	// Creates a new list on the db for a user
 	// Returns the listId
-	const fetchCreateNewList = async (name, userId) => {
+	const fetchCreateNewList = async (name, userToken) => {
 		const res = await fetch(url + "Lists", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ name, userId })
+			body: JSON.stringify({ name, userToken })
 		});
 
 		return await res.json();
@@ -131,8 +130,8 @@ export default function Home(props) {
 
 	// Gets the lists on the db per user
 	// Returns the lists collected
-	const fetchGetListsByUser = async userId => {
-		const result = await fetch(url + `Lists/${userId}`);
+	const fetchGetListsByUser = async userToken => {
+		const result = await fetch(url + `Lists/${userToken}`);
 		return await result.json();
 	};
 
@@ -242,13 +241,10 @@ export default function Home(props) {
 		addTokenToCookie(token);
 
 		// Set the current user to the signed-in user
-		await setCurrentUserByUserToken(userToken.toString());
-
-		// Get the userId
-		const userId = await fetchGetUserByUserToken(userToken.toString()).Id;
+		await setCurrentUserByUserToken(userToken);
 
 		// Get the site displaying correctly
-		const userLists = await refreshBooklist(userId);
+		const userLists = await refreshBooklist(userToken);
 		setSelected(getFirstListId(userLists));
 	};
 
