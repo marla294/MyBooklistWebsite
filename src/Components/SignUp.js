@@ -113,13 +113,13 @@ export default function SignUp(props) {
 					e.preventDefault();
 
 					if (password === confirm && password.length > 6) {
-						const userId = await props.addNewUser(
+						const userToken = await props.addNewUser(
 							firstname,
 							username,
 							password
 						);
 
-						if (userId) await props.signIn(userId);
+						if (userToken) await props.signIn(userToken);
 						else {
 							setDisplayError(true);
 							setErrorMessage(

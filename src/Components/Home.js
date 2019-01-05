@@ -56,8 +56,10 @@ export default function Home(props) {
 
 	// Only runs if the user is logged in
 	useEffect(async () => {
-		if (getTokenFromCookie()) {
-			const userId = getUserIdFromToken();
+		if (getJWTFromCookie()) {
+			const userToken = await getUserTokenFromCookie();
+			const userId = await fetchGetUserByUserToken(userToken).Id;
+
 			await setCurrentUserFromToken();
 			const userLists = await refreshBooklist(userId);
 			setSelected(getFirstListId(userLists));
@@ -232,28 +234,28 @@ export default function Home(props) {
 	// Sign in/out methods
 	// *******
 
-	const signIn = async userId => {
-		// Ensure userId is an int
-		userId = parseInt(userId);
-
+	const signIn = async userToken => {
 		// Create a JWT
-		const token = createJWT(userId);
+		const token = createJWT(userToken);
 
 		// Put the JWT on the cookie
 		addTokenToCookie(token);
 
 		// Set the current user to the signed-in user
-		await setCurrentUserById(userId);
+		await setCurrentUserByUserToken(userToken);
+
+		// Get the userId
+		const userId = await fetchGetUserByUserToken(userToken).Id;
 
 		// Get the site displaying correctly
-		await refreshBooklist(userId);
+		// await refreshBooklist(userId);
 		const userLists = await refreshBooklist(userId);
 		setSelected(getFirstListId(userLists));
 	};
 
 	const signOut = () => {
 		// Remove the token cookie, which will sign the user out
-		removeTokenFromCookie();
+		removeJWTFromCookie();
 
 		// Reset the app state
 		setCurrentUser(null);
@@ -282,11 +284,11 @@ export default function Home(props) {
 		});
 	};
 
-	const getTokenFromCookie = () => {
+	const getJWTFromCookie = () => {
 		return props.cookies.get("token");
 	};
 
-	const removeTokenFromCookie = () => {
+	const removeJWTFromCookie = () => {
 		props.cookies.remove("token");
 	};
 
@@ -294,38 +296,40 @@ export default function Home(props) {
 	// User methods
 	// *******
 
-	const getUserIdFromToken = () => {
-		const { userId } = verifyJWT(getTokenFromCookie());
-		return userId;
+	const getUserTokenFromCookie = () => {
+		const { userToken } = verifyJWT(getJWTFromCookie());
+		return userToken;
 	};
 
 	const setCurrentUserFromToken = async () => {
-		const userId = getUserIdFromToken();
-		await setCurrentUserById(userId);
+		const userToken = getUserTokenFromCookie();
+		await setCurrentUserByUserToken(userToken);
 	};
 
-	const setCurrentUserById = async userId => {
-		const user = await fetchGetUserById(parseInt(userId));
+	const setCurrentUserByUserToken = async userToken => {
+		const user = await fetchGetUserByUserToken(userToken);
 		setCurrentUser(user);
 	};
 
 	// creates a new user in the database
-	// returns the new userId as a string
+	// returns the new userToken
 	const fetchCreateNewUser = async (name, username, password) => {
 		return await fetchPostUser(name, username, password);
 	};
 
-	// gets the user from the database that uses this id - userId is an int
+	// gets the user from the database that uses this token
 	// returns the user
-	const fetchGetUserById = async userId => {
-		const result = await fetch(url + `Users/${userId}`);
+	const fetchGetUserByUserToken = async userToken => {
+		const result = await fetch(url + `Users/${userToken}`);
 		return await result.json();
 	};
 
 	// validates whether the user is valid or not on the database
 	// returns the userId as a string if it is found, null if not found
 	const fetchValidateUser = async (username, password) => {
-		return await fetchPostUser("", username, password);
+		console.log(await fetchPostUser("", username, password));
+
+		// return await fetchPostUser("", username, password);
 	};
 
 	// does the fetch Post action on the server for the above 2 methods,
@@ -347,7 +351,7 @@ export default function Home(props) {
 	return (
 		<ThemeProvider theme={theme}>
 			<SignInPage
-				getToken={getTokenFromCookie}
+				getToken={getJWTFromCookie}
 				addNewUser={fetchCreateNewUser}
 				signIn={signIn}
 				validateUser={fetchValidateUser}
