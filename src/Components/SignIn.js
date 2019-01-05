@@ -103,11 +103,14 @@ export default function SignIn(props) {
 			<SignInForm
 				onSubmit={async e => {
 					e.preventDefault();
-					const userId = await props.validateUser(username, password);
+					const userToken = await props.validateUser(
+						username,
+						password
+					);
 
-					if (userId !== null) {
+					if (userToken !== null) {
 						setErr(false);
-						await props.signIn(userId);
+						await props.signIn(userToken);
 					} else {
 						setErr(true);
 					}

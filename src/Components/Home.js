@@ -242,13 +242,12 @@ export default function Home(props) {
 		addTokenToCookie(token);
 
 		// Set the current user to the signed-in user
-		await setCurrentUserByUserToken(userToken);
+		await setCurrentUserByUserToken(userToken.toString());
 
 		// Get the userId
-		const userId = await fetchGetUserByUserToken(userToken).Id;
+		const userId = await fetchGetUserByUserToken(userToken.toString()).Id;
 
 		// Get the site displaying correctly
-		// await refreshBooklist(userId);
 		const userLists = await refreshBooklist(userId);
 		setSelected(getFirstListId(userLists));
 	};
@@ -327,9 +326,7 @@ export default function Home(props) {
 	// validates whether the user is valid or not on the database
 	// returns the userId as a string if it is found, null if not found
 	const fetchValidateUser = async (username, password) => {
-		console.log(await fetchPostUser("", username, password));
-
-		// return await fetchPostUser("", username, password);
+		return await fetchPostUser("", username, password);
 	};
 
 	// does the fetch Post action on the server for the above 2 methods,
