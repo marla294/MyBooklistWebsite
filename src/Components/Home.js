@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
-import jwt from "jsonwebtoken";
 import { theme, GlobalStyle } from "./GlobalStyles";
 import List, { ListWrapper } from "./List";
 import TabBar from "./TabBar";
@@ -56,7 +55,7 @@ export default function Home(props) {
 
 	// Only runs if the user is logged in
 	useEffect(async () => {
-		if (getJWTFromCookie()) {
+		if (getUserTokenFromCookie()) {
 			const userToken = await getUserTokenFromCookie();
 
 			await setCurrentUserFromToken();
@@ -234,11 +233,8 @@ export default function Home(props) {
 	// *******
 
 	const signIn = async userToken => {
-		// Create a JWT
-		const token = createJWT(userToken);
-
-		// Put the JWT on the cookie
-		addTokenToCookie(token);
+		// Add userToken to the cookie
+		addTokenToCookie(userToken);
 
 		// Set the current user to the signed-in user
 		await setCurrentUserByUserToken(userToken);
@@ -250,23 +246,11 @@ export default function Home(props) {
 
 	const signOut = () => {
 		// Remove the token cookie, which will sign the user out
-		removeJWTFromCookie();
+		removeUserTokenFromCookie();
 
 		// Reset the app state
 		setCurrentUser(null);
 		setSelected(null);
-	};
-
-	// *******
-	// JWT methods
-	// *******
-
-	const createJWT = userToken => {
-		return jwt.sign({ userToken }, "sdfg");
-	};
-
-	const verifyJWT = token => {
-		return jwt.verify(token, "sdfg");
 	};
 
 	// *******
@@ -279,22 +263,17 @@ export default function Home(props) {
 		});
 	};
 
-	const getJWTFromCookie = () => {
+	const getUserTokenFromCookie = () => {
 		return props.cookies.get("token");
 	};
 
-	const removeJWTFromCookie = () => {
+	const removeUserTokenFromCookie = () => {
 		props.cookies.remove("token");
 	};
 
 	// *******
 	// User methods
 	// *******
-
-	const getUserTokenFromCookie = () => {
-		const { userToken } = verifyJWT(getJWTFromCookie());
-		return userToken;
-	};
 
 	const setCurrentUserFromToken = async () => {
 		const userToken = getUserTokenFromCookie();
@@ -344,7 +323,7 @@ export default function Home(props) {
 	return (
 		<ThemeProvider theme={theme}>
 			<SignInPage
-				getToken={getJWTFromCookie}
+				getToken={getUserTokenFromCookie}
 				addNewUser={fetchCreateNewUser}
 				signIn={signIn}
 				validateUser={fetchValidateUser}

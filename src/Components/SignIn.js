@@ -109,8 +109,6 @@ export default function SignIn(props) {
 						password
 					);
 
-					console.log("hi");
-
 					if (userToken !== null) {
 						setErr(false);
 						await props.signIn(userToken);
