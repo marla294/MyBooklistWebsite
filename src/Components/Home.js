@@ -309,7 +309,6 @@ export default function Home(props) {
 	const fetchPostUser = async (name, username, password) => {
 		const result = await fetch(url + "Users", {
 			method: "POST",
-			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
 				name,
 				username: username.toLowerCase(),
