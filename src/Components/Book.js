@@ -49,6 +49,9 @@ const DeleteBook = styled.button`
 	height: 19px;
 	width: 19px;
 
+	padding: 0;
+	margin: 0;
+
 	color: ${props => props.theme.darkorange};
 	background-color: ${props => props.theme.yellow};
 
