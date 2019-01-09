@@ -87,7 +87,7 @@ const CloseForm = styled.button`
 	width: 19px;
 
 	color: ${props => props.theme.darkorange};
-	background-color: ${props => props.theme.yellow};
+	background-color: ${props => props.theme.black};
 
 	border: none;
 	outline: none;
