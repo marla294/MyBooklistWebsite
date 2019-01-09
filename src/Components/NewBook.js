@@ -36,10 +36,14 @@ const TitleAuthorWrapper = styled.div`
 		color: ${props => props.theme.orange};
 		font-style: italic;
 	}
+
+	@media only screen and (max-width: 400px) {
+		max-width: 220px;
+	}
 `;
 
 const Title = styled.input`
-	-webkit-appearance: none;
+	border-radius: 0;
 
 	color: ${props => props.theme.darkorange};
 
@@ -48,7 +52,7 @@ const Title = styled.input`
 `;
 
 const Author = styled.input`
-	-webkit-appearance: none;
+	border-radius: 0;
 
 	color: ${props => props.theme.orange};
 
@@ -79,7 +83,7 @@ const SubmitForm = styled.button`
 const CloseForm = styled.button`
 	-webkit-appearance: none;
 
-	height: 18px;
+	height: 19px;
 
 	color: ${props => props.theme.darkorange};
 	background-color: ${props => props.theme.yellow};
