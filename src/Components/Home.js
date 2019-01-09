@@ -24,7 +24,7 @@ export const Header = styled.h1`
 `;
 
 const LogOut = styled.button`
-	width: 80px;
+	width: 100px;
 
 	justify-self: end;
 
