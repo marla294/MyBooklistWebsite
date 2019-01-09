@@ -47,6 +47,7 @@ const Author = styled.h3`
 
 const DeleteBook = styled.button`
 	height: 19px;
+	width: 19px;
 
 	color: ${props => props.theme.darkorange};
 	background-color: ${props => props.theme.yellow};
