@@ -39,6 +39,8 @@ const TitleAuthorWrapper = styled.div`
 `;
 
 const Title = styled.input`
+	-webkit-appearance: none;
+
 	color: ${props => props.theme.darkorange};
 
 	font-size: ${props => props.theme.F04};
@@ -46,6 +48,8 @@ const Title = styled.input`
 `;
 
 const Author = styled.input`
+	-webkit-appearance: none;
+
 	color: ${props => props.theme.orange};
 
 	font-size: ${props => props.theme.F03};
@@ -73,7 +77,9 @@ const SubmitForm = styled.button`
 `;
 
 const CloseForm = styled.button`
-	height: 17px;
+	-webkit-appearance: none;
+
+	height: 18px;
 
 	color: ${props => props.theme.darkorange};
 	background-color: ${props => props.theme.yellow};
