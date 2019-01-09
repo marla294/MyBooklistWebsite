@@ -46,6 +46,7 @@ const Loading = styled.h2`
 `;
 
 export default function Home(props) {
+	// const url = "http://127.0.0.1:8080/api/";
 	const url = "https://www.axequest.com/booklist/api/";
 	const [bookList, setBookList] = useState(null);
 	const [lists, setLists] = useState(null);

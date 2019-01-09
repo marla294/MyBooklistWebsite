@@ -84,6 +84,7 @@ const CloseForm = styled.button`
 	-webkit-appearance: none;
 
 	height: 19px;
+	width: 19px;
 
 	color: ${props => props.theme.darkorange};
 	background-color: ${props => props.theme.yellow};
