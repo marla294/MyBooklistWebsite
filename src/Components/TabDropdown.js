@@ -66,6 +66,8 @@ const Option = styled.a`
 	}
 
 	button {
+		padding: 0;
+		margin: 0;
 		margin-left: ${props => props.theme.S02};
 		padding-bottom: 10px;
 
