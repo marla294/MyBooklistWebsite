@@ -25,14 +25,14 @@ const Header = styled.h1`
 
 	color: ${props => props.theme.orange};
 
-	font-size: ${props => props.theme.F08};
+	font-size: ${props => props.theme.F09};
 `;
 
 export default function SignInPage(props) {
 	if (!props.getToken()) {
 		return (
 			<PageWrapper>
-				<Header>BookList</Header>
+				<Header>My BookList</Header>
 				<SignIn
 					validateUser={props.validateUser}
 					signIn={props.signIn}
