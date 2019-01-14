@@ -303,7 +303,7 @@ export default function Home(props) {
 	};
 
 	// validates whether the user is valid or not on the database
-	// returns the userId as a string if it is found, null if not found
+	// returns the userToken as a string if it is found, null if not found
 	const fetchValidateUser = async (username, password) => {
 		return await fetchPostUser("", username, password);
 	};
