@@ -65,6 +65,7 @@ export default class Tab extends React.Component {
 								this.props.id,
 								this.state.listName
 							);
+							this.setState({ listName: this.props.listName });
 						} else {
 							const newListId = await this.props.createNewList(
 								this.state.listName,
