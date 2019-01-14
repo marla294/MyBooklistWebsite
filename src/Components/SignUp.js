@@ -112,7 +112,47 @@ export default function SignUp(props) {
 				onSubmit={async e => {
 					e.preventDefault();
 
-					if (password === confirm && password.length > 6) {
+					if (password.length < 7) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Password must be at least 7 characters"
+						);
+						return;
+					} else if (password.length > 40) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Password cannot be more than 40 characters"
+						);
+						return;
+					} else if (password !== confirm) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Password and Confirm Password do not match, please try again"
+						);
+						return;
+					} else if (username.length < 7) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Username must be at least 7 characters"
+						);
+						return;
+					} else if (username.length > 40) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Username cannot be more than 40 characters"
+						);
+						return;
+					} else if (firstname.length < 1) {
+						setDisplayError(true);
+						setErrorMessage("Please enter your first name");
+						return;
+					} else if (firstname.length > 40) {
+						setDisplayError(true);
+						setErrorMessage(
+							"First name cannot be more than 40 characters"
+						);
+						return;
+					} else {
 						const userToken = await props.addNewUser(
 							firstname,
 							username,
@@ -126,17 +166,6 @@ export default function SignUp(props) {
 								"Username already exists, please choose another and try again"
 							);
 						}
-					} else {
-						setDisplayError(true);
-
-						if (password !== confirm)
-							setErrorMessage(
-								"Password and Confirm Password do not match, please try again"
-							);
-						else
-							setErrorMessage(
-								"Password must be at least 7 characters"
-							);
 					}
 				}}
 			>
