@@ -49,8 +49,8 @@ const Loading = styled.h2`
 `;
 
 export default function Home(props) {
-	// const url = "http://127.0.0.1:8080/api/";
-	const url = "https://www.axequest.com/booklist/api/";
+	const url = "http://127.0.0.1:8080/api/";
+	// const url = "https://www.axequest.com/booklist/api/";
 	const [bookList, setBookList] = useState(null);
 	const [lists, setLists] = useState(null);
 	const [selectedList, setSelected] = useState(null);
@@ -75,7 +75,10 @@ export default function Home(props) {
 
 		// If the user has no lists, create one and add it to the user lists
 		if (userLists.length === 0) {
-			const listId = await fetchCreateNewList("New List", userToken);
+			const listId = await fetchCreateNewList(
+				"Click to Rename Me",
+				userToken
+			);
 			userLists = await fetchGetListsByUser(userToken);
 			setSelected(parseInt(listId));
 		}
