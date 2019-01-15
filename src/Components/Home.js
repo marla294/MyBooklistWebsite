@@ -53,21 +53,35 @@ export default function Home(props) {
 	const url = "https://www.axequest.com/booklist/api/";
 	const [bookList, setBookList] = useState(null);
 	const [lists, setLists] = useState(null);
-	const [selectedList, setSelected] = useState(null);
+	const [selectedList, setSelectedList] = useState(null);
 	const [pageLoaded, setPageLoaded] = useState(false);
 	const [currentUser, setCurrentUser] = useState(null);
+	const [checkUser, setCheckUser] = useState(false);
 
 	// Only runs if the user is logged in
 	useEffect(async () => {
-		if (getUserTokenFromCookie()) {
-			const userToken = await getUserTokenFromCookie();
-
-			await setCurrentUserFromToken();
+		const userToken = getUserTokenFromCookie();
+		if (userToken) {
+			await setCurrentUserByUserToken(userToken);
 			const userLists = await refreshBooklist(userToken);
-			setSelected(getFirstListId(userLists));
+			setSelectedList(getFirstListId(userLists));
 		}
 		setPageLoaded(true);
 	}, []);
+
+	// Check to make sure the user on the token == the current user
+	// If not then sign them out
+	// This happens on every API call
+	useEffect(
+		async () => {
+			if (currentUser && currentUser.Token !== getUserTokenFromCookie()) {
+				signOut();
+			}
+
+			setCheckUser(false);
+		},
+		[checkUser]
+	);
 
 	// returns the userLists in case you need them
 	const refreshBooklist = async userToken => {
@@ -80,7 +94,7 @@ export default function Home(props) {
 				userToken
 			);
 			userLists = await fetchGetListsByUser(userToken);
-			setSelected(parseInt(listId));
+			setSelectedList(parseInt(listId));
 		}
 
 		setLists(userLists);
@@ -102,7 +116,7 @@ export default function Home(props) {
 	const createNewList = async (name, userToken) => {
 		const listId = await fetchCreateNewList(name, userToken);
 		// set the selected list to the newly created list
-		setSelected(parseInt(listId));
+		setSelectedList(parseInt(listId));
 		await refreshBooklist(currentUser.Token);
 		// return the listId in case this is the user's first list
 		return parseInt(listId);
@@ -118,7 +132,7 @@ export default function Home(props) {
 	const deleteList = async listId => {
 		await fetchDeleteList(listId);
 		// since the list is gone, set selectedList to a new list
-		setSelected(getDifferentListId(listId));
+		setSelectedList(getDifferentListId(listId));
 		await refreshBooklist(currentUser.Token);
 	};
 
@@ -130,6 +144,8 @@ export default function Home(props) {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name, userToken })
 		});
+
+		setCheckUser(true);
 
 		return await res.json();
 	};
@@ -148,6 +164,8 @@ export default function Home(props) {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name: listName })
 		});
+
+		setCheckUser(true);
 	};
 
 	// Deletes a list on the db
@@ -156,6 +174,8 @@ export default function Home(props) {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" }
 		});
+
+		setCheckUser(true);
 	};
 
 	const getFirstListId = userLists => {
@@ -203,6 +223,8 @@ export default function Home(props) {
 
 		const bookId = await res.json();
 		return parseInt(bookId);
+
+		setCheckUser(true);
 	};
 
 	// Adds a book to a list (by adding to the booklist table on the db)
@@ -212,6 +234,8 @@ export default function Home(props) {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ bookId, listId })
 		});
+
+		setCheckUser(true);
 	};
 
 	// Deletes a book from the Books table on the db
@@ -220,6 +244,8 @@ export default function Home(props) {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" }
 		});
+
+		setCheckUser(true);
 	};
 
 	// Deletes a book from a list (by deleting from the booklist table on the db)
@@ -233,6 +259,8 @@ export default function Home(props) {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" }
 		});
+
+		setCheckUser(true);
 	};
 
 	// *******
@@ -248,7 +276,7 @@ export default function Home(props) {
 
 		// Get the site displaying correctly
 		const userLists = await refreshBooklist(userToken);
-		setSelected(getFirstListId(userLists));
+		setSelectedList(getFirstListId(userLists));
 	};
 
 	const signOut = () => {
@@ -257,7 +285,7 @@ export default function Home(props) {
 
 		// Reset the app state
 		setCurrentUser(null);
-		setSelected(null);
+		setSelectedList(null);
 	};
 
 	// *******
@@ -281,11 +309,6 @@ export default function Home(props) {
 	// *******
 	// User methods
 	// *******
-
-	const setCurrentUserFromToken = async () => {
-		const userToken = getUserTokenFromCookie();
-		await setCurrentUserByUserToken(userToken);
-	};
 
 	const setCurrentUserByUserToken = async userToken => {
 		const user = await fetchGetUserByUserToken(userToken);
@@ -346,7 +369,7 @@ export default function Home(props) {
 						createNewList={createNewList}
 						lists={lists || []}
 						selectedList={selectedList || 0}
-						setSelected={setSelected}
+						setSelected={setSelectedList}
 						updateListName={updateListName}
 						deleteList={deleteList}
 						currentUser={currentUser}
