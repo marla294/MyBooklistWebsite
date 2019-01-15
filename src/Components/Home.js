@@ -73,11 +73,11 @@ export default function Home(props) {
 	// If not then sign them out
 	// This happens on every API call
 	useEffect(
-		async () => {
+		() => {
+			// Check if the currentUser's token is the same as the token on the cookie
 			if (currentUser && currentUser.Token !== getUserTokenFromCookie()) {
 				signOut();
 			}
-
 			setCheckUser(false);
 		},
 		[checkUser]
@@ -86,6 +86,11 @@ export default function Home(props) {
 	// returns the userLists in case you need them
 	const refreshBooklist = async userToken => {
 		let userLists = await fetchGetListsByUser(userToken);
+
+		// If lists couldn't be fetched then just return
+		if (userLists === null) {
+			return;
+		}
 
 		// If the user has no lists, create one and add it to the user lists
 		if (userLists.length === 0) {
@@ -153,8 +158,16 @@ export default function Home(props) {
 	// Gets the lists on the db per user
 	// Returns the lists collected
 	const fetchGetListsByUser = async userToken => {
+		setCheckUser(true);
+
 		const result = await fetch(url + `Lists/${userToken}`);
-		return await result.json();
+
+		if (result.status === 500) {
+			signOut();
+			return null;
+		} else {
+			return await result.json();
+		}
 	};
 
 	// Updates the list name on the db
@@ -221,10 +234,10 @@ export default function Home(props) {
 			body: JSON.stringify({ title, author })
 		});
 
+		setCheckUser(true);
+
 		const bookId = await res.json();
 		return parseInt(bookId);
-
-		setCheckUser(true);
 	};
 
 	// Adds a book to a list (by adding to the booklist table on the db)
@@ -325,7 +338,13 @@ export default function Home(props) {
 	// returns the user
 	const fetchGetUserByUserToken = async userToken => {
 		const result = await fetch(url + `Users/${userToken}`);
-		return await result.json();
+
+		if (result === null) {
+			signOut();
+			return;
+		} else {
+			return await result.json();
+		}
 	};
 
 	// validates whether the user is valid or not on the database
