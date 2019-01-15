@@ -122,7 +122,7 @@ export default function Home(props) {
 		const listId = await fetchCreateNewList(name, userToken);
 		// set the selected list to the newly created list
 		setSelectedList(parseInt(listId));
-		await refreshBooklist(currentUser.Token);
+		await refreshBooklist(getUserTokenFromCookie());
 		// return the listId in case this is the user's first list
 		return parseInt(listId);
 	};
@@ -130,7 +130,7 @@ export default function Home(props) {
 	// Handles all actions around updating a list name
 	const updateListName = async (listId, listName) => {
 		await fetchUpdateListName(listId, listName);
-		await refreshBooklist(currentUser.Token);
+		await refreshBooklist(getUserTokenFromCookie());
 	};
 
 	// Handles all actions around deleting lists
@@ -138,7 +138,7 @@ export default function Home(props) {
 		await fetchDeleteList(listId);
 		// since the list is gone, set selectedList to a new list
 		setSelectedList(getDifferentListId(listId));
-		await refreshBooklist(currentUser.Token);
+		await refreshBooklist(getUserTokenFromCookie());
 	};
 
 	// Creates a new list on the db for a user
@@ -215,7 +215,7 @@ export default function Home(props) {
 		const bookId = await fetchCreateNewBook(title, author);
 		// Then add the new book to the list
 		await fetchAddBookToList(bookId, listId);
-		await refreshBooklist(currentUser.Token);
+		await refreshBooklist(getUserTokenFromCookie());
 	};
 
 	const deleteBook = async (bookId, listId) => {
@@ -223,7 +223,7 @@ export default function Home(props) {
 		await fetchDeleteBookFromList(bookId, listId);
 		// Then delete the book from the books table
 		await fetchDeleteBook(bookId);
-		await refreshBooklist(currentUser.Token);
+		await refreshBooklist(getUserTokenFromCookie());
 	};
 
 	// Creates a new book in the Books table on the database
