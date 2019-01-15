@@ -59,10 +59,9 @@ export default function Home(props) {
 
 	// Only runs if the user is logged in
 	useEffect(async () => {
-		if (getUserTokenFromCookie()) {
-			const userToken = await getUserTokenFromCookie();
-
-			await setCurrentUserFromToken();
+		const userToken = getUserTokenFromCookie();
+		if (userToken) {
+			await setCurrentUserByUserToken(userToken);
 			const userLists = await refreshBooklist(userToken);
 			setSelected(getFirstListId(userLists));
 		}
@@ -281,11 +280,6 @@ export default function Home(props) {
 	// *******
 	// User methods
 	// *******
-
-	const setCurrentUserFromToken = async () => {
-		const userToken = getUserTokenFromCookie();
-		await setCurrentUserByUserToken(userToken);
-	};
 
 	const setCurrentUserByUserToken = async userToken => {
 		const user = await fetchGetUserByUserToken(userToken);
