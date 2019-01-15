@@ -161,12 +161,13 @@ export default function Home(props) {
 		setCheckUser(true);
 
 		const result = await fetch(url + `Lists/${userToken}`);
+		const lists = await result.json();
 
-		if (result.status === 500) {
+		if (!lists) {
 			signOut();
 			return null;
 		} else {
-			return await result.json();
+			return lists;
 		}
 	};
 
