@@ -38,7 +38,7 @@ export default function TabBar(props) {
 				setSelected={props.setSelected}
 				createNewList={props.createNewList}
 				deleteList={props.deleteList}
-				currentUser={props.currentUser}
+				getUserTokenFromCookie={props.getUserTokenFromCookie}
 			/>
 		</TabsWrapper>
 	);
