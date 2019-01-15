@@ -392,7 +392,7 @@ export default function Home(props) {
 						setSelected={setSelectedList}
 						updateListName={updateListName}
 						deleteList={deleteList}
-						currentUser={currentUser}
+						getUserTokenFromCookie={getUserTokenFromCookie}
 						fetchCreateNewList={fetchCreateNewList}
 					/>
 					{loadLists()}
