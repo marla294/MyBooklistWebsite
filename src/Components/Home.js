@@ -73,12 +73,22 @@ export default function Home(props) {
 	// If not then sign them out
 	// This happens on every API call
 	useEffect(
-		() => {
-			// Check if the currentUser's token is the same as the token on the cookie
-			if (currentUser && currentUser.Token !== getUserTokenFromCookie()) {
-				signOut();
+		async () => {
+			if (checkUser) {
+				// 1. Grab the userToken off the cookie
+				const userToken = getUserTokenFromCookie();
+
+				// 2. Check if the userToken is in the db (if it isn't you'll get null back)
+				const user = await fetchGetUserByUserToken(userToken);
+
+				// 3. If the user doesn't exist in the db, user === null so sign them out
+				if (!user) {
+					signOut();
+				}
+
+				// 4. We've checked the user so set the flag to false.
+				setCheckUser(false);
 			}
-			setCheckUser(false);
 		},
 		[checkUser]
 	);
@@ -337,14 +347,16 @@ export default function Home(props) {
 
 	// gets the user from the database that uses this token
 	// returns the user
+	// if the result from the db is null, sign the user out and return null
 	const fetchGetUserByUserToken = async userToken => {
 		const result = await fetch(url + `Users/${userToken}`);
+		const user = await result.json();
 
-		if (result === null) {
+		if (!user) {
 			signOut();
-			return;
+			return null;
 		} else {
-			return await result.json();
+			return user;
 		}
 	};
 
