@@ -58,40 +58,55 @@ export default function Home(props) {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [checkUser, setCheckUser] = useState(false);
 
-	// Only runs if the user is logged in
+	// Only runs on first time page load
+	// If the user is already signed in, load all their stuff
+	// If not then, sign them out
 	useEffect(async () => {
-		const userToken = getUserTokenFromCookie();
+		// If the user on the cookie is valid, checkUserFn will send back a token from the db
+		const userToken = await checkUserFn();
+
 		if (userToken) {
 			await setCurrentUserByUserToken(userToken);
 			const userLists = await refreshBooklist(userToken);
 			setSelectedList(getFirstListId(userLists));
 		}
+
+		// For display purposes - will show a Loading status if the page isn't loaded
 		setPageLoaded(true);
 	}, []);
 
-	// Check to make sure the user on the token == the current user
-	// If not then sign them out
-	// This happens on every API call
+	// When checkUser === true, run the checkUserFn
+	// Happens on every API call
 	useEffect(
 		async () => {
 			if (checkUser) {
-				// 1. Grab the userToken off the cookie
-				const userToken = getUserTokenFromCookie();
-
-				// 2. Check if the userToken is in the db (if it isn't you'll get null back)
-				const user = await fetchGetUserByUserToken(userToken);
-
-				// 3. If the user doesn't exist in the db, user === null so sign them out
-				if (!user) {
-					signOut();
-				}
-
-				// 4. We've checked the user so set the flag to false.
-				setCheckUser(false);
+				await checkUserFn();
 			}
 		},
 		[checkUser]
 	);
+
+	// Check to make sure the user on the token exists in the database
+	// If not then sign them out (aka delete the cookie)
+	// Returns null if user is invalid, userToken if valid
+	const checkUserFn = async () => {
+		// 1. Grab the userToken off the cookie
+		const userToken = getUserTokenFromCookie();
+
+		// 2. Check if the userToken is in the db (if it isn't you'll get null back)
+		const user = await fetchGetUserByUserToken(userToken);
+
+		// 3. If the user doesn't exist in the db, user === null so sign them out
+		if (!user) {
+			signOut();
+		}
+
+		// 4. We've checked the user so set the flag to false
+		setCheckUser(false);
+
+		// 5. Return the userToken (or null if token is invalid)
+		return user ? userToken : null;
+	};
 
 	// returns the userLists in case you need them
 	const refreshBooklist = async userToken => {
