@@ -33,9 +33,6 @@ const TabStyles = styled.div`
 	}
 `;
 
-/* 
-The Tab component is the title of the list being shown on the screen.  It is meant to look like a file tab.  You can edit the list name by typing in the new name and clicking enter or clicking off the tab.  You can delete the list name by clicking the "x" button on the side of the tab.  A different list that you have created will show up in the deleted list's place.
-*/
 export default class Tab extends React.Component {
 	state = {
 		listName: this.props.listName
@@ -63,18 +60,9 @@ export default class Tab extends React.Component {
 						if (this.props.id !== 0) {
 							await this.props.updateListName(
 								this.props.id,
-								this.state.listName
+								this.state.listName.trim()
 							);
 							this.setState({ listName: this.props.listName });
-						} else {
-							const newListId = await this.props.createNewList(
-								this.state.listName,
-								this.props.currentUser.Id
-							);
-							await this.props.updateListName(
-								newListId,
-								this.state.listName
-							);
 						}
 					}}
 				/>
