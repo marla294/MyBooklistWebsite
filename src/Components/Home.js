@@ -237,7 +237,7 @@ export default function Home(props) {
 
 	const createNewBook = async (listId, title, author) => {
 		// First create the new book in the database
-		const bookId = await fetchCreateNewBook(title, author);
+		const bookId = await fetchCreateNewBook(title.trim(), author.trim());
 		// Then add the new book to the list
 		await fetchAddBookToList(bookId, listId);
 		await refreshBooklist(getUserTokenFromCookie());
