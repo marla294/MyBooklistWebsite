@@ -55,7 +55,7 @@ export default function Home(props) {
 	const [lists, setLists] = useState(null);
 	const [selectedList, setSelectedList] = useState(null);
 	const [pageLoaded, setPageLoaded] = useState(false);
-	const [currentUser, setCurrentUser] = useState(null);
+	const [userName, setUserName] = useState("");
 	const [checkUser, setCheckUser] = useState(false);
 
 	// Only runs on first time page load
@@ -323,7 +323,8 @@ export default function Home(props) {
 		removeUserTokenFromCookie();
 
 		// Reset the app state
-		setCurrentUser(null);
+		// setCurrentUser(null);
+		setUserName("");
 		setSelectedList(null);
 	};
 
@@ -351,7 +352,8 @@ export default function Home(props) {
 
 	const setCurrentUserByUserToken = async userToken => {
 		const user = await fetchGetUserByUserToken(userToken);
-		setCurrentUser(user);
+
+		setUserName(user.Name);
 	};
 
 	// creates a new user in the database
@@ -408,9 +410,7 @@ export default function Home(props) {
 				<HomeWrapper>
 					<LogOut onClick={signOut}>Log out</LogOut>
 					<Header>
-						{currentUser
-							? `${currentUser.Name}'s Books!`
-							: "My Books!"}
+						{userName !== "" ? `${userName}'s Books!` : "My Books!"}
 					</Header>
 					<TabBar
 						createNewList={createNewList}
