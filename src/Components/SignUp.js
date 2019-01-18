@@ -97,7 +97,8 @@ export default function SignUp(props) {
 		const { name, value } = e.target;
 
 		// Want to keep all allowed values under 40 characters
-		const slicedValue = value.slice(0, 40);
+		// No spaces allowed!
+		const slicedValue = value.slice(0, 40).trim();
 
 		if (name === "firstname") setFirstname(slicedValue);
 		if (name === "username") setUsername(slicedValue);

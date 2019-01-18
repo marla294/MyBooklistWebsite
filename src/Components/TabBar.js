@@ -54,7 +54,7 @@ export default function TabBar(props) {
 			return (
 				<Tab
 					key={selected.Id}
-					id={selected.Id}
+					listId={selected.Id}
 					listName={selected.Name}
 					updateListName={props.updateListName}
 					deleteList={props.deleteList}

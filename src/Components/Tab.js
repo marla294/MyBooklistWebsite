@@ -57,9 +57,9 @@ export default class Tab extends React.Component {
 						}
 					}}
 					onBlur={async event => {
-						if (this.props.id !== 0) {
+						if (this.props.listId !== 0) {
 							await this.props.updateListName(
-								this.props.id,
+								this.props.listId,
 								this.state.listName.trim()
 							);
 							this.setState({ listName: this.props.listName });
@@ -72,7 +72,7 @@ export default class Tab extends React.Component {
 }
 
 Tab.propTypes = {
-	id: PropTypes.number.isRequired,
+	listId: PropTypes.number.isRequired,
 	listName: PropTypes.string.isRequired,
 	updateListName: PropTypes.func.isRequired,
 	deleteList: PropTypes.func.isRequired
