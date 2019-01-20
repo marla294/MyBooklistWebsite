@@ -108,10 +108,11 @@ export default function SignUp(props) {
 
 	return (
 		<SignUpWrapper>
-			<h2>Sign Up For An Account</h2>
+			<h2>Sign Up</h2>
 			<SignUpForm
 				onSubmit={async e => {
 					e.preventDefault();
+					let spaces = /\s/g;
 
 					if (password.length < 7) {
 						setDisplayError(true);
@@ -152,6 +153,18 @@ export default function SignUp(props) {
 						setErrorMessage(
 							"First name cannot be more than 40 characters"
 						);
+						return;
+					} else if (spaces.test(username)) {
+						setDisplayError(true);
+						setErrorMessage("Spaces are not allowed in username");
+						return;
+					} else if (spaces.test(firstname)) {
+						setDisplayError(true);
+						setErrorMessage("Spaces are not allowed in first name");
+						return;
+					} else if (spaces.test(password)) {
+						setDisplayError(true);
+						setErrorMessage("Spaces are not allowed in password");
 						return;
 					} else {
 						const userToken = await props.addNewUser(
