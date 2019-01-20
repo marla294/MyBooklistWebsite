@@ -113,6 +113,10 @@ export default function SignUp(props) {
 				onSubmit={async e => {
 					e.preventDefault();
 					let spaces = /\s/g;
+					let usernameAllowedRegEx = /^[a-zA-Z0-9_.@-]*$/g;
+
+					setDisplayError(false);
+					setErrorMessage("");
 
 					if (password.length < 7) {
 						setDisplayError(true);
@@ -154,9 +158,11 @@ export default function SignUp(props) {
 							"First name cannot be more than 40 characters"
 						);
 						return;
-					} else if (spaces.test(username)) {
+					} else if (!usernameAllowedRegEx.test(username)) {
 						setDisplayError(true);
-						setErrorMessage("Spaces are not allowed in username");
+						setErrorMessage(
+							"Special characters not allowed in Username"
+						);
 						return;
 					} else if (spaces.test(firstname)) {
 						setDisplayError(true);
