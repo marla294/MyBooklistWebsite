@@ -114,6 +114,7 @@ export default function SignUp(props) {
 					e.preventDefault();
 					let spaces = /\s/g;
 					let usernameAllowedRegEx = /^[a-zA-Z0-9_.@-]*$/g;
+					let firstnameAllowedRegEx = /^[a-zA-Z]*$/g;
 
 					setDisplayError(false);
 					setErrorMessage("");
@@ -162,6 +163,12 @@ export default function SignUp(props) {
 						setDisplayError(true);
 						setErrorMessage(
 							"Special characters not allowed in Username"
+						);
+						return;
+					} else if (!firstnameAllowedRegEx.test(firstname)) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Only alphabetical characters allowed in first name"
 						);
 						return;
 					} else if (spaces.test(firstname)) {
