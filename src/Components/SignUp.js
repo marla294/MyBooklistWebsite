@@ -112,57 +112,35 @@ export default function SignUp(props) {
 			<SignUpForm
 				onSubmit={async e => {
 					e.preventDefault();
-					let spaces = /\s/g;
-					let usernameAllowedRegEx = /^[a-zA-Z0-9_.@-]*$/g;
-					let firstnameAllowedRegEx = /^[a-zA-Z]*$/g;
+
+					const usernameAllowedRegEx = /^[a-zA-Z0-9_.@-]*$/g;
+					const firstnameAllowedRegEx = /^[a-zA-Z]*$/g;
 
 					setDisplayError(false);
 					setErrorMessage("");
 
-					if (password.length < 7) {
+					if (password.length < 7 || password.length > 40) {
 						setDisplayError(true);
 						setErrorMessage(
-							"Password must be at least 7 characters"
+							"Password must be between 7 and 40 characters"
 						);
 						return;
-					} else if (password.length > 40) {
+					} else if (username.length < 7 || username.length > 40) {
 						setDisplayError(true);
 						setErrorMessage(
-							"Password cannot be more than 40 characters"
+							"Username must be between 7 and 40 characters"
 						);
 						return;
-					} else if (password !== confirm) {
+					} else if (firstname.length < 1 || firstname.length > 40) {
 						setDisplayError(true);
 						setErrorMessage(
-							"Password and Confirm Password do not match, please try again"
-						);
-						return;
-					} else if (username.length < 7) {
-						setDisplayError(true);
-						setErrorMessage(
-							"Username must be at least 7 characters"
-						);
-						return;
-					} else if (username.length > 40) {
-						setDisplayError(true);
-						setErrorMessage(
-							"Username cannot be more than 40 characters"
-						);
-						return;
-					} else if (firstname.length < 1) {
-						setDisplayError(true);
-						setErrorMessage("Please enter your first name");
-						return;
-					} else if (firstname.length > 40) {
-						setDisplayError(true);
-						setErrorMessage(
-							"First name cannot be more than 40 characters"
+							"First name must be between 1 and 40 characters"
 						);
 						return;
 					} else if (!usernameAllowedRegEx.test(username)) {
 						setDisplayError(true);
 						setErrorMessage(
-							"Special characters not allowed in Username"
+							"Special characters not allowed in username"
 						);
 						return;
 					} else if (!firstnameAllowedRegEx.test(firstname)) {
@@ -171,13 +149,11 @@ export default function SignUp(props) {
 							"Only alphabetical characters allowed in first name"
 						);
 						return;
-					} else if (spaces.test(firstname)) {
+					} else if (password !== confirm) {
 						setDisplayError(true);
-						setErrorMessage("Spaces are not allowed in first name");
-						return;
-					} else if (spaces.test(password)) {
-						setDisplayError(true);
-						setErrorMessage("Spaces are not allowed in password");
+						setErrorMessage(
+							"Password and Confirm Password do not match, please try again"
+						);
 						return;
 					} else {
 						const userToken = await props.addNewUser(
