@@ -127,6 +127,9 @@ export default function NewBook(props) {
 
 		if (name === "title") setTitle(slicedValue);
 		if (name === "author") setAuthor(slicedValue);
+
+		setDisplayError(false);
+		setErrorMessage("");
 	};
 
 	return (
@@ -136,6 +139,7 @@ export default function NewBook(props) {
 					e.preventDefault();
 
 					const authorAllowedRegEx = /^[a-zA-Z\s]*$/g;
+					const titleAllowedRegEx = /^[a-zA-Z0-9!.:;"'?\s]*$/g;
 
 					if (author.length < 1 || author.length > 120) {
 						setDisplayError(true);
@@ -147,6 +151,18 @@ export default function NewBook(props) {
 						setDisplayError(true);
 						setErrorMessage(
 							"Only alphabetical characters allowed in author name"
+						);
+						return;
+					} else if (title.length < 1 || title.length > 120) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Title must be between 1 and 120 characters"
+						);
+						return;
+					} else if (!titleAllowedRegEx.test(title)) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Special characters not allowed in title"
 						);
 						return;
 					} else {
