@@ -102,9 +102,22 @@ const CloseForm = styled.button`
 	justify-self: end;
 `;
 
+const ErrorField = styled.div`
+	justify-self: center;
+
+	display: ${props => (props.displayError ? "grid" : "none")};
+
+	color: red;
+
+	font-size: ${props => props.theme.F03};
+	font-weight: 900;
+`;
+
 export default function NewBook(props) {
 	const [title, setTitle] = useState("");
 	const [author, setAuthor] = useState("");
+	const [displayError, setDisplayError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	const handleChange = e => {
 		const { name, value } = e.target;
@@ -121,10 +134,21 @@ export default function NewBook(props) {
 			<form
 				onSubmit={async e => {
 					e.preventDefault();
-					await props.createNewBook(props.listId, title, author);
-					props.setDisplayNewBook(false);
-					setTitle("");
-					setAuthor("");
+
+					const authorAllowedRegEx = /^[a-zA-Z\s]*$/g;
+
+					if (!authorAllowedRegEx.test(author)) {
+						console.log("not allowed");
+					} else {
+						await props.createNewBook(
+							props.listId,
+							title.trim(),
+							author.trim()
+						);
+						props.setDisplayNewBook(false);
+						setTitle("");
+						setAuthor("");
+					}
 				}}
 			>
 				<TitleAuthorWrapper>
@@ -147,6 +171,9 @@ export default function NewBook(props) {
 						onChange={handleChange}
 					/>
 					<SubmitForm type="submit">Submit</SubmitForm>
+					<ErrorField displayError={displayError}>
+						{errorMessage}
+					</ErrorField>
 				</TitleAuthorWrapper>
 			</form>
 			<CloseForm onClick={() => props.setDisplayNewBook(false)}>
