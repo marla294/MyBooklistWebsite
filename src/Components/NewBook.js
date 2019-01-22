@@ -137,8 +137,18 @@ export default function NewBook(props) {
 
 					const authorAllowedRegEx = /^[a-zA-Z\s]*$/g;
 
-					if (!authorAllowedRegEx.test(author)) {
-						console.log("not allowed");
+					if (author.length < 1 || author.length > 120) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Author name must be between 1 and 120 characters"
+						);
+						return;
+					} else if (!authorAllowedRegEx.test(author)) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Only alphabetical characters allowed in author name"
+						);
+						return;
 					} else {
 						await props.createNewBook(
 							props.listId,
