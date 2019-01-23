@@ -48,9 +48,13 @@ export default class Tab extends React.Component {
 				<input
 					ref={this.myInput}
 					value={this.state.listName}
-					onChange={event =>
-						this.setState({ listName: event.target.value })
-					}
+					onChange={event => {
+						const listName = event.target.value.replace(
+							/[^a-zA-Z0-9!'\.\s]/g,
+							""
+						);
+						this.setState({ listName });
+					}}
 					onKeyPress={async event => {
 						if (event.key === "Enter") {
 							this.myInput.current.blur();
@@ -58,10 +62,17 @@ export default class Tab extends React.Component {
 					}}
 					onBlur={async event => {
 						if (this.props.listId !== 0) {
+							const listName = this.state.listName
+								.replace(/[^a-zA-Z0-9!'\.\s]/g, "")
+								.trim();
+
 							await this.props.updateListName(
 								this.props.listId,
-								this.state.listName.trim()
+								listName
 							);
+
+							// After list name is updated on the db, state should
+							// update with the new listName that comes back from the db
 							this.setState({ listName: this.props.listName });
 						}
 					}}
