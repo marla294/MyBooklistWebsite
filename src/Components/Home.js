@@ -4,6 +4,7 @@ import { theme, GlobalStyle } from "./GlobalStyles";
 import List, { ListWrapper } from "./List";
 import TabBar from "./TabBar";
 import SignInPage from "./SignInPage";
+import Modal from "./Modal";
 
 export const HomeWrapper = styled.div`
 	display: grid;
@@ -423,6 +424,7 @@ export default function Home(props) {
 						fetchCreateNewList={fetchCreateNewList}
 					/>
 					{loadLists()}
+					<Modal show={false} />
 					<GlobalStyle />
 				</HomeWrapper>
 			</SignInPage>
