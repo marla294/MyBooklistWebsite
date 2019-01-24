@@ -4,7 +4,7 @@ import { theme, GlobalStyle } from "./GlobalStyles";
 import List, { ListWrapper } from "./List";
 import TabBar from "./TabBar";
 import SignInPage from "./SignInPage";
-import Modal from "./Modal";
+import EditUserInfo from "./EditUserInfo";
 
 export const HomeWrapper = styled.div`
 	display: grid;
@@ -58,6 +58,7 @@ export default function Home(props) {
 	const [pageLoaded, setPageLoaded] = useState(false);
 	const [userName, setUserName] = useState("");
 	const [checkUser, setCheckUser] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 
 	// Only runs on first time page load
 	// If the user is already signed in, load all their stuff
@@ -410,7 +411,7 @@ export default function Home(props) {
 			>
 				<HomeWrapper>
 					<LogOut onClick={signOut}>Log out</LogOut>
-					<Header>
+					<Header onClick={() => setShowModal(true)}>
 						{userName !== "" ? `${userName}'s Books!` : "My Books!"}
 					</Header>
 					<TabBar
@@ -424,7 +425,10 @@ export default function Home(props) {
 						fetchCreateNewList={fetchCreateNewList}
 					/>
 					{loadLists()}
-					<Modal show={false} />
+					<EditUserInfo
+						show={showModal}
+						close={() => setShowModal(false)}
+					/>
 					<GlobalStyle />
 				</HomeWrapper>
 			</SignInPage>

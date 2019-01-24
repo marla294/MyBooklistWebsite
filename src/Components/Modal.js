@@ -3,7 +3,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 Modal.propTypes = {
-	show: PropTypes.bool.isRequired
+	show: PropTypes.bool.isRequired,
+	close: PropTypes.func.isRequired,
+	children: PropTypes.node
 };
 
 const Backdrop = styled.div`
@@ -29,7 +31,7 @@ export default function Modal(props) {
 		<Backdrop>
 			<ModalStyles>
 				<div>Content</div>
-				<button>Close</button>
+				<button onClick={props.close}>Close</button>
 			</ModalStyles>
 		</Backdrop>
 	);
