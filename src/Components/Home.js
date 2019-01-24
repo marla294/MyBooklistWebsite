@@ -401,6 +401,17 @@ export default function Home(props) {
 		return await result.json();
 	};
 
+	// Updates the user name on the db
+	const fetchUpdateFirstName = async (userToken, firstName) => {
+		await fetch(url + `Users/${userToken}`, {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ name: firstName })
+		});
+
+		setCheckUser(true);
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<SignInPage
@@ -428,6 +439,7 @@ export default function Home(props) {
 					<EditUserInfo
 						show={showModal}
 						close={() => setShowModal(false)}
+						updateFirstName={fetchUpdateFirstName}
 					/>
 					<GlobalStyle />
 				</HomeWrapper>

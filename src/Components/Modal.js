@@ -30,7 +30,7 @@ export default function Modal(props) {
 	return (
 		<Backdrop>
 			<ModalStyles>
-				<div>Content</div>
+				{props.children}
 				<button onClick={props.close}>Close</button>
 			</ModalStyles>
 		</Backdrop>
