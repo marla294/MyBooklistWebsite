@@ -43,16 +43,15 @@ export default class Tab extends React.Component {
 	}
 
 	render() {
+		const regEx = /[^a-zA-Z0-9!'_\-\.\s]/g;
+
 		return (
 			<TabStyles>
 				<input
 					ref={this.myInput}
 					value={this.state.listName}
 					onChange={event => {
-						const listName = event.target.value.replace(
-							/[^a-zA-Z0-9!'\.\s]/g,
-							""
-						);
+						const listName = event.target.value.replace(regEx, "");
 						this.setState({ listName });
 					}}
 					onKeyPress={async event => {
@@ -63,7 +62,7 @@ export default class Tab extends React.Component {
 					onBlur={async event => {
 						if (this.props.listId !== 0) {
 							const listName = this.state.listName
-								.replace(/[^a-zA-Z0-9!'\.\s]/g, "")
+								.replace(regEx, "")
 								.trim();
 
 							await this.props.updateListName(
