@@ -6,7 +6,9 @@ import Modal from "./Modal";
 EditUserInfo.propTypes = {
 	show: PropTypes.bool.isRequired,
 	close: PropTypes.func.isRequired,
-	updateFirstName: PropTypes.func.isRequired
+	updateFirstName: PropTypes.func.isRequired,
+	getUserTokenFromCookie: PropTypes.func.isRequired,
+	fetchGetUserByUserToken: PropTypes.func.isRequired
 };
 
 const EditUserWrapper = styled.div`
@@ -61,7 +63,17 @@ const SubmitForm = styled.button`
 
 export default function EditUserInfo(props) {
 	const { show, close } = props;
-	const [firstName, setFirstName] = useState(props.firstName);
+	const [user, setUser] = useState(null);
+
+	useEffect(async () => {
+		// If the user on the cookie is valid, checkUserFn will send back a token from the db
+		const userToken = props.getUserTokenFromCookie();
+
+		if (userToken) {
+			const usr = await props.fetchGetUserByUserToken(userToken);
+			setUser(usr);
+		}
+	}, []);
 
 	const handleChange = e => {
 		const { name, value } = e.target;
@@ -69,7 +81,7 @@ export default function EditUserInfo(props) {
 		// Want to keep the name field under 40 characters
 		const slicedValue = value.slice(0, 40);
 
-		if (name === "firstName") setFirstName(slicedValue);
+		if (name === "firstName") setUser({ ...user, Name: slicedValue });
 
 		// setDisplayError(false);
 		// setErrorMessage("");
@@ -85,7 +97,7 @@ export default function EditUserInfo(props) {
 							id="firstName"
 							name="firstName"
 							required
-							value={firstName}
+							value={user === null ? "" : user.Name}
 							onChange={handleChange}
 						/>
 						<SubmitForm>Submit</SubmitForm>

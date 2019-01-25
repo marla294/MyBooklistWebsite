@@ -440,7 +440,8 @@ export default function Home(props) {
 						show={showModal}
 						close={() => setShowModal(false)}
 						updateFirstName={fetchUpdateFirstName}
-						firstName={userName}
+						getUserTokenFromCookie={getUserTokenFromCookie}
+						fetchGetUserByUserToken={fetchGetUserByUserToken}
 					/>
 					<GlobalStyle />
 				</HomeWrapper>
