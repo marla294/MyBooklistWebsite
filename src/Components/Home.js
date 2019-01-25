@@ -440,6 +440,7 @@ export default function Home(props) {
 						show={showModal}
 						close={() => setShowModal(false)}
 						updateFirstName={fetchUpdateFirstName}
+						firstName={userName}
 					/>
 					<GlobalStyle />
 				</HomeWrapper>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Modal from "./Modal";
@@ -61,13 +61,33 @@ const SubmitForm = styled.button`
 
 export default function EditUserInfo(props) {
 	const { show, close } = props;
+	const [firstName, setFirstName] = useState(props.firstName);
+
+	const handleChange = e => {
+		const { name, value } = e.target;
+
+		// Want to keep the name field under 40 characters
+		const slicedValue = value.slice(0, 40);
+
+		if (name === "firstName") setFirstName(slicedValue);
+
+		// setDisplayError(false);
+		// setErrorMessage("");
+	};
 
 	return (
 		<Modal show={show} close={close}>
 			<EditUserWrapper>
 				<form>
 					<UserInfoWrapper>
-						<UserFirstName />
+						<UserFirstName
+							type="text"
+							id="firstName"
+							name="firstName"
+							required
+							value={firstName}
+							onChange={handleChange}
+						/>
 						<SubmitForm>Submit</SubmitForm>
 					</UserInfoWrapper>
 				</form>
