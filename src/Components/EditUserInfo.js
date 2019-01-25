@@ -90,7 +90,12 @@ export default function EditUserInfo(props) {
 	return (
 		<Modal show={show} close={close}>
 			<EditUserWrapper>
-				<form>
+				<form
+					onSubmit={async e => {
+						e.preventDefault();
+						await props.updateFirstName(user.Token, user.Name);
+					}}
+				>
 					<UserInfoWrapper>
 						<UserFirstName
 							type="text"
