@@ -61,9 +61,19 @@ const SubmitForm = styled.button`
 	}
 `;
 
+const ErrorField = styled.div`
+	justify-self: center;
+	display: ${props => (props.displayError ? "grid" : "none")};
+	color: red;
+	font-size: ${props => props.theme.F03};
+	font-weight: 900;
+`;
+
 export default function EditUserInfo(props) {
 	const { show, close } = props;
 	const [user, setUser] = useState(null);
+	const [displayError, setDisplayError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	useEffect(async () => {
 		// If the user on the cookie is valid, checkUserFn will send back a token from the db
@@ -93,6 +103,9 @@ export default function EditUserInfo(props) {
 				<form
 					onSubmit={async e => {
 						e.preventDefault();
+
+						const firstnameAllowedRegEx = /^[a-zA-Z]*$/g;
+
 						await props.updateFirstName(user.Token, user.Name);
 					}}
 				>
