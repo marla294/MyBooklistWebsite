@@ -93,8 +93,8 @@ export default function EditUserInfo(props) {
 
 		if (name === "firstName") setUser({ ...user, Name: slicedValue });
 
-		// setDisplayError(false);
-		// setErrorMessage("");
+		setDisplayError(false);
+		setErrorMessage("");
 	};
 
 	return (
@@ -103,8 +103,14 @@ export default function EditUserInfo(props) {
 				<form
 					onSubmit={async e => {
 						e.preventDefault();
-
 						const firstnameAllowedRegEx = /^[a-zA-Z]*$/g;
+						if (user.Name.length < 1 || user.Name.length > 40) {
+							setDisplayError(true);
+							setErrorMessage(
+								"First name must be between 1 and 40 characters"
+							);
+							return;
+						}
 
 						await props.updateFirstName(user.Token, user.Name);
 					}}
@@ -119,6 +125,9 @@ export default function EditUserInfo(props) {
 							onChange={handleChange}
 						/>
 						<SubmitForm>Submit</SubmitForm>
+						<ErrorField displayError={displayError}>
+							{errorMessage}
+						</ErrorField>
 					</UserInfoWrapper>
 				</form>
 			</EditUserWrapper>

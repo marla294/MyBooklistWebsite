@@ -14,32 +14,22 @@ export const Header = styled.h1`
 	display: grid;
 	align-items: center;
 	justify-items: center;
-
 	padding: ${props => props.theme.S05} 0;
-
 	color: ${props => props.theme.orange};
-
 	font-size: ${props => props.theme.F09};
-
 	cursor: default;
 `;
 
 const LogOut = styled.button`
 	width: 100px;
-
 	margin: 0;
 	padding: 0;
-
 	justify-self: end;
-
 	background: none;
 	color: ${props => props.theme.gray};
-
 	border: none;
-
 	font-size: ${props => props.theme.F04};
 	font-weight: 900;
-
 	:hover {
 		color: ${props => props.theme.orange};
 	}
