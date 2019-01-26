@@ -33,6 +33,9 @@ const UserInfoWrapper = styled.div`
 		color: ${props => props.theme.orange};
 		font-style: italic;
 	}
+	h3 {
+		color: ${props => props.theme.orange};
+	}
 	@media only screen and (max-width: 400px) {
 		max-width: 220px;
 	}
@@ -110,16 +113,24 @@ export default function EditUserInfo(props) {
 								"First name must be between 1 and 40 characters"
 							);
 							return;
+						} else if (!firstnameAllowedRegEx.test(user.Name)) {
+							setDisplayError(true);
+							setErrorMessage(
+								"Only alphabetical characters allowed in first name"
+							);
+							return;
+						} else {
+							await props.updateFirstName(user.Token, user.Name);
 						}
-
-						await props.updateFirstName(user.Token, user.Name);
 					}}
 				>
 					<UserInfoWrapper>
+						<h3>Update Your Account</h3>
 						<UserFirstName
 							type="text"
 							id="firstName"
 							name="firstName"
+							placeholder="First Name"
 							required
 							value={user === null ? "" : user.Name}
 							onChange={handleChange}
