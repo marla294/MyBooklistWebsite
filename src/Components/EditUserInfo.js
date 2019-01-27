@@ -84,7 +84,7 @@ export default function EditUserInfo(props) {
 		const { name, value } = e.target;
 
 		// Want to keep the name field under 40 characters
-		const slicedValue = value.slice(0, 40);
+		const slicedValue = value.slice(0, 40).trim();
 
 		if (name === "firstName") setUser({ ...user, Name: slicedValue });
 

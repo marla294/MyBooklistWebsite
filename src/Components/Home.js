@@ -17,7 +17,10 @@ export const Header = styled.h1`
 	padding: ${props => props.theme.S05} 0;
 	color: ${props => props.theme.orange};
 	font-size: ${props => props.theme.F09};
-	cursor: default;
+	cursor: pointer;
+	:hover {
+		color: ${props => props.theme.darkorange};
+	}
 `;
 
 const LogOut = styled.button`

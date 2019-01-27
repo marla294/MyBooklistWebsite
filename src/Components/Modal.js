@@ -14,16 +14,24 @@ const Backdrop = styled.div`
 	bottom: 0;
 	left: 0;
 	right: 0;
+	width: 100%;
 	background: rgba(0, 0, 0, 0.3);
-	padding: 50px;
+	padding: ${props => props.theme.S04};
+	display: grid;
 `;
 
 const ModalStyles = styled.div`
+	justify-self: center;
+	align-self: center;
+	height: 170px;
 	padding: ${props => props.theme.S05};
 	background: ${props => props.theme.yellow};
 	border: 0.3rem solid ${props => props.theme.orange};
 	display: grid;
 	grid-template-columns: 5fr 1fr;
+	@media only screen and (min-width: 768px) {
+		width: 768px;
+	}
 `;
 
 const CloseForm = styled.button`
