@@ -11,14 +11,6 @@ EditUserInfo.propTypes = {
 	fetchGetUserByUserToken: PropTypes.func.isRequired
 };
 
-const EditUserWrapper = styled.div`
-	padding: ${props => props.theme.S05};
-	background: ${props => props.theme.yellow};
-	border: 0.3rem solid ${props => props.theme.orange};
-	display: grid;
-	grid-template-columns: 5fr 1fr;
-`;
-
 const UserInfoWrapper = styled.div`
 	align-self: center;
 	display: grid;
@@ -102,46 +94,44 @@ export default function EditUserInfo(props) {
 
 	return (
 		<Modal show={show} close={close}>
-			<EditUserWrapper>
-				<form
-					onSubmit={async e => {
-						e.preventDefault();
-						const firstnameAllowedRegEx = /^[a-zA-Z]*$/g;
-						if (user.Name.length < 1 || user.Name.length > 40) {
-							setDisplayError(true);
-							setErrorMessage(
-								"First name must be between 1 and 40 characters"
-							);
-							return;
-						} else if (!firstnameAllowedRegEx.test(user.Name)) {
-							setDisplayError(true);
-							setErrorMessage(
-								"Only alphabetical characters allowed in first name"
-							);
-							return;
-						} else {
-							await props.updateFirstName(user.Token, user.Name);
-						}
-					}}
-				>
-					<UserInfoWrapper>
-						<h3>Update Your Account</h3>
-						<UserFirstName
-							type="text"
-							id="firstName"
-							name="firstName"
-							placeholder="First Name"
-							required
-							value={user === null ? "" : user.Name}
-							onChange={handleChange}
-						/>
-						<SubmitForm>Submit</SubmitForm>
-						<ErrorField displayError={displayError}>
-							{errorMessage}
-						</ErrorField>
-					</UserInfoWrapper>
-				</form>
-			</EditUserWrapper>
+			<form
+				onSubmit={async e => {
+					e.preventDefault();
+					const firstnameAllowedRegEx = /^[a-zA-Z]*$/g;
+					if (user.Name.length < 1 || user.Name.length > 40) {
+						setDisplayError(true);
+						setErrorMessage(
+							"First name must be between 1 and 40 characters"
+						);
+						return;
+					} else if (!firstnameAllowedRegEx.test(user.Name)) {
+						setDisplayError(true);
+						setErrorMessage(
+							"Only alphabetical characters allowed in first name"
+						);
+						return;
+					} else {
+						await props.updateFirstName(user.Token, user.Name);
+					}
+				}}
+			>
+				<UserInfoWrapper>
+					<h3>Update Your Account</h3>
+					<UserFirstName
+						type="text"
+						id="firstName"
+						name="firstName"
+						placeholder="First Name"
+						required
+						value={user === null ? "" : user.Name}
+						onChange={handleChange}
+					/>
+					<SubmitForm>Submit</SubmitForm>
+					<ErrorField displayError={displayError}>
+						{errorMessage}
+					</ErrorField>
+				</UserInfoWrapper>
+			</form>
 		</Modal>
 	);
 }

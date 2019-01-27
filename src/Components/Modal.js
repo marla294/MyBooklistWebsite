@@ -19,7 +19,27 @@ const Backdrop = styled.div`
 `;
 
 const ModalStyles = styled.div`
-	background: white;
+	padding: ${props => props.theme.S05};
+	background: ${props => props.theme.yellow};
+	border: 0.3rem solid ${props => props.theme.orange};
+	display: grid;
+	grid-template-columns: 5fr 1fr;
+`;
+
+const CloseForm = styled.button`
+	-webkit-appearance: none;
+	height: 19px;
+	width: 19px;
+	padding: 0;
+	margin: 0;
+	color: ${props => props.theme.darkorange};
+	background-color: ${props => props.theme.yellow};
+	border: none;
+	outline: none;
+	font-size: ${props => props.theme.F08};
+	line-height: 0;
+	align-self: start;
+	justify-self: end;
 `;
 
 export default function Modal(props) {
@@ -31,7 +51,7 @@ export default function Modal(props) {
 		<Backdrop>
 			<ModalStyles>
 				{props.children}
-				<button onClick={props.close}>Close</button>
+				<CloseForm onClick={props.close}>&times;</CloseForm>
 			</ModalStyles>
 		</Backdrop>
 	);
