@@ -111,7 +111,7 @@ export default function EditUserInfo(props) {
 						);
 						return;
 					} else {
-						await props.updateFirstName(user.Token, user.Name);
+						await props.updateFirstName(user.Name);
 					}
 				}}
 			>

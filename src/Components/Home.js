@@ -61,7 +61,7 @@ export default function Home(props) {
 
 		if (userToken) {
 			await setCurrentUserByUserToken(userToken);
-			const userLists = await refreshBooklist(userToken);
+			const userLists = await refreshBooklist();
 			setSelectedList(getFirstListId(userLists));
 		}
 
@@ -124,7 +124,7 @@ export default function Home(props) {
 		const listId = await fetchCreateNewList(name);
 		// set the selected list to the newly created list
 		setSelectedList(parseInt(listId));
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 		// return the listId in case this is the user's first list
 		return parseInt(listId);
 	};
@@ -132,7 +132,7 @@ export default function Home(props) {
 	// Handles all actions around updating a list name
 	const updateListName = async (listId, listName) => {
 		await fetchUpdateListName(listId, listName);
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 	};
 
 	// Handles all actions around deleting lists
@@ -140,7 +140,7 @@ export default function Home(props) {
 		await fetchDeleteList(listId);
 		// since the list is gone, set selectedList to a new list
 		setSelectedList(getDifferentListId(listId));
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 	};
 
 	// Creates a new list on the db for a user
@@ -220,7 +220,7 @@ export default function Home(props) {
 		const bookId = await fetchCreateNewBook(title.trim(), author.trim());
 		// Then add the new book to the list
 		await fetchAddBookToList(bookId, listId);
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 	};
 
 	const deleteBook = async (bookId, listId) => {
@@ -228,7 +228,7 @@ export default function Home(props) {
 		await fetchDeleteBookFromList(bookId, listId);
 		// Then delete the book from the books table
 		await fetchDeleteBook(bookId);
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 	};
 
 	// Creates a new book in the Books table on the database
@@ -294,7 +294,7 @@ export default function Home(props) {
 		await setCurrentUserByUserToken(userToken);
 
 		// Get the site displaying correctly
-		const userLists = await refreshBooklist(userToken);
+		const userLists = await refreshBooklist();
 		setSelectedList(getFirstListId(userLists));
 	};
 
@@ -380,8 +380,10 @@ export default function Home(props) {
 	};
 
 	// Updates the user name on the db
-	const fetchUpdateFirstName = async (userToken, firstName) => {
-		if (await checkUserFn()) {
+	const fetchUpdateFirstName = async firstName => {
+		const userToken = await checkUserFn();
+
+		if (userToken) {
 			await fetch(url + `Users/${userToken}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
