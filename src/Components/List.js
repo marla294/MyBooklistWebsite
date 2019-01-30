@@ -13,15 +13,11 @@ List.propTypes = {
 
 export const ListWrapper = styled.div`
 	justify-self: center;
-
 	width: 100%;
 	padding: ${props => props.theme.S04};
-
 	display: grid;
 	grid-gap: 1em;
-
 	border: 0.3rem solid ${props => props.theme.orange};
-
 	@media only screen and (min-width: 768px) {
 		width: 768px;
 	}
@@ -29,7 +25,6 @@ export const ListWrapper = styled.div`
 
 const BooksWrapper = styled.div`
 	padding-top: 1em;
-
 	display: grid;
 	grid-gap: 1em;
 `;
@@ -37,29 +32,21 @@ const BooksWrapper = styled.div`
 const AddNewBookLabel = styled.label`
 	height: 2rem;
 	width: 150px;
-
 	color: ${props => props.theme.gray};
-
 	display: flex;
 	align-items: center;
-
 	button {
 		width: 2rem;
 		height: 2rem;
-
 		padding: 0;
 		padding-bottom: 0.7rem;
 		margin-right: ${props => props.theme.S01};
-
 		font-size: 3rem;
 		line-height: 0;
-
 		background: none;
 		color: ${props => props.theme.gray};
-
 		border: none;
 		outline: none;
-
 		-webkit-appearance: none;
 	}
 
