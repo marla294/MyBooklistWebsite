@@ -99,10 +99,7 @@ export default function Home(props) {
 
 		// If the user has no lists, create one and add it to the user lists
 		if (userLists.length === 0) {
-			const listId = await fetchCreateNewList(
-				"Click to Rename Me",
-				userToken
-			);
+			const listId = await fetchCreateNewList("Click to Rename Me");
 			userLists = await fetchGetListsByUser(userToken);
 			setSelectedList(parseInt(listId));
 		}
@@ -123,8 +120,8 @@ export default function Home(props) {
 	// *******
 
 	// Handles all actions around creating a new list
-	const createNewList = async (name, userToken) => {
-		const listId = await fetchCreateNewList(name, userToken);
+	const createNewList = async name => {
+		const listId = await fetchCreateNewList(name);
 		// set the selected list to the newly created list
 		setSelectedList(parseInt(listId));
 		await refreshBooklist(getUserTokenFromCookie());
@@ -148,8 +145,10 @@ export default function Home(props) {
 
 	// Creates a new list on the db for a user
 	// Returns the listId
-	const fetchCreateNewList = async (name, userToken) => {
-		if (await checkUserFn()) {
+	const fetchCreateNewList = async name => {
+		const userToken = await checkUserFn();
+
+		if (userToken) {
 			const res = await fetch(url + "Lists", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -410,7 +409,6 @@ export default function Home(props) {
 						updateListName={updateListName}
 						deleteList={deleteList}
 						getUserTokenFromCookie={getUserTokenFromCookie}
-						fetchCreateNewList={fetchCreateNewList}
 					/>
 					{loadLists()}
 					<EditUserInfo

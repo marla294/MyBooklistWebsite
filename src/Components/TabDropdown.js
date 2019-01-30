@@ -165,6 +165,6 @@ export default function TabDropdown(props) {
 
 	async function clickAddNewList() {
 		setShowDropdown(!showDropdown);
-		await props.createNewList("New List", props.getUserTokenFromCookie());
+		await props.createNewList("New List");
 	}
 }
