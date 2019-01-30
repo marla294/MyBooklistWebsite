@@ -61,7 +61,7 @@ export default function Home(props) {
 
 		if (userToken) {
 			await setCurrentUserByUserToken(userToken);
-			const userLists = await refreshBooklist(userToken);
+			const userLists = await refreshBooklist();
 			setSelectedList(getFirstListId(userLists));
 		}
 
@@ -73,24 +73,21 @@ export default function Home(props) {
 	// If not then sign them out (aka delete the cookie)
 	// Returns null if user is invalid, userToken if valid
 	const checkUserFn = async () => {
-		// 1. Grab the userToken off the cookie
-		const userToken = getUserTokenFromCookie();
+		// 1. Check if the userToken is in the db (if it isn't you'll get null back)
+		const user = await fetchGetUserFromCookie();
 
-		// 2. Check if the userToken is in the db (if it isn't you'll get null back)
-		const user = await fetchGetUserByUserToken(userToken);
-
-		// 3. If the user doesn't exist in the db, user === null so sign them out
+		// 2. If the user doesn't exist in the db, user === null so sign them out
 		if (!user) {
 			signOut();
 		}
 
-		// 4. Return the userToken (or null if token is invalid)
-		return user ? userToken : null;
+		// 3. Return the userToken (or null if token is invalid)
+		return user ? user.Token : null;
 	};
 
 	// returns the userLists in case you need them
-	const refreshBooklist = async userToken => {
-		let userLists = await fetchGetListsByUser(userToken);
+	const refreshBooklist = async () => {
+		let userLists = await fetchGetListsByUser();
 
 		// If lists couldn't be fetched then just return
 		if (userLists === null) {
@@ -99,11 +96,8 @@ export default function Home(props) {
 
 		// If the user has no lists, create one and add it to the user lists
 		if (userLists.length === 0) {
-			const listId = await fetchCreateNewList(
-				"Click to Rename Me",
-				userToken
-			);
-			userLists = await fetchGetListsByUser(userToken);
+			const listId = await fetchCreateNewList("Click to Rename Me");
+			userLists = await fetchGetListsByUser();
 			setSelectedList(parseInt(listId));
 		}
 
@@ -123,11 +117,11 @@ export default function Home(props) {
 	// *******
 
 	// Handles all actions around creating a new list
-	const createNewList = async (name, userToken) => {
-		const listId = await fetchCreateNewList(name, userToken);
+	const createNewList = async name => {
+		const listId = await fetchCreateNewList(name);
 		// set the selected list to the newly created list
 		setSelectedList(parseInt(listId));
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 		// return the listId in case this is the user's first list
 		return parseInt(listId);
 	};
@@ -135,7 +129,7 @@ export default function Home(props) {
 	// Handles all actions around updating a list name
 	const updateListName = async (listId, listName) => {
 		await fetchUpdateListName(listId, listName);
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 	};
 
 	// Handles all actions around deleting lists
@@ -143,13 +137,15 @@ export default function Home(props) {
 		await fetchDeleteList(listId);
 		// since the list is gone, set selectedList to a new list
 		setSelectedList(getDifferentListId(listId));
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 	};
 
 	// Creates a new list on the db for a user
 	// Returns the listId
-	const fetchCreateNewList = async (name, userToken) => {
-		if (await checkUserFn()) {
+	const fetchCreateNewList = async name => {
+		const userToken = await checkUserFn();
+
+		if (userToken) {
 			const res = await fetch(url + "Lists", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -161,8 +157,10 @@ export default function Home(props) {
 
 	// Gets the lists on the db per user
 	// Returns the lists collected
-	const fetchGetListsByUser = async userToken => {
-		if (await checkUserFn()) {
+	const fetchGetListsByUser = async () => {
+		const userToken = await checkUserFn();
+
+		if (userToken) {
 			const result = await fetch(url + `Lists/${userToken}`);
 			const lists = await result.json();
 
@@ -219,7 +217,7 @@ export default function Home(props) {
 		const bookId = await fetchCreateNewBook(title.trim(), author.trim());
 		// Then add the new book to the list
 		await fetchAddBookToList(bookId, listId);
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 	};
 
 	const deleteBook = async (bookId, listId) => {
@@ -227,7 +225,7 @@ export default function Home(props) {
 		await fetchDeleteBookFromList(bookId, listId);
 		// Then delete the book from the books table
 		await fetchDeleteBook(bookId);
-		await refreshBooklist(getUserTokenFromCookie());
+		await refreshBooklist();
 	};
 
 	// Creates a new book in the Books table on the database
@@ -293,7 +291,7 @@ export default function Home(props) {
 		await setCurrentUserByUserToken(userToken);
 
 		// Get the site displaying correctly
-		const userLists = await refreshBooklist(userToken);
+		const userLists = await refreshBooklist();
 		setSelectedList(getFirstListId(userLists));
 	};
 
@@ -330,7 +328,7 @@ export default function Home(props) {
 	// *******
 
 	const setCurrentUserByUserToken = async userToken => {
-		const user = await fetchGetUserByUserToken(userToken);
+		const user = await fetchGetUserFromCookie();
 
 		setUserName(user.Name);
 	};
@@ -344,15 +342,19 @@ export default function Home(props) {
 	// gets the user from the database that uses this token
 	// returns the user
 	// if the result from the db is null, sign the user out and return null
-	const fetchGetUserByUserToken = async userToken => {
-		const result = await fetch(url + `Users/${userToken}`);
-		const user = await result.json();
+	const fetchGetUserFromCookie = async () => {
+		const userToken = getUserTokenFromCookie();
 
-		if (!user) {
-			signOut();
-			return null;
-		} else {
-			return user;
+		if (userToken) {
+			const result = await fetch(url + `Users/${userToken}`);
+			const user = await result.json();
+
+			if (!user) {
+				signOut();
+				return null;
+			} else {
+				return user;
+			}
 		}
 	};
 
@@ -379,8 +381,10 @@ export default function Home(props) {
 	};
 
 	// Updates the user name on the db
-	const fetchUpdateFirstName = async (userToken, firstName) => {
-		if (await checkUserFn()) {
+	const fetchUpdateFirstName = async firstName => {
+		const userToken = await checkUserFn();
+
+		if (userToken) {
 			await fetch(url + `Users/${userToken}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
@@ -410,7 +414,6 @@ export default function Home(props) {
 						updateListName={updateListName}
 						deleteList={deleteList}
 						getUserTokenFromCookie={getUserTokenFromCookie}
-						fetchCreateNewList={fetchCreateNewList}
 					/>
 					{loadLists()}
 					<EditUserInfo
@@ -418,7 +421,7 @@ export default function Home(props) {
 						close={() => setShowModal(false)}
 						updateFirstName={fetchUpdateFirstName}
 						getUserTokenFromCookie={getUserTokenFromCookie}
-						fetchGetUserByUserToken={fetchGetUserByUserToken}
+						fetchGetUserByUserToken={fetchGetUserFromCookie}
 					/>
 					<GlobalStyle />
 				</HomeWrapper>
