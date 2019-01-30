@@ -89,8 +89,8 @@ export default function Home(props) {
 	};
 
 	// returns the userLists in case you need them
-	const refreshBooklist = async userToken => {
-		let userLists = await fetchGetListsByUser(userToken);
+	const refreshBooklist = async () => {
+		let userLists = await fetchGetListsByUser();
 
 		// If lists couldn't be fetched then just return
 		if (userLists === null) {
@@ -100,7 +100,7 @@ export default function Home(props) {
 		// If the user has no lists, create one and add it to the user lists
 		if (userLists.length === 0) {
 			const listId = await fetchCreateNewList("Click to Rename Me");
-			userLists = await fetchGetListsByUser(userToken);
+			userLists = await fetchGetListsByUser();
 			setSelectedList(parseInt(listId));
 		}
 
@@ -160,8 +160,10 @@ export default function Home(props) {
 
 	// Gets the lists on the db per user
 	// Returns the lists collected
-	const fetchGetListsByUser = async userToken => {
-		if (await checkUserFn()) {
+	const fetchGetListsByUser = async () => {
+		const userToken = await checkUserFn();
+
+		if (userToken) {
 			const result = await fetch(url + `Lists/${userToken}`);
 			const lists = await result.json();
 
