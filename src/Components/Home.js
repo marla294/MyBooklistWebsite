@@ -50,7 +50,6 @@ export default function Home(props) {
 	const [selectedList, setSelectedList] = useState(null);
 	const [pageLoaded, setPageLoaded] = useState(false);
 	const [userName, setUserName] = useState("");
-	const [checkUser, setCheckUser] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
 	// Only runs on first time page load
@@ -70,17 +69,6 @@ export default function Home(props) {
 		setPageLoaded(true);
 	}, []);
 
-	// When checkUser === true, run the checkUserFn
-	// Happens on every API call
-	useEffect(
-		async () => {
-			if (checkUser) {
-				await checkUserFn();
-			}
-		},
-		[checkUser]
-	);
-
 	// Check to make sure the user on the token exists in the database
 	// If not then sign them out (aka delete the cookie)
 	// Returns null if user is invalid, userToken if valid
@@ -96,10 +84,7 @@ export default function Home(props) {
 			signOut();
 		}
 
-		// 4. We've checked the user so set the flag to false
-		setCheckUser(false);
-
-		// 5. Return the userToken (or null if token is invalid)
+		// 4. Return the userToken (or null if token is invalid)
 		return user ? userToken : null;
 	};
 
