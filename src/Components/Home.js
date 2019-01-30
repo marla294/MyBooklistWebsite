@@ -73,19 +73,16 @@ export default function Home(props) {
 	// If not then sign them out (aka delete the cookie)
 	// Returns null if user is invalid, userToken if valid
 	const checkUserFn = async () => {
-		// 1. Grab the userToken off the cookie
-		const userToken = getUserTokenFromCookie();
+		// 1. Check if the userToken is in the db (if it isn't you'll get null back)
+		const user = await fetchGetUserFromCookie();
 
-		// 2. Check if the userToken is in the db (if it isn't you'll get null back)
-		const user = await fetchGetUserByUserToken(userToken);
-
-		// 3. If the user doesn't exist in the db, user === null so sign them out
+		// 2. If the user doesn't exist in the db, user === null so sign them out
 		if (!user) {
 			signOut();
 		}
 
-		// 4. Return the userToken (or null if token is invalid)
-		return user ? userToken : null;
+		// 3. Return the userToken (or null if token is invalid)
+		return user ? user.Token : null;
 	};
 
 	// returns the userLists in case you need them
@@ -331,7 +328,7 @@ export default function Home(props) {
 	// *******
 
 	const setCurrentUserByUserToken = async userToken => {
-		const user = await fetchGetUserByUserToken(userToken);
+		const user = await fetchGetUserFromCookie();
 
 		setUserName(user.Name);
 	};
@@ -345,15 +342,19 @@ export default function Home(props) {
 	// gets the user from the database that uses this token
 	// returns the user
 	// if the result from the db is null, sign the user out and return null
-	const fetchGetUserByUserToken = async userToken => {
-		const result = await fetch(url + `Users/${userToken}`);
-		const user = await result.json();
+	const fetchGetUserFromCookie = async () => {
+		const userToken = getUserTokenFromCookie();
 
-		if (!user) {
-			signOut();
-			return null;
-		} else {
-			return user;
+		if (userToken) {
+			const result = await fetch(url + `Users/${userToken}`);
+			const user = await result.json();
+
+			if (!user) {
+				signOut();
+				return null;
+			} else {
+				return user;
+			}
 		}
 	};
 
@@ -420,7 +421,7 @@ export default function Home(props) {
 						close={() => setShowModal(false)}
 						updateFirstName={fetchUpdateFirstName}
 						getUserTokenFromCookie={getUserTokenFromCookie}
-						fetchGetUserByUserToken={fetchGetUserByUserToken}
+						fetchGetUserByUserToken={fetchGetUserFromCookie}
 					/>
 					<GlobalStyle />
 				</HomeWrapper>
