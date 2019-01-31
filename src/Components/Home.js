@@ -56,11 +56,8 @@ export default function Home(props) {
 	// If the user is already signed in, load all their stuff
 	// If not then, sign them out
 	useEffect(async () => {
-		// If the user on the cookie is valid, checkUserFn will send back a token from the db
-		const userToken = await checkUserFn();
-
-		if (userToken) {
-			await setCurrentUserByUserToken(userToken);
+		if (await checkUserFn()) {
+			await setFirstNameByUserToken();
 			const userLists = await refreshBooklist();
 			setSelectedList(getFirstListId(userLists));
 		}
@@ -91,7 +88,7 @@ export default function Home(props) {
 
 		// If lists couldn't be fetched then just return
 		if (userLists === null) {
-			return;
+			return null;
 		}
 
 		// If the user has no lists, create one and add it to the user lists
@@ -107,9 +104,11 @@ export default function Home(props) {
 	};
 
 	const getBookList = async () => {
-		const result = await fetch(url + "BookList");
-		const r = await result.json();
-		setBookList(r);
+		if (await checkUserFn()) {
+			const result = await fetch(url + "BookList");
+			const r = await result.json();
+			setBookList(r);
+		}
 	};
 
 	// *******
@@ -288,7 +287,7 @@ export default function Home(props) {
 		addTokenToCookie(userToken);
 
 		// Set the current user to the signed-in user
-		await setCurrentUserByUserToken(userToken);
+		await setFirstNameByUserToken(userToken);
 
 		// Get the site displaying correctly
 		const userLists = await refreshBooklist();
@@ -327,7 +326,7 @@ export default function Home(props) {
 	// User methods
 	// *******
 
-	const setCurrentUserByUserToken = async userToken => {
+	const setFirstNameByUserToken = async userToken => {
 		const user = await fetchGetUserFromCookie();
 
 		setUserName(user.Name);
