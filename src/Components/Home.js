@@ -61,7 +61,6 @@ export default function Home(props) {
 			const userLists = await refreshBooklist();
 			setSelectedList(getFirstListId(userLists));
 		}
-
 		// For display purposes - will show a Loading status if the page isn't loaded
 		setPageLoaded(true);
 	}, []);
@@ -112,6 +111,41 @@ export default function Home(props) {
 	};
 
 	// *******
+	// Cookie methods
+	// *******
+
+	const addTokenToCookie = token => {
+		props.cookies.set("token", token, {
+			maxAge: 60 * 60 * 24 * 365 // one year cookie
+		});
+	};
+
+	const getUserTokenFromCookie = () => {
+		return props.cookies.get("token");
+	};
+
+	const removeUserTokenFromCookie = () => {
+		props.cookies.remove("token");
+	};
+
+	// *******
+	// Sign in/out methods
+	// *******
+
+	const signIn = async userToken => {
+		addTokenToCookie(userToken);
+
+		await setFirstNameByUserToken(userToken);
+
+		const userLists = await refreshBooklist();
+		setSelectedList(getFirstListId(userLists));
+	};
+
+	const signOut = () => {
+		removeUserTokenFromCookie();
+	};
+
+	// *******
 	// List Methods
 	// *******
 
@@ -154,25 +188,18 @@ export default function Home(props) {
 		}
 	};
 
-	// Gets the lists on the db per user
-	// Returns the lists collected
+	// Returns the lists on the db per user
 	const fetchGetListsByUser = async () => {
 		const userToken = await checkUserFn();
 
 		if (userToken) {
 			const result = await fetch(url + `Lists/${userToken}`);
-			const lists = await result.json();
-
-			if (!lists) {
-				signOut();
-				return null;
-			} else {
-				return lists;
-			}
+			return await result.json();
 		}
+
+		return null;
 	};
 
-	// Updates the list name on the db
 	const fetchUpdateListName = async (listId, listName) => {
 		if (await checkUserFn()) {
 			await fetch(url + `Lists/${listId}`, {
@@ -183,7 +210,6 @@ export default function Home(props) {
 		}
 	};
 
-	// Deletes a list on the db
 	const fetchDeleteList = async listId => {
 		if (await checkUserFn()) {
 			await fetch(url + `Lists/${listId}`, {
@@ -276,50 +302,6 @@ export default function Home(props) {
 				headers: { "Content-Type": "application/json" }
 			});
 		}
-	};
-
-	// *******
-	// Sign in/out methods
-	// *******
-
-	const signIn = async userToken => {
-		// Add userToken to the cookie
-		addTokenToCookie(userToken);
-
-		// Set the current user to the signed-in user
-		await setFirstNameByUserToken(userToken);
-
-		// Get the site displaying correctly
-		const userLists = await refreshBooklist();
-		setSelectedList(getFirstListId(userLists));
-	};
-
-	const signOut = () => {
-		// Remove the token cookie, which will sign the user out
-		removeUserTokenFromCookie();
-
-		// Reset the app state
-		// setCurrentUser(null);
-		setUserName("");
-		setSelectedList(null);
-	};
-
-	// *******
-	// Cookie methods
-	// *******
-
-	const addTokenToCookie = token => {
-		props.cookies.set("token", token, {
-			maxAge: 60 * 60 * 24 * 365 // one year cookie
-		});
-	};
-
-	const getUserTokenFromCookie = () => {
-		return props.cookies.get("token");
-	};
-
-	const removeUserTokenFromCookie = () => {
-		props.cookies.remove("token");
 	};
 
 	// *******
