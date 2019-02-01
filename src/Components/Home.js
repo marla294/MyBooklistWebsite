@@ -110,6 +110,21 @@ export default function Home(props) {
 		}
 	};
 
+	// Mapping the user's lists to books
+	const createListMap = () => {
+		const listMap = new Map();
+
+		if (bookList) {
+			bookList.forEach(book => {
+				const books = listMap.get(book.ListId) || [];
+				books.push(book.Book);
+				listMap.set(book.ListId, books);
+			});
+		}
+
+		return listMap;
+	};
+
 	// *******
 	// Cookie methods
 	// *******
@@ -390,7 +405,19 @@ export default function Home(props) {
 						deleteList={deleteList}
 						getUserTokenFromCookie={getUserTokenFromCookie}
 					/>
-					{loadLists()}
+					{pageLoaded ? (
+						<List
+							key={selectedList}
+							id={selectedList}
+							books={createListMap().get(selectedList) || []}
+							createNewBook={createNewBook}
+							deleteBook={deleteBook}
+						/>
+					) : (
+						<ListWrapper>
+							<Loading>Loading...</Loading>
+						</ListWrapper>
+					)}
 					<EditUserInfo
 						show={showModal}
 						close={() => setShowModal(false)}
@@ -403,46 +430,4 @@ export default function Home(props) {
 			</SignInPage>
 		</ThemeProvider>
 	);
-
-	function loadLists() {
-		if (pageLoaded) {
-			return renderList();
-		} else {
-			return (
-				<ListWrapper>
-					<Loading>Loading...</Loading>
-				</ListWrapper>
-			);
-		}
-	}
-
-	function createListMap() {
-		const listMap = new Map();
-
-		if (bookList) {
-			bookList.forEach(book => {
-				const books = listMap.get(book.ListId) || [];
-				books.push(book.Book);
-				listMap.set(book.ListId, books);
-			});
-		}
-
-		return listMap;
-	}
-
-	function renderList() {
-		if (selectedList) {
-			const books = createListMap().get(selectedList);
-
-			return (
-				<List
-					key={selectedList}
-					id={selectedList}
-					books={books || []}
-					createNewBook={createNewBook}
-					deleteBook={deleteBook}
-				/>
-			);
-		}
-	}
 }
