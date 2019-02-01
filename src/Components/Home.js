@@ -152,11 +152,10 @@ export default function Home(props) {
 	// Handles all actions around creating a new list
 	const createNewList = async name => {
 		const listId = await fetchCreateNewList(name);
-		// set the selected list to the newly created list
-		setSelectedList(parseInt(listId));
+		setSelectedList(listId);
 		await refreshBooklist();
 		// return the listId in case this is the user's first list
-		return parseInt(listId);
+		return listId;
 	};
 
 	// Handles all actions around updating a list name
@@ -238,17 +237,13 @@ export default function Home(props) {
 	// *******
 
 	const createNewBook = async (listId, title, author) => {
-		// First create the new book in the database
 		const bookId = await fetchCreateNewBook(title.trim(), author.trim());
-		// Then add the new book to the list
 		await fetchAddBookToList(bookId, listId);
 		await refreshBooklist();
 	};
 
 	const deleteBook = async (bookId, listId) => {
-		// First delete the book from the list
 		await fetchDeleteBookFromList(bookId, listId);
-		// Then delete the book from the books table
 		await fetchDeleteBook(bookId);
 		await refreshBooklist();
 	};
@@ -292,7 +287,6 @@ export default function Home(props) {
 	// Deletes a book from a list (by deleting from the booklist table on the db)
 	const fetchDeleteBookFromList = async (bookId, listId) => {
 		if (await checkUserFn()) {
-			// Get the bookListId to delete
 			const bookListId = bookList.find(item => {
 				return item.Book.Id === bookId && item.ListId === listId;
 			}).Id;
