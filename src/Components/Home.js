@@ -56,15 +56,11 @@ export default function Home(props) {
 	// If the user is already signed in, load all their stuff
 	// If not then, sign them out
 	useEffect(async () => {
-		// If the user on the cookie is valid, checkUserFn will send back a token from the db
-		const userToken = await checkUserFn();
-
-		if (userToken) {
-			await setCurrentUserByUserToken(userToken);
+		if (await checkUserFn()) {
+			await setFirstNameByUserToken();
 			const userLists = await refreshBooklist();
 			setSelectedList(getFirstListId(userLists));
 		}
-
 		// For display purposes - will show a Loading status if the page isn't loaded
 		setPageLoaded(true);
 	}, []);
@@ -91,7 +87,7 @@ export default function Home(props) {
 
 		// If lists couldn't be fetched then just return
 		if (userLists === null) {
-			return;
+			return null;
 		}
 
 		// If the user has no lists, create one and add it to the user lists
@@ -107,202 +103,26 @@ export default function Home(props) {
 	};
 
 	const getBookList = async () => {
-		const result = await fetch(url + "BookList");
-		const r = await result.json();
-		setBookList(r);
+		await fetching(async () => {
+			const result = await fetch(url + "BookList");
+			const r = await result.json();
+			setBookList(r);
+		});
 	};
 
-	// *******
-	// List Methods
-	// *******
+	// Mapping the user's lists to books
+	const createListMap = () => {
+		const listMap = new Map();
 
-	// Handles all actions around creating a new list
-	const createNewList = async name => {
-		const listId = await fetchCreateNewList(name);
-		// set the selected list to the newly created list
-		setSelectedList(parseInt(listId));
-		await refreshBooklist();
-		// return the listId in case this is the user's first list
-		return parseInt(listId);
-	};
-
-	// Handles all actions around updating a list name
-	const updateListName = async (listId, listName) => {
-		await fetchUpdateListName(listId, listName);
-		await refreshBooklist();
-	};
-
-	// Handles all actions around deleting lists
-	const deleteList = async listId => {
-		await fetchDeleteList(listId);
-		// since the list is gone, set selectedList to a new list
-		setSelectedList(getDifferentListId(listId));
-		await refreshBooklist();
-	};
-
-	// Creates a new list on the db for a user
-	// Returns the listId
-	const fetchCreateNewList = async name => {
-		const userToken = await checkUserFn();
-
-		if (userToken) {
-			const res = await fetch(url + "Lists", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ name, userToken })
-			});
-			return await res.json();
-		}
-	};
-
-	// Gets the lists on the db per user
-	// Returns the lists collected
-	const fetchGetListsByUser = async () => {
-		const userToken = await checkUserFn();
-
-		if (userToken) {
-			const result = await fetch(url + `Lists/${userToken}`);
-			const lists = await result.json();
-
-			if (!lists) {
-				signOut();
-				return null;
-			} else {
-				return lists;
-			}
-		}
-	};
-
-	// Updates the list name on the db
-	const fetchUpdateListName = async (listId, listName) => {
-		if (await checkUserFn()) {
-			await fetch(url + `Lists/${listId}`, {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ name: listName })
+		if (bookList) {
+			bookList.forEach(book => {
+				const books = listMap.get(book.ListId) || [];
+				books.push(book.Book);
+				listMap.set(book.ListId, books);
 			});
 		}
-	};
 
-	// Deletes a list on the db
-	const fetchDeleteList = async listId => {
-		if (await checkUserFn()) {
-			await fetch(url + `Lists/${listId}`, {
-				method: "DELETE",
-				headers: { "Content-Type": "application/json" }
-			});
-		}
-	};
-
-	const getFirstListId = userLists => {
-		if (userLists && userLists[0]) return userLists[0].Id;
-		else return null;
-	};
-
-	// Gets a different list id close to the given one
-	// Use for deleting lists
-	const getDifferentListId = listId => {
-		const index = lists.findIndex(list => list.Id === listId);
-		if (lists.length <= 1) return null;
-		if (index === lists.length - 1) return lists[index - 1].Id;
-		return lists[index + 1].Id;
-	};
-
-	// *******
-	// Book Methods
-	// *******
-
-	const createNewBook = async (listId, title, author) => {
-		// First create the new book in the database
-		const bookId = await fetchCreateNewBook(title.trim(), author.trim());
-		// Then add the new book to the list
-		await fetchAddBookToList(bookId, listId);
-		await refreshBooklist();
-	};
-
-	const deleteBook = async (bookId, listId) => {
-		// First delete the book from the list
-		await fetchDeleteBookFromList(bookId, listId);
-		// Then delete the book from the books table
-		await fetchDeleteBook(bookId);
-		await refreshBooklist();
-	};
-
-	// Creates a new book in the Books table on the database
-	// Returns id of added book
-	const fetchCreateNewBook = async (title, author) => {
-		if (await checkUserFn()) {
-			const res = await fetch(url + "Books", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ title, author })
-			});
-
-			const bookId = await res.json();
-			return parseInt(bookId);
-		}
-	};
-
-	// Adds a book to a list (by adding to the booklist table on the db)
-	const fetchAddBookToList = async (bookId, listId) => {
-		if (await checkUserFn()) {
-			await fetch(url + "BookList", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ bookId, listId })
-			});
-		}
-	};
-
-	// Deletes a book from the Books table on the db
-	const fetchDeleteBook = async bookId => {
-		if (await checkUserFn()) {
-			await fetch(url + `Books/${bookId}`, {
-				method: "DELETE",
-				headers: { "Content-Type": "application/json" }
-			});
-		}
-	};
-
-	// Deletes a book from a list (by deleting from the booklist table on the db)
-	const fetchDeleteBookFromList = async (bookId, listId) => {
-		if (await checkUserFn()) {
-			// Get the bookListId to delete
-			const bookListId = bookList.find(item => {
-				return item.Book.Id === bookId && item.ListId === listId;
-			}).Id;
-
-			await fetch(url + `BookList/${bookListId}`, {
-				method: "DELETE",
-				headers: { "Content-Type": "application/json" }
-			});
-		}
-	};
-
-	// *******
-	// Sign in/out methods
-	// *******
-
-	const signIn = async userToken => {
-		// Add userToken to the cookie
-		addTokenToCookie(userToken);
-
-		// Set the current user to the signed-in user
-		await setCurrentUserByUserToken(userToken);
-
-		// Get the site displaying correctly
-		const userLists = await refreshBooklist();
-		setSelectedList(getFirstListId(userLists));
-	};
-
-	const signOut = () => {
-		// Remove the token cookie, which will sign the user out
-		removeUserTokenFromCookie();
-
-		// Reset the app state
-		// setCurrentUser(null);
-		setUserName("");
-		setSelectedList(null);
+		return listMap;
 	};
 
 	// *******
@@ -324,19 +144,177 @@ export default function Home(props) {
 	};
 
 	// *******
+	// Sign in/out methods
+	// *******
+
+	const signIn = async userToken => {
+		addTokenToCookie(userToken);
+
+		await setFirstNameByUserToken(userToken);
+
+		const userLists = await refreshBooklist();
+		setSelectedList(getFirstListId(userLists));
+	};
+
+	const signOut = () => {
+		removeUserTokenFromCookie();
+	};
+
+	// *******
+	// List Methods
+	// *******
+
+	// Handles all actions around creating a new list
+	const createNewList = async name => {
+		const listId = await fetchCreateNewList(name);
+		setSelectedList(listId);
+		await refreshBooklist();
+		// return the listId in case this is the user's first list
+		return listId;
+	};
+
+	// Handles all actions around updating a list name
+	const updateListName = async (listId, listName) => {
+		await fetchUpdateListName(listId, listName);
+		await refreshBooklist();
+	};
+
+	// Handles all actions around deleting lists
+	const deleteList = async listId => {
+		await fetchDeleteList(listId);
+		// since the list is gone, set selectedList to a new list
+		setSelectedList(getDifferentListId(listId));
+		await refreshBooklist();
+	};
+
+	// Creates a new list on the db for a user
+	// Returns the listId
+	const fetchCreateNewList = async name => {
+		return await fetching(async userToken => {
+			const res = await fetch(url + "Lists", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ name, userToken })
+			});
+			return await res.json();
+		});
+	};
+
+	// Returns the lists on the db per user
+	const fetchGetListsByUser = async () => {
+		return await fetching(async userToken => {
+			const result = await fetch(url + `Lists/${userToken}`);
+			return await result.json();
+		});
+	};
+
+	const fetchUpdateListName = async (listId, listName) => {
+		await fetching(async () => {
+			await fetch(url + `Lists/${listId}`, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ name: listName })
+			});
+		});
+	};
+
+	const fetchDeleteList = async listId => {
+		await fetching(async () => {
+			await fetch(url + `Lists/${listId}`, {
+				method: "DELETE",
+				headers: { "Content-Type": "application/json" }
+			});
+		});
+	};
+
+	const getFirstListId = userLists => {
+		if (userLists && userLists[0]) return userLists[0].Id;
+		else return null;
+	};
+
+	// Gets a different list id close to the given one
+	// Use for deleting lists
+	const getDifferentListId = listId => {
+		const index = lists.findIndex(list => list.Id === listId);
+		if (lists.length <= 1) return null;
+		if (index === lists.length - 1) return lists[index - 1].Id;
+		return lists[index + 1].Id;
+	};
+
+	// *******
+	// Book Methods
+	// *******
+
+	const createNewBook = async (listId, title, author) => {
+		const bookId = await fetchCreateNewBook(title.trim(), author.trim());
+		await fetchAddBookToList(bookId, listId);
+		await refreshBooklist();
+	};
+
+	const deleteBook = async (bookId, listId) => {
+		await fetchDeleteBookFromList(bookId, listId);
+		await fetchDeleteBook(bookId);
+		await refreshBooklist();
+	};
+
+	// Creates a new book in the Books table on the database
+	// Returns id of added book
+	const fetchCreateNewBook = async (title, author) => {
+		return await fetching(async () => {
+			const res = await fetch(url + "Books", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ title, author })
+			});
+
+			const bookId = await res.json();
+			return parseInt(bookId);
+		});
+	};
+
+	// Adds a book to a list (by adding to the booklist table on the db)
+	const fetchAddBookToList = async (bookId, listId) => {
+		await fetching(async () => {
+			await fetch(url + "BookList", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ bookId, listId })
+			});
+		});
+	};
+
+	// Deletes a book from the Books table on the db
+	const fetchDeleteBook = async bookId => {
+		await fetching(async () => {
+			await fetch(url + `Books/${bookId}`, {
+				method: "DELETE",
+				headers: { "Content-Type": "application/json" }
+			});
+		});
+	};
+
+	// Deletes a book from a list (by deleting from the booklist table on the db)
+	const fetchDeleteBookFromList = async (bookId, listId) => {
+		await fetching(async () => {
+			const bookListId = bookList.find(item => {
+				return item.Book.Id === bookId && item.ListId === listId;
+			}).Id;
+
+			await fetch(url + `BookList/${bookListId}`, {
+				method: "DELETE",
+				headers: { "Content-Type": "application/json" }
+			});
+		});
+	};
+
+	// *******
 	// User methods
 	// *******
 
-	const setCurrentUserByUserToken = async userToken => {
+	const setFirstNameByUserToken = async userToken => {
 		const user = await fetchGetUserFromCookie();
 
 		setUserName(user.Name);
-	};
-
-	// creates a new user in the database
-	// returns the new userToken
-	const fetchCreateNewUser = async (name, username, password) => {
-		return await fetchPostUser(name, username, password);
 	};
 
 	// gets the user from the database that uses this token
@@ -356,6 +334,12 @@ export default function Home(props) {
 				return user;
 			}
 		}
+	};
+
+	// creates a new user in the database
+	// returns the new userToken
+	const fetchCreateNewUser = async (name, username, password) => {
+		return await fetchPostUser(name, username, password);
 	};
 
 	// validates whether the user is valid or not on the database
@@ -382,15 +366,22 @@ export default function Home(props) {
 
 	// Updates the user name on the db
 	const fetchUpdateFirstName = async firstName => {
-		const userToken = await checkUserFn();
-
-		if (userToken) {
+		await fetching(async userToken => {
 			await fetch(url + `Users/${userToken}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ name: firstName })
 			});
-		}
+		});
+	};
+
+	// *******
+	// General Fetching methods
+	// *******
+
+	const fetching = async fn => {
+		const userToken = await checkUserFn();
+		return userToken ? await fn(userToken) : null;
 	};
 
 	return (
@@ -415,7 +406,19 @@ export default function Home(props) {
 						deleteList={deleteList}
 						getUserTokenFromCookie={getUserTokenFromCookie}
 					/>
-					{loadLists()}
+					{pageLoaded ? (
+						<List
+							key={selectedList}
+							id={selectedList}
+							books={createListMap().get(selectedList) || []}
+							createNewBook={createNewBook}
+							deleteBook={deleteBook}
+						/>
+					) : (
+						<ListWrapper>
+							<Loading>Loading...</Loading>
+						</ListWrapper>
+					)}
 					<EditUserInfo
 						show={showModal}
 						close={() => setShowModal(false)}
@@ -428,46 +431,4 @@ export default function Home(props) {
 			</SignInPage>
 		</ThemeProvider>
 	);
-
-	function loadLists() {
-		if (pageLoaded) {
-			return renderList();
-		} else {
-			return (
-				<ListWrapper>
-					<Loading>Loading...</Loading>
-				</ListWrapper>
-			);
-		}
-	}
-
-	function createListMap() {
-		const listMap = new Map();
-
-		if (bookList) {
-			bookList.forEach(book => {
-				const books = listMap.get(book.ListId) || [];
-				books.push(book.Book);
-				listMap.set(book.ListId, books);
-			});
-		}
-
-		return listMap;
-	}
-
-	function renderList() {
-		if (selectedList) {
-			const books = createListMap().get(selectedList);
-
-			return (
-				<List
-					key={selectedList}
-					id={selectedList}
-					books={books || []}
-					createNewBook={createNewBook}
-					deleteBook={deleteBook}
-				/>
-			);
-		}
-	}
 }
