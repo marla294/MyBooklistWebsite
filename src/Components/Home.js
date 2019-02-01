@@ -103,11 +103,11 @@ export default function Home(props) {
 	};
 
 	const getBookList = async () => {
-		if (await checkUserFn()) {
+		await fetching(async () => {
 			const result = await fetch(url + "BookList");
 			const r = await result.json();
 			setBookList(r);
-		}
+		});
 	};
 
 	// Mapping the user's lists to books
@@ -190,47 +190,41 @@ export default function Home(props) {
 	// Creates a new list on the db for a user
 	// Returns the listId
 	const fetchCreateNewList = async name => {
-		const userToken = await checkUserFn();
-
-		if (userToken) {
+		return await fetching(async userToken => {
 			const res = await fetch(url + "Lists", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ name, userToken })
 			});
 			return await res.json();
-		}
+		});
 	};
 
 	// Returns the lists on the db per user
 	const fetchGetListsByUser = async () => {
-		const userToken = await checkUserFn();
-
-		if (userToken) {
+		return await fetching(async userToken => {
 			const result = await fetch(url + `Lists/${userToken}`);
 			return await result.json();
-		}
-
-		return null;
+		});
 	};
 
 	const fetchUpdateListName = async (listId, listName) => {
-		if (await checkUserFn()) {
+		await fetching(async () => {
 			await fetch(url + `Lists/${listId}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ name: listName })
 			});
-		}
+		});
 	};
 
 	const fetchDeleteList = async listId => {
-		if (await checkUserFn()) {
+		await fetching(async () => {
 			await fetch(url + `Lists/${listId}`, {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" }
 			});
-		}
+		});
 	};
 
 	const getFirstListId = userLists => {
@@ -266,7 +260,7 @@ export default function Home(props) {
 	// Creates a new book in the Books table on the database
 	// Returns id of added book
 	const fetchCreateNewBook = async (title, author) => {
-		if (await checkUserFn()) {
+		return await fetching(async () => {
 			const res = await fetch(url + "Books", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -275,33 +269,33 @@ export default function Home(props) {
 
 			const bookId = await res.json();
 			return parseInt(bookId);
-		}
+		});
 	};
 
 	// Adds a book to a list (by adding to the booklist table on the db)
 	const fetchAddBookToList = async (bookId, listId) => {
-		if (await checkUserFn()) {
+		await fetching(async () => {
 			await fetch(url + "BookList", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ bookId, listId })
 			});
-		}
+		});
 	};
 
 	// Deletes a book from the Books table on the db
 	const fetchDeleteBook = async bookId => {
-		if (await checkUserFn()) {
+		await fetching(async () => {
 			await fetch(url + `Books/${bookId}`, {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" }
 			});
-		}
+		});
 	};
 
 	// Deletes a book from a list (by deleting from the booklist table on the db)
 	const fetchDeleteBookFromList = async (bookId, listId) => {
-		if (await checkUserFn()) {
+		await fetching(async () => {
 			const bookListId = bookList.find(item => {
 				return item.Book.Id === bookId && item.ListId === listId;
 			}).Id;
@@ -310,7 +304,7 @@ export default function Home(props) {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" }
 			});
-		}
+		});
 	};
 
 	// *******
@@ -321,12 +315,6 @@ export default function Home(props) {
 		const user = await fetchGetUserFromCookie();
 
 		setUserName(user.Name);
-	};
-
-	// creates a new user in the database
-	// returns the new userToken
-	const fetchCreateNewUser = async (name, username, password) => {
-		return await fetchPostUser(name, username, password);
 	};
 
 	// gets the user from the database that uses this token
@@ -346,6 +334,12 @@ export default function Home(props) {
 				return user;
 			}
 		}
+	};
+
+	// creates a new user in the database
+	// returns the new userToken
+	const fetchCreateNewUser = async (name, username, password) => {
+		return await fetchPostUser(name, username, password);
 	};
 
 	// validates whether the user is valid or not on the database
@@ -372,15 +366,22 @@ export default function Home(props) {
 
 	// Updates the user name on the db
 	const fetchUpdateFirstName = async firstName => {
-		const userToken = await checkUserFn();
-
-		if (userToken) {
+		await fetching(async userToken => {
 			await fetch(url + `Users/${userToken}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ name: firstName })
 			});
-		}
+		});
+	};
+
+	// *******
+	// General Fetching methods
+	// *******
+
+	const fetching = async fn => {
+		const userToken = await checkUserFn();
+		return userToken ? await fn(userToken) : null;
 	};
 
 	return (
