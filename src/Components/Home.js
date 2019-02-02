@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "./GlobalStyles";
-import List, { ListWrapper } from "./List";
+import List from "./List";
 import TabBar from "./TabBar";
 import SignInPage from "./SignInPage";
 import EditUserInfo from "./EditUserInfo";
@@ -36,10 +36,6 @@ const LogOut = styled.button`
 	:hover {
 		color: ${props => props.theme.orange};
 	}
-`;
-
-const Loading = styled.h2`
-	color: ${props => props.theme.orange};
 `;
 
 export default function Home(props) {
@@ -406,19 +402,14 @@ export default function Home(props) {
 						deleteList={deleteList}
 						getUserTokenFromCookie={getUserTokenFromCookie}
 					/>
-					{pageLoaded ? (
-						<List
-							key={selectedList}
-							id={selectedList}
-							books={createListMap().get(selectedList) || []}
-							createNewBook={createNewBook}
-							deleteBook={deleteBook}
-						/>
-					) : (
-						<ListWrapper>
-							<Loading>Loading...</Loading>
-						</ListWrapper>
-					)}
+					<List
+						key={selectedList}
+						id={selectedList}
+						books={createListMap().get(selectedList) || []}
+						createNewBook={createNewBook}
+						deleteBook={deleteBook}
+						pageLoaded={pageLoaded}
+					/>
 					<EditUserInfo
 						show={showModal}
 						close={() => setShowModal(false)}
