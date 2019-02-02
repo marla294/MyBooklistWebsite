@@ -8,7 +8,8 @@ List.propTypes = {
 	id: PropTypes.number.isRequired,
 	books: PropTypes.array.isRequired,
 	createNewBook: PropTypes.func.isRequired,
-	deleteBook: PropTypes.func.isRequired
+	deleteBook: PropTypes.func.isRequired,
+	pageLoaded: PropTypes.bool.isRequired
 };
 
 export const ListWrapper = styled.div`
@@ -62,22 +63,37 @@ const AddBookHeader = styled.h2`
 	color: ${props => props.theme.orange};
 `;
 
+const Loading = styled.h2`
+	color: ${props => props.theme.orange};
+`;
+
 export default function List(props) {
 	const [displayNewBook, setDisplayNewBook] = useState(false);
+
 	return (
-		<ListWrapper>
-			<BooksWrapper>{renderBooks(props)}</BooksWrapper>
-			<NewBook
-				displayNewBook={displayNewBook}
-				setDisplayNewBook={setDisplayNewBook}
-				createNewBook={props.createNewBook}
-				listId={props.id}
-			/>
-			<AddNewBookLabel>
-				<button onClick={() => setDisplayNewBook(true)}>+</button>
-				Add New Book
-			</AddNewBookLabel>
-		</ListWrapper>
+		<React.Fragment>
+			{props.pageLoaded ? (
+				<ListWrapper>
+					<BooksWrapper>{renderBooks(props)}</BooksWrapper>
+					<NewBook
+						displayNewBook={displayNewBook}
+						setDisplayNewBook={setDisplayNewBook}
+						createNewBook={props.createNewBook}
+						listId={props.id}
+					/>
+					<AddNewBookLabel>
+						<button onClick={() => setDisplayNewBook(true)}>
+							+
+						</button>
+						Add New Book
+					</AddNewBookLabel>
+				</ListWrapper>
+			) : (
+				<ListWrapper>
+					<Loading>Loading...</Loading>
+				</ListWrapper>
+			)}
+		</React.Fragment>
 	);
 }
 
