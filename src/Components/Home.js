@@ -43,7 +43,7 @@ export default function Home(props) {
 	const url = "https://www.axequest.com/booklist/api/";
 	const [bookList, setBookList] = useState(null);
 	const [lists, setLists] = useState(null);
-	const [selectedList, setSelectedList] = useState(null);
+	const [selectedList, setSelectedList] = useState(0);
 	const [pageLoaded, setPageLoaded] = useState(false);
 	const [userName, setUserName] = useState("");
 	const [showModal, setShowModal] = useState(false);
@@ -380,6 +380,10 @@ export default function Home(props) {
 		return userToken ? await fn(userToken) : null;
 	};
 
+	// *******
+	// Render
+	// *******
+
 	return (
 		<ThemeProvider theme={theme}>
 			<SignInPage
@@ -396,7 +400,7 @@ export default function Home(props) {
 					<TabBar
 						createNewList={createNewList}
 						lists={lists || []}
-						selectedList={selectedList || 0}
+						selectedList={selectedList}
 						setSelected={setSelectedList}
 						updateListName={updateListName}
 						deleteList={deleteList}
