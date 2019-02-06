@@ -146,7 +146,7 @@ export default function Home(props) {
 	const signIn = async userToken => {
 		addTokenToCookie(userToken);
 
-		await setFirstNameByUserToken(userToken);
+		await setFirstNameByUserToken();
 
 		const userLists = await refreshBooklist();
 		setSelectedList(getFirstListId(userLists));
@@ -307,7 +307,7 @@ export default function Home(props) {
 	// User methods
 	// *******
 
-	const setFirstNameByUserToken = async userToken => {
+	const setFirstNameByUserToken = async () => {
 		const user = await fetchGetUserFromCookie();
 
 		setUserName(user.Name);
@@ -420,6 +420,7 @@ export default function Home(props) {
 						updateFirstName={fetchUpdateFirstName}
 						getUserTokenFromCookie={getUserTokenFromCookie}
 						fetchGetUserByUserToken={fetchGetUserFromCookie}
+						setFirstNameByUserToken={setFirstNameByUserToken}
 					/>
 					<GlobalStyle />
 				</HomeWrapper>

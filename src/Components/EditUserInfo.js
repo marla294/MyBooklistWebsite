@@ -8,7 +8,8 @@ EditUserInfo.propTypes = {
 	close: PropTypes.func.isRequired,
 	updateFirstName: PropTypes.func.isRequired,
 	getUserTokenFromCookie: PropTypes.func.isRequired,
-	fetchGetUserByUserToken: PropTypes.func.isRequired
+	fetchGetUserByUserToken: PropTypes.func.isRequired,
+	setFirstNameByUserToken: PropTypes.func.isRequired
 };
 
 const UserInfoWrapper = styled.div`
@@ -112,6 +113,8 @@ export default function EditUserInfo(props) {
 						return;
 					} else {
 						await props.updateFirstName(user.Name);
+						await props.setFirstNameByUserToken();
+						close();
 					}
 				}}
 			>
