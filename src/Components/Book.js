@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { capitalizeFirstLetterEachWord } from "../HelperFunctions";
@@ -70,8 +70,12 @@ const DeleteBook = styled.button`
 `;
 
 export default function Book(props) {
-	let { title = "", author = "" } = props;
-	title = capitalizeFirstLetterEachWord(title);
+	const [title, setTitle] = useState(
+		capitalizeFirstLetterEachWord(props.title)
+	);
+	const [edit, setEdit] = useState(false);
+	let { author = "" } = props;
+	// title = capitalizeFirstLetterEachWord(title);
 	author = capitalizeFirstLetterEachWord(author);
 
 	const handleChange = e => {
@@ -90,8 +94,19 @@ export default function Book(props) {
 	return (
 		<BookWrapper>
 			<TitleAuthorWrapper>
-				<Title edit={true}>{title}</Title>
-				<TitleInput edit={true} />
+				<Title edit={edit} onClick={() => setEdit(true)}>
+					{title}
+				</Title>
+				<TitleInput
+					type="text"
+					id="title"
+					name="title"
+					required
+					placeholder="Title"
+					value={title}
+					onChange={handleChange}
+					edit={edit}
+				/>
 				<Author>{author}</Author>
 			</TitleAuthorWrapper>
 			<DeleteBook
