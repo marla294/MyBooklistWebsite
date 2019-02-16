@@ -25,12 +25,27 @@ const TitleAuthorWrapper = styled.div`
 	align-self: center;
 	display: grid;
 	grid-gap: ${props => props.theme.S02};
+
+	input {
+		background: ${props => props.theme.yellow};
+		border: 1px solid ${props => props.theme.orange};
+		outline: none;
+	}
 `;
 
 const Title = styled.h1`
 	color: ${props => props.theme.darkorange};
 	font-size: ${props => props.theme.F04};
 	font-weight: 900;
+	display: ${props => (props.edit ? "none" : "default")};
+`;
+
+const TitleInput = styled.input`
+	border-radius: 0;
+	color: ${props => props.theme.darkorange};
+	font-size: ${props => props.theme.F04};
+	font-weight: 900;
+	display: ${props => (props.edit ? "default" : "none")};
 `;
 
 const Author = styled.h3`
@@ -59,10 +74,24 @@ export default function Book(props) {
 	title = capitalizeFirstLetterEachWord(title);
 	author = capitalizeFirstLetterEachWord(author);
 
+	const handleChange = e => {
+		const { name, value } = e.target;
+
+		// Want to keep the allowed title and author under 120 characters
+		const slicedValue = value.slice(0, 120);
+
+		// if (name === "title") setTitle(slicedValue);
+		// if (name === "author") setAuthor(slicedValue);
+
+		// setDisplayError(false);
+		// setErrorMessage("");
+	};
+
 	return (
 		<BookWrapper>
 			<TitleAuthorWrapper>
-				<Title>{title}</Title>
+				<Title edit={true}>{title}</Title>
+				<TitleInput edit={true} />
 				<Author>{author}</Author>
 			</TitleAuthorWrapper>
 			<DeleteBook
